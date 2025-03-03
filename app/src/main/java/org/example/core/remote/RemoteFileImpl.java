@@ -2,18 +2,19 @@ package org.example.core.remote;
 
 public class RemoteFileImpl implements RemoteFile{
 
-    private final String name;
-    public RemoteFileImpl(final String name) {
+    private final String name, url;
+    public RemoteFileImpl(final String name, final String url) {
         this.name = name;
+        this.url = url;
     }
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public String getRemoteUrl() {
-        return null;
+        return this.url;
     }
 
     @Override
@@ -25,6 +26,7 @@ public class RemoteFileImpl implements RemoteFile{
     public String toString() {
         return "RemoteFileImpl{" +
                 "name='" + name + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 }
