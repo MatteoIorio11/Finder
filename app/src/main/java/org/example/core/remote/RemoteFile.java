@@ -1,6 +1,5 @@
 package org.example.core.remote;
 
-public interface RemoteFile {
-    String getName();
+public interface RemoteFile extends RemoteElement{
     String getContent();
 }
