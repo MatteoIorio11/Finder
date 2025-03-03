@@ -6,4 +6,5 @@ public interface Repository {
     void addDirectory(RemoteDirectory directory);
     void addFile(RemoteFile file);
     List<RemoteDirectory> getRemoteDirectories();
+    List<RemoteFile> getRemoteFiles();
 }
