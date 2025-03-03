@@ -43,6 +43,7 @@ public class RemoteDirectoryImpl implements RemoteDirectory{
     public String toString() {
         return "RemoteDirectoryImpl{" +
                 "name='" + name + '\'' +
+                ", remoteUrl='" + remoteUrl + '\'' +
                 '}';
     }
 }
