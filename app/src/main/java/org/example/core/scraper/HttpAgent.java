@@ -10,8 +10,10 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Stack;
 
 public class HttpAgent {
     private final static String GITHUB = "https://github.com";
@@ -20,6 +22,7 @@ public class HttpAgent {
     private final OkHttpClient client = new OkHttpClient();
 
     private final Repository repository = new RepositoryImpl();
+    private final List<Thread> threads = new Stack<>();
     public HttpAgent(final URL repositoryUrl, final String token) {
         this.repositoryUrl = Objects.requireNonNull(repositoryUrl);
         this.token = Objects.requireNonNull(token);
@@ -31,38 +34,53 @@ public class HttpAgent {
                     document.stream().filter(element -> element.id().contains("folder-row-")).forEach(element -> {
                         // different element that are contained inside a Repo
                         final Element aTag = element.selectFirst("a");
+                        final String newPath = GITHUB + "/" + aTag.attribute("href").getValue();
                         if (aTag.attr("aria-label").contains("File")) {
-                            this.repository.addFile(new RemoteFileImpl(aTag.html()));
+                            this.repository.addFile(new RemoteFileImpl(aTag.html(), newPath));
                         } else {
                             // create new document
-                            final String newPath = GITHUB + "/" + aTag.attribute("href").getValue();
                                 this.makeRequest(newPath).ifPresent(newDocument -> {
-                                    final RemoteDirectory directory = this.buildDirectory(newDocument);
-                                    System.out.println(directory.getName());
+                                    final RemoteDirectory directory = this.buildDirectory(newDocument, aTag.html(), newPath);
+                                    System.out.println(directory);
                                     this.repository.addDirectory(directory);
                                 });
                         }
                     });
                 });
 
-        System.out.println(this.repository.getRemoteDirectories());
+        return repository;
+    }
+
+    private RemoteElement buildElement(final Element element) {
         return null;
     }
 
-    private RemoteDirectory buildDirectory(final Document document) {
+    private RemoteDirectory buildDirectory(final Document document, final String directoryName, final String url) {
         if (Objects.isNull(document)) {
             return null;
         }
-        final RemoteDirectory directory = new RemoteDirectoryImpl(document.title());
+        final RemoteDirectory directory = new RemoteDirectoryImpl(directoryName, url);
         document.stream().filter(element -> element.id().contains("folder-row-")).forEach(element -> {
             final Element aTag = element.selectFirst("a");
+            final String newPath = GITHUB + "/" + aTag.attribute("href").getValue();
             if (aTag.attr("aria-label").contains("File")) {
-                directory.addFile(new RemoteFileImpl(aTag.html()));
+                directory.addFile(new RemoteFileImpl(aTag.html(), newPath));
             } else {
                 // create new document
-                final String newPath = GITHUB + "/" + aTag.attribute("href").getValue();
+                if (threads.size() > 1000) {
+                    this.threads.forEach(thr -> {
+                        try {
+                            thr.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    this.threads.clear();
+                }
                 this.makeRequest(newPath).ifPresent(newDocument -> {
-                    directory.addDirectory(directory);
+                    this.threads.add(Thread.ofVirtual().start( () -> {
+                        directory.addDirectory(this.buildDirectory(newDocument, aTag.html(), newPath));
+                    }));
                 });
             }
         });
