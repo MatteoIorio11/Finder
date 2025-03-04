@@ -1,4 +1,7 @@
-package org.example.core.remote;
+package org.example.core.repository;
+
+import org.example.core.remote.RemoteDirectory;
+import org.example.core.remote.RemoteFile;
 
 import java.util.List;
 

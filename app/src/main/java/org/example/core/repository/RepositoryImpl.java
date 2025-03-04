@@ -1,9 +1,13 @@
-package org.example.core.remote;
+package org.example.core.repository;
+
+import org.example.core.remote.RemoteDirectory;
+import org.example.core.remote.RemoteFile;
+import org.example.core.repository.Repository;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class RepositoryImpl implements Repository{
+public class RepositoryImpl implements Repository {
 
     private final List<RemoteDirectory> remoteDirectories;
     private final List<RemoteFile> remoteFiles;

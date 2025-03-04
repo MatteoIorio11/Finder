@@ -1,4 +1,6 @@
-package org.example.core.remote;
+package org.example.core.repository;
+
+import org.example.core.repository.Repository;
 
 public class RepositoryFactory {
 
