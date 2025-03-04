@@ -8,7 +8,7 @@ import org.example.core.scraper.AbstractScraper;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class LocalScraper extends AbstractScraper<Path, LocalDirectory, LocalFile, LocalRepository> {
+public class LocalScraperImpl extends AbstractScraper<Path, LocalDirectory, LocalFile, LocalRepository> {
 
     @Override
     public LocalRepository getRepository(final Path repositoryUrl, final Optional<String> inputToken) {
