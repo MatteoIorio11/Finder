@@ -8,7 +8,6 @@ import org.example.core.remote.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class HttpAgent {
     private final OkHttpClient client = new OkHttpClient();
@@ -19,29 +18,25 @@ public class HttpAgent {
     public Repository getRepository(final URL repositoryUrl, final String token) {
         final Repository repository = new RepositoryImpl();
         final Set<String> seen = new HashSet<>();
-        this.makeRequest(repositoryUrl.toString(), token)
-                .ifPresent(htmlPage -> {
-                    final RemoteCollection collection = this.repositoryScraper.scrape(htmlPage);
-                    collection.files().forEach(repository::addFile);
-                    collection.directories().forEach(directory -> {
-                        this.buildDirectory(directory, token, seen);
-                        repository.addDirectory(directory);
-                    });
-                });
+        this.makeRequest(repositoryUrl.toString(), token).flatMap(htmlPage -> this.repositoryScraper.scrape(htmlPage)).ifPresent(collection -> {
+            collection.files().forEach(repository::addFile);
+            collection.directories().forEach(directory -> {
+                this.buildDirectory(directory, token, seen);
+                repository.addDirectory(directory);
+            });
+        });
         return repository;
     }
 
-    public void buildDirectory(final RemoteDirectory directory, final String token, final Set<String> seen) {
-        System.out.println("Building: " + directory.getRemoteUrl());
+    private void buildDirectory(final RemoteDirectory directory, final String token, final Set<String> seen) {
         if (seen.contains(directory.getRemoteUrl())) {
             return;
         }
         seen.add(directory.getRemoteUrl());
         this.sleep();
-        this.makeRequest(directory.getRemoteUrl(), token).ifPresent(html -> {
-            final RemoteCollection remoteCollection = this.repositoryScraper.scrape(html);
-            remoteCollection.files().forEach(directory::addFile);
-            remoteCollection.directories().forEach(innerDirectory -> {
+        this.makeRequest(directory.getRemoteUrl(), token).flatMap(html -> this.repositoryScraper.scrape(html)).ifPresent(collection -> {
+            collection.files().forEach(directory::addFile);
+            collection.directories().forEach(innerDirectory -> {
                 this.buildDirectory(innerDirectory, token, seen);
                 directory.addDirectory(innerDirectory);
             });
@@ -51,7 +46,7 @@ public class HttpAgent {
     void sleep() {
         try{
             Thread.sleep(2000);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException ignored) {}
     }
 
     private Optional<String> makeRequest(final String path, final String token) {
@@ -62,14 +57,11 @@ public class HttpAgent {
                 .build();
         try {
             try (final Response response = client.newCall(request).execute()) {
-                System.out.println("Requesting: " + path + " " + response.code());
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && Objects.nonNull(response.body())) {
                     return Optional.of(response.body().string());
-                } else {
-                    System.out.println("Failed: " + response.code());
                 }
             }
-        } catch (IOException ex) {}
+        } catch (IOException ignored) {}
         return Optional.empty();
     }
 }
