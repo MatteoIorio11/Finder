@@ -1,4 +1,4 @@
-package org.example.core.remote;
+package org.example.core.repository.remote;
 
 import org.example.core.repository.RepositoryElement;
 

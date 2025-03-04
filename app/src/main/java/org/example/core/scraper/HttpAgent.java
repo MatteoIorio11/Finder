@@ -5,7 +5,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.example.core.remote.*;
 import org.example.core.repository.Repository;
-import org.example.core.remote.RemoteRepositoryImpl;
+import org.example.core.repository.remote.RemoteDirectory;
+import org.example.core.repository.remote.RemoteFile;
+import org.example.core.repository.remote.RemoteRepositoryImpl;
 
 import java.io.IOException;
 import java.net.URL;
