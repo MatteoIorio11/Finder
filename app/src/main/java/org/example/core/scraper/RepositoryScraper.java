@@ -1,8 +1,9 @@
 package org.example.core.scraper;
 
 import org.example.core.remote.RemoteCollection;
-import org.example.core.remote.Repository;
+
+import java.util.Optional;
 
 public interface RepositoryScraper {
-    RemoteCollection scrape(String htmlPage);
+    Optional<RemoteCollection> scrape(String htmlPage);
 }

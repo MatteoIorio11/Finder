@@ -4,6 +4,7 @@ import org.example.core.remote.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.safety.Safelist;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +13,10 @@ import java.util.Optional;
 public class RepositoryScraperImpl implements RepositoryScraper {
     private final static String GITHUB = "https://github.com";
     @Override
-    public RemoteCollection scrape(final String htmlPage) {
+    public Optional<RemoteCollection> scrape(final String htmlPage) {
+        if (!Jsoup.isValid(htmlPage, Safelist.basic())){
+            return Optional.empty();
+        }
         final Document document = Jsoup.parse(htmlPage);
         final List<RemoteFile> files = new LinkedList<>();
         final List<RemoteDirectory> directories = new LinkedList<>();
@@ -28,6 +32,6 @@ public class RepositoryScraperImpl implements RepositoryScraper {
                         directories.add(new RemoteDirectoryImpl(aTag.text(), newPath));
                     }
                 });
-        return new RemoteCollection(files, directories);
+        return Optional.of(new RemoteCollection(files, directories));
     }
 }
