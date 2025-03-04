@@ -1,5 +1,6 @@
 package org.example.core.remote;
 
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +27,12 @@ public class RemoteDirectoryImpl implements RemoteDirectory{
 
     @Override
     public List<RemoteFile> getFiles() {
-        return null;
+        return this.remoteFiles;
+    }
+
+    @Override
+    public List<RemoteDirectory> getInnerDirectories() {
+        return this.remoteDirectories;
     }
 
     @Override
