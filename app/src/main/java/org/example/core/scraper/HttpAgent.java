@@ -13,14 +13,13 @@ import java.util.*;
 
 public class HttpAgent {
     private static final OkHttpClient client = new OkHttpClient();
-    static RepositoryScraper repositoryScraper = new RepositoryScraperImpl();
     private HttpAgent() {
     }
 
     static public Repository<RemoteDirectory<RemoteFile>, RemoteFile> getRemoteRepository(final URL repositoryUrl, final String token) {
         final Repository<RemoteDirectory<RemoteFile>, RemoteFile> repository = new RemoteRepositoryImpl();
         final Set<String> seen = new HashSet<>();
-        makeRequest(repositoryUrl.toString(), token).flatMap(htmlPage -> repositoryScraper.scrape(htmlPage)).ifPresent(collection -> {
+        makeRequest(repositoryUrl.toString(), token).flatMap(RepositoryScraperImpl::scrape).ifPresent(collection -> {
             collection.files().forEach(repository::addFile);
             collection.directories().forEach(directory -> {
                 buildDirectory(directory, token, seen);
@@ -36,7 +35,7 @@ public class HttpAgent {
         }
         seen.add(directory.getRemoteUrl());
         sleep();
-        makeRequest(directory.getRemoteUrl(), token).flatMap(html -> repositoryScraper.scrape(html)).ifPresent(collection -> {
+        makeRequest(directory.getRemoteUrl(), token).flatMap(RepositoryScraperImpl::scrape).ifPresent(collection -> {
             collection.files().forEach(directory::addFile);
             collection.directories().forEach(innerDirectory -> {
                 buildDirectory(innerDirectory, token, seen);
