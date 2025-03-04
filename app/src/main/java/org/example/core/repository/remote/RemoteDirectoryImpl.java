@@ -3,16 +3,18 @@ package org.example.core.repository.remote;
 
 import org.example.core.repository.RepositoryDirectory;
 
+import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 public class RemoteDirectoryImpl implements RemoteDirectory {
-    private final String name, remoteUrl;
+    private final String name;
+    private final URL remoteUrl;
     private final List<RemoteFile> remoteFiles;
-    private final List<RepositoryDirectory<String, RemoteFile>> remoteDirectories;
-    public RemoteDirectoryImpl(final String name, final String remoteUrl) {
+    private final List<RepositoryDirectory<URL, RemoteFile>> remoteDirectories;
+    public RemoteDirectoryImpl(final String name, final URL remoteUrl) {
         this.name = Objects.requireNonNull(name);
         this.remoteUrl = Objects.requireNonNull(remoteUrl);
         this.remoteFiles = new LinkedList<>();
@@ -33,17 +35,17 @@ public class RemoteDirectoryImpl implements RemoteDirectory {
     }
 
     @Override
-    public List<RepositoryDirectory<String, RemoteFile>> getInnerDirectories() {
+    public List<RepositoryDirectory<URL, RemoteFile>> getInnerDirectories() {
         return Collections.unmodifiableList(this.remoteDirectories);
     }
 
     @Override
-    public void addFile(RemoteFile file) {
+    public void addFile(final RemoteFile file) {
         this.remoteFiles.add(file);
     }
 
     @Override
-    public void addDirectory(RepositoryDirectory<String, RemoteFile> directory) {
+    public void addDirectory(final RepositoryDirectory<URL, RemoteFile> directory) {
         this.remoteDirectories.add(directory);
     }
 
@@ -53,7 +55,7 @@ public class RemoteDirectoryImpl implements RemoteDirectory {
     }
 
     @Override
-    public String getPath() {
+    public URL getPath() {
         return this.remoteUrl;
     }
 }

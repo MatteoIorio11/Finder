@@ -1,12 +1,16 @@
 package org.example.core.repository.remote;
 
 
+import java.net.URL;
+import java.util.Objects;
+
 public class RemoteFileImpl implements RemoteFile  {
 
-    private final String name, url;
-    public RemoteFileImpl(final String name, final String url) {
-        this.name = name;
-        this.url = url;
+    private final String name;
+    private final URL url;
+    public RemoteFileImpl(final String name, final URL url) {
+        this.name = Objects.requireNonNull(name);
+        this.url = Objects.requireNonNull(url);
     }
     @Override
     public String getName() {
@@ -14,13 +18,12 @@ public class RemoteFileImpl implements RemoteFile  {
     }
 
     @Override
-    public String getPath() {
+    public URL getPath() {
         return null;
     }
 
     @Override
     public String getContent() {
-        // Read lazily
         return null;
     }
 

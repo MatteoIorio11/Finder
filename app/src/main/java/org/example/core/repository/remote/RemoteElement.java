@@ -2,5 +2,7 @@ package org.example.core.repository.remote;
 
 import org.example.core.repository.RepositoryElement;
 
-public interface RemoteElement extends RepositoryElement<String> {
+import java.net.URL;
+
+public interface RemoteElement extends RepositoryElement<URL> {
 }
