@@ -1,14 +1,15 @@
-package org.example.core.repository;
+package org.example.core.remote;
 
 import org.example.core.remote.RemoteDirectory;
 import org.example.core.remote.RemoteFile;
+import org.example.core.repository.Repository;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class RemoteRepositoryImpl implements Repository<RemoteDirectory, RemoteFile> {
+public class RemoteRepositoryImpl implements Repository<RemoteDirectory<RemoteFile>, RemoteFile> {
 
-    private final List<RemoteDirectory> remoteDirectories;
+    private final List<RemoteDirectory<RemoteFile>> remoteDirectories;
     private final List<RemoteFile> remoteFiles;
 
     public RemoteRepositoryImpl() {
@@ -16,7 +17,7 @@ public class RemoteRepositoryImpl implements Repository<RemoteDirectory, RemoteF
         this.remoteFiles = new LinkedList<>();
     }
     @Override
-    public void addDirectory(final RemoteDirectory directory) {
+    public void addDirectory(final RemoteDirectory<RemoteFile> directory) {
         this.remoteDirectories.add(directory);
     }
 
@@ -26,7 +27,7 @@ public class RemoteRepositoryImpl implements Repository<RemoteDirectory, RemoteF
     }
 
     @Override
-    public List<RemoteDirectory> getDirectories() {
+    public List<RemoteDirectory<RemoteFile>> getDirectories() {
         return this.remoteDirectories;
     }
 
