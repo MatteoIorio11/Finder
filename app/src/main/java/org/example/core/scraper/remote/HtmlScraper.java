@@ -1,5 +1,7 @@
 package org.example.core.scraper.remote;
 
+import org.example.core.repository.RepositoryCollection;
+import org.example.core.repository.RepositoryFile;
 import org.example.core.repository.remote.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
