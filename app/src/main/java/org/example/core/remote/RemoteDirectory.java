@@ -1,11 +1,11 @@
 package org.example.core.remote;
 
+import org.example.core.repository.RepositoryDirectory;
+import org.example.core.repository.RepositoryFile;
+
 import java.util.List;
 
-public interface RemoteDirectory extends RemoteElement{
-    List<RemoteFile> getFiles();
-    List<RemoteDirectory> getInnerDirectories();
-    void addFile(RemoteFile file);
-    void addDirectory(RemoteDirectory directory);
+
+public interface RemoteDirectory<Y extends RepositoryFile> extends RemoteElement, RepositoryDirectory<Y> {
 
 }
