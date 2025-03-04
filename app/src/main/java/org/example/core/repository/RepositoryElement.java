@@ -1,5 +1,5 @@
 package org.example.core.repository;
 
-public interface Element {
+public interface RepositoryElement {
     String getName();
 }
