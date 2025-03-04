@@ -16,6 +16,11 @@ public class LocalFileImpl implements LocalFile{
     }
 
     @Override
+    public Path getPath() {
+        return this.localPath;
+    }
+
+    @Override
     public String getContent() {
         // Read lazily
         return "";

@@ -1,9 +1,5 @@
 package org.example.core.repository.local;
 
-import org.example.core.repository.Repository;
-import org.example.core.repository.RepositoryDirectory;
-
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +28,6 @@ public class LocalRepositoryImpl implements LocalRepository {
 
     @Override
     public List<LocalFile> getFiles() {
-        return null;
+        return Collections.unmodifiableList(this.files);
     }
 }

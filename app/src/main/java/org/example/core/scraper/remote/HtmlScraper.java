@@ -1,24 +1,22 @@
-package org.example.core.scraper;
+package org.example.core.scraper.remote;
 
-import org.example.core.remote.*;
 import org.example.core.repository.remote.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
-import org.w3c.tidy.Tidy;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class RepositoryScraperImpl {
+public class HtmlScraper {
     private final static String GITHUB = "https://github.com";
 
     static public Optional<RemoteCollection> scrape(final String htmlPage) {
         try {
             final Document document = Jsoup.parse(htmlPage, Parser.htmlParser());
             final List<RemoteFile> files = new LinkedList<>();
-            final List<RemoteDirectory<RemoteFile>> directories = new LinkedList<>();
+            final List<RemoteDirectory> directories = new LinkedList<>();
             document.stream().filter(element -> element.id().contains("folder-row-"))
                     .map(element -> element.selectFirst("a"))
                     .filter(element -> !(element.text().equals("..") || element.text().equals(".")))

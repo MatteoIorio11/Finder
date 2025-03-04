@@ -1,11 +1,10 @@
-package org.example.core.scraper;
+package org.example.core.scraper.remote;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.example.core.repository.Repository;
 import org.example.core.repository.remote.RemoteDirectory;
-import org.example.core.repository.remote.RemoteFile;
+import org.example.core.repository.remote.RemoteRepository;
 import org.example.core.repository.remote.RemoteRepositoryImpl;
 
 import java.io.IOException;
@@ -17,10 +16,10 @@ public class HttpAgent {
     private HttpAgent() {
     }
 
-    static public Repository<RemoteDirectory<RemoteFile>, RemoteFile> getRemoteRepository(final URL repositoryUrl, final String token) {
-        final Repository<RemoteDirectory<RemoteFile>, RemoteFile> repository = new RemoteRepositoryImpl();
+    static public RemoteRepository getRemoteRepository(final URL repositoryUrl, final String token) {
+        final RemoteRepository repository = new RemoteRepositoryImpl();
         final Set<String> seen = new HashSet<>();
-        makeRequest(repositoryUrl.toString(), token).flatMap(RepositoryScraperImpl::scrape).ifPresent(collection -> {
+        makeRequest(repositoryUrl.toString(), token).flatMap(HtmlScraper::scrape).ifPresent(collection -> {
             collection.files().forEach(repository::addFile);
             collection.directories().forEach(directory -> {
                 buildDirectory(directory, token, seen);
@@ -30,13 +29,13 @@ public class HttpAgent {
         return repository;
     }
 
-    static private void buildDirectory(final RemoteDirectory<RemoteFile> directory, final String token, final Set<String> seen) {
-        if (seen.contains(directory.getRemoteUrl())) {
+    static private void buildDirectory(final RemoteDirectory directory, final String token, final Set<String> seen) {
+        if (seen.contains(directory.getPath())) {
             return;
         }
-        seen.add(directory.getRemoteUrl());
+        seen.add(directory.getPath());
         sleep();
-        makeRequest(directory.getRemoteUrl(), token).flatMap(RepositoryScraperImpl::scrape).ifPresent(collection -> {
+        makeRequest(directory.getPath(), token).flatMap(HtmlScraper::scrape).ifPresent(collection -> {
             collection.files().forEach(directory::addFile);
             collection.directories().forEach(innerDirectory -> {
                 buildDirectory(innerDirectory, token, seen);
