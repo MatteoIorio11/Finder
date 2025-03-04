@@ -4,22 +4,27 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.example.core.repository.remote.RemoteDirectory;
+import org.example.core.repository.remote.RemoteFile;
 import org.example.core.repository.remote.RemoteRepository;
 import org.example.core.repository.remote.RemoteRepositoryImpl;
+import org.example.core.scraper.AbstractScraper;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class HttpAgent {
-    private static final OkHttpClient client = new OkHttpClient();
-    private HttpAgent() {
-    }
+public class RemoteScraperImpl extends AbstractScraper<URL, RemoteDirectory, RemoteFile, RemoteRepository> {
+    private final OkHttpClient client = new OkHttpClient();
 
-    static public RemoteRepository getRemoteRepository(final URL repositoryUrl, final String token) {
+    @Override
+    public RemoteRepository getRepository(final URL repositoryUrl, final Optional<String> inputToken) {
+        if (inputToken.isEmpty()) {
+            throw new IllegalArgumentException("Token is required to access the repository");
+        }
+        final String token = inputToken.get();
         final RemoteRepository repository = new RemoteRepositoryImpl();
         final Set<String> seen = new HashSet<>();
-        makeRequest(repositoryUrl.toString(), token).flatMap(HtmlScraper::scrape).ifPresent(collection -> {
+        makeRequest(repositoryUrl, token).flatMap(HtmlScraper::scrape).ifPresent(collection -> {
             collection.files().forEach(repository::addFile);
             collection.directories().forEach(directory -> {
                 buildDirectory(directory, token, seen);
@@ -29,28 +34,28 @@ public class HttpAgent {
         return repository;
     }
 
-    static private void buildDirectory(final RemoteDirectory directory, final String token, final Set<String> seen) {
-        if (seen.contains(directory.getPath())) {
+    private void buildDirectory(final RemoteDirectory directory, final String token, final Set<String> seen) {
+        if (seen.contains(directory.getPath().toString()) || Objects.isNull(directory.getPath())) {
             return;
         }
-        seen.add(directory.getPath());
-        sleep();
-        makeRequest(directory.getPath(), token).flatMap(HtmlScraper::scrape).ifPresent(collection -> {
+        seen.add(directory.getPath().toString());
+        this.sleep();
+        this.makeRequest(directory.getPath(), token).flatMap(HtmlScraper::scrape).ifPresent(collection -> {
             collection.files().forEach(directory::addFile);
             collection.directories().forEach(innerDirectory -> {
-                buildDirectory(innerDirectory, token, seen);
+                this.buildDirectory(innerDirectory, token, seen);
                 directory.addDirectory(innerDirectory);
             });
         });
     }
 
-    static void sleep() {
+    void sleep() {
         try{
             Thread.sleep(2000);
         } catch (InterruptedException ignored) {}
     }
 
-    static private Optional<String> makeRequest(final String path, final String token) {
+    private Optional<String> makeRequest(final URL path, final String token) {
         final Request request = new Request.Builder()
                 .url(path)
                 .header("Authorization", "token " + token)

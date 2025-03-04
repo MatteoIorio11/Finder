@@ -5,6 +5,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +25,13 @@ public class HtmlScraper {
                     .filter(element -> element.hasAttr("aria-label"))
                     .forEach(aTag -> {
                         final String newPath = GITHUB + aTag.attribute("href").getValue();
-                        if (aTag.attr("aria-label").contains("File")) {
-                            files.add(new RemoteFileImpl(aTag.text(), newPath));
-                        } else {
-                            directories.add(new RemoteDirectoryImpl(aTag.text(), newPath));
-                        }
+                        try {
+                            if (aTag.attr("aria-label").contains("File")) {
+                                files.add(new RemoteFileImpl(aTag.text(), URI.create(newPath).toURL()));
+                            } else {
+                                directories.add(new RemoteDirectoryImpl(aTag.text(), URI.create(newPath).toURL()));
+                            }
+                        }catch (Exception ignored) {}
                     });
             return Optional.of(new RemoteCollection(files, directories));
         }catch (Exception ignored) {
