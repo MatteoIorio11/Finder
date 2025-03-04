@@ -5,9 +5,9 @@ import org.example.core.remote.RemoteFile;
 
 import java.util.List;
 
-public interface Repository {
-    void addDirectory(RemoteDirectory directory);
-    void addFile(RemoteFile file);
-    List<RemoteDirectory> getRemoteDirectories();
-    List<RemoteFile> getRemoteFiles();
+public interface Repository<X, Y>{
+    void addDirectory(X directory);
+    void addFile(Y file);
+    List<X> getDirectories();
+    List<Y> getFiles();
 }
