@@ -1,23 +1,33 @@
 package org.example.core.repository.local;
 
 import org.example.core.repository.Repository;
+import org.example.core.repository.RepositoryDirectory;
 
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
-public class LocalRepository implements Repository<LocalDirectory<LocalFile>, LocalFile>{
+public class LocalRepositoryImpl implements LocalRepository {
+    private final List<LocalFile> files;
+    private final List<LocalDirectory> directories;
+    public LocalRepositoryImpl() {
+        this.files = new LinkedList<>();
+        this.directories = new LinkedList<>();
+    }
     @Override
-    public void addDirectory(LocalDirectory<LocalFile> directory) {
-        
+    public void addDirectory(LocalDirectory directory) {
+        this.directories.add(directory);
     }
 
     @Override
     public void addFile(LocalFile file) {
-
+        this.files.add(file);
     }
 
     @Override
-    public List<LocalDirectory<LocalFile>> getDirectories() {
-        return null;
+    public List<LocalDirectory> getDirectories() {
+        return Collections.unmodifiableList(this.directories);
     }
 
     @Override

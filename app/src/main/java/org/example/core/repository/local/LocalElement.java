@@ -4,6 +4,5 @@ import org.example.core.repository.RepositoryElement;
 
 import java.nio.file.Path;
 
-public interface LocalElement extends RepositoryElement {
-    Path getPath();
+public interface LocalElement extends RepositoryElement<Path> {
 }

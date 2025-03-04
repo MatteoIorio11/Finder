@@ -1,6 +1,7 @@
 package org.example.core.repository.remote;
 
-public class RemoteFileImpl implements RemoteFile{
+
+public class RemoteFileImpl implements RemoteFile  {
 
     private final String name, url;
     public RemoteFileImpl(final String name, final String url) {
@@ -13,12 +14,13 @@ public class RemoteFileImpl implements RemoteFile{
     }
 
     @Override
-    public String getRemoteUrl() {
-        return this.url;
+    public String getPath() {
+        return null;
     }
 
     @Override
     public String getContent() {
+        // Read lazily
         return null;
     }
 
