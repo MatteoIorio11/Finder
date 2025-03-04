@@ -1,6 +1,7 @@
 package org.example.core.remote;
 
-public interface RemoteElement {
-    String getName();
+import org.example.core.repository.Element;
+
+public interface RemoteElement extends Element {
     String getRemoteUrl();
 }
