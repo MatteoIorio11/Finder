@@ -1,2 +1,6 @@
-package org.example.core.remote;public record RemoteCollection() {
+package org.example.core.remote;
+
+import java.util.List;
+
+public record RemoteCollection(List<RemoteFile> files, List<RemoteDirectory> directories) {
 }
