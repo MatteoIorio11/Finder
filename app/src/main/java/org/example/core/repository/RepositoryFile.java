@@ -1,5 +1,5 @@
 package org.example.core.repository;
 
-public interface RepositoryFile extends RepositoryElement{
+public interface RepositoryFile<P> extends RepositoryElement<P> {
     String getContent();
 }

@@ -2,9 +2,9 @@ package org.example.core.repository;
 
 import java.util.List;
 
-public interface RepositoryDirectory<Y extends RepositoryFile> extends RepositoryElement{
+public interface RepositoryDirectory<P, Y extends RepositoryFile<P>> extends RepositoryElement<P>{
     List<Y> getFiles();
-    List<RepositoryDirectory<Y>> getInnerDirectories();
+    List<RepositoryDirectory<P, Y>> getInnerDirectories();
     void addFile(Y file);
-    void addDirectory(RepositoryDirectory<Y> directory);
+    void addDirectory(RepositoryDirectory<P, Y> directory);
 }
