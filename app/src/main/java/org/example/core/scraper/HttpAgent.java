@@ -5,53 +5,53 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.example.core.remote.*;
 import org.example.core.repository.Repository;
-import org.example.core.repository.RepositoryImpl;
+import org.example.core.remote.RemoteRepositoryImpl;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
 public class HttpAgent {
-    private final OkHttpClient client = new OkHttpClient();
-    RepositoryScraper repositoryScraper = new RepositoryScraperImpl();
-    public HttpAgent() {
+    private static final OkHttpClient client = new OkHttpClient();
+    static RepositoryScraper repositoryScraper = new RepositoryScraperImpl();
+    private HttpAgent() {
     }
 
-    public Repository getRepository(final URL repositoryUrl, final String token) {
-        final Repository repository = new RepositoryImpl();
+    static public Repository<RemoteDirectory<RemoteFile>, RemoteFile> getRemoteRepository(final URL repositoryUrl, final String token) {
+        final Repository<RemoteDirectory<RemoteFile>, RemoteFile> repository = new RemoteRepositoryImpl();
         final Set<String> seen = new HashSet<>();
-        this.makeRequest(repositoryUrl.toString(), token).flatMap(htmlPage -> this.repositoryScraper.scrape(htmlPage)).ifPresent(collection -> {
+        makeRequest(repositoryUrl.toString(), token).flatMap(htmlPage -> repositoryScraper.scrape(htmlPage)).ifPresent(collection -> {
             collection.files().forEach(repository::addFile);
             collection.directories().forEach(directory -> {
-                this.buildDirectory(directory, token, seen);
+                buildDirectory(directory, token, seen);
                 repository.addDirectory(directory);
             });
         });
         return repository;
     }
 
-    private void buildDirectory(final RemoteDirectory directory, final String token, final Set<String> seen) {
+    static private void buildDirectory(final RemoteDirectory<RemoteFile> directory, final String token, final Set<String> seen) {
         if (seen.contains(directory.getRemoteUrl())) {
             return;
         }
         seen.add(directory.getRemoteUrl());
-        this.sleep();
-        this.makeRequest(directory.getRemoteUrl(), token).flatMap(html -> this.repositoryScraper.scrape(html)).ifPresent(collection -> {
+        sleep();
+        makeRequest(directory.getRemoteUrl(), token).flatMap(html -> repositoryScraper.scrape(html)).ifPresent(collection -> {
             collection.files().forEach(directory::addFile);
             collection.directories().forEach(innerDirectory -> {
-                this.buildDirectory(innerDirectory, token, seen);
+                buildDirectory(innerDirectory, token, seen);
                 directory.addDirectory(innerDirectory);
             });
         });
     }
 
-    void sleep() {
+    static void sleep() {
         try{
             Thread.sleep(2000);
         } catch (InterruptedException ignored) {}
     }
 
-    private Optional<String> makeRequest(final String path, final String token) {
+    static private Optional<String> makeRequest(final String path, final String token) {
         final Request request = new Request.Builder()
                 .url(path)
                 .header("Authorization", "token " + token)

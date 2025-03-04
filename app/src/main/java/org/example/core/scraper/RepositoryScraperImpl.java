@@ -14,9 +14,6 @@ public class RepositoryScraperImpl implements RepositoryScraper {
     private final static String GITHUB = "https://github.com";
     @Override
     public Optional<RemoteCollection> scrape(final String htmlPage) {
-        if (!Jsoup.isValid(htmlPage, Safelist.basic())){
-            return Optional.empty();
-        }
         final Document document = Jsoup.parse(htmlPage);
         final List<RemoteFile> files = new LinkedList<>();
         final List<RemoteDirectory> directories = new LinkedList<>();
