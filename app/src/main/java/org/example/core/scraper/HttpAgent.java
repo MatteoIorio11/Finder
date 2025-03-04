@@ -3,7 +3,6 @@ package org.example.core.scraper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.example.core.remote.*;
 import org.example.core.repository.Repository;
 import org.example.core.repository.remote.RemoteDirectory;
 import org.example.core.repository.remote.RemoteFile;
