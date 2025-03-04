@@ -1,14 +1,16 @@
 package org.example.core.remote;
 
 
+import org.example.core.repository.RepositoryDirectory;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class RemoteDirectoryImpl implements RemoteDirectory{
+public class RemoteDirectoryImpl implements RemoteDirectory<RemoteFile> {
     private final String name, remoteUrl;
     private final List<RemoteFile> remoteFiles;
-    private final List<RemoteDirectory> remoteDirectories;
+    private final List<RepositoryDirectory<RemoteFile>> remoteDirectories;
     public RemoteDirectoryImpl(final String name, final String remoteUrl) {
         this.name = Objects.requireNonNull(name);
         this.remoteUrl = Objects.requireNonNull(remoteUrl);
@@ -31,7 +33,7 @@ public class RemoteDirectoryImpl implements RemoteDirectory{
     }
 
     @Override
-    public List<RemoteDirectory> getInnerDirectories() {
+    public List<RepositoryDirectory<RemoteFile>> getInnerDirectories() {
         return this.remoteDirectories;
     }
 
@@ -41,9 +43,10 @@ public class RemoteDirectoryImpl implements RemoteDirectory{
     }
 
     @Override
-    public void addDirectory(final RemoteDirectory directory) {
+    public void addDirectory(RepositoryDirectory<RemoteFile> directory) {
         this.remoteDirectories.add(directory);
     }
+
 
     @Override
     public String toString() {
