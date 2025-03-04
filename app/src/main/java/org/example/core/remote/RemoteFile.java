@@ -1,5 +1,6 @@
 package org.example.core.remote;
 
-public interface RemoteFile extends RemoteElement{
-    String getContent();
+import org.example.core.repository.RepositoryFile;
+
+public interface RemoteFile extends RemoteElement, RepositoryFile {
 }
