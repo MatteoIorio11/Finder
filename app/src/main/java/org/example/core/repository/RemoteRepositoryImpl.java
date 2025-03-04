@@ -7,7 +7,7 @@ import org.example.core.repository.Repository;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RepositoryImpl implements Repository {
+public class RepositoryImpl implements Repository<RemoteDirectory, RemoteFile> {
 
     private final List<RemoteDirectory> remoteDirectories;
     private final List<RemoteFile> remoteFiles;
@@ -27,12 +27,12 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public List<RemoteDirectory> getRemoteDirectories() {
+    public List<RemoteDirectory> getDirectories() {
         return this.remoteDirectories;
     }
 
     @Override
-    public List<RemoteFile> getRemoteFiles() {
+    public List<RemoteFile> getFiles() {
         return this.remoteFiles;
     }
 }
