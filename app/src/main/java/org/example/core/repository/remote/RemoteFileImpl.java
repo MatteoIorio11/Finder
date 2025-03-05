@@ -8,13 +8,7 @@ import java.util.Objects;
 
 public class RemoteFileImpl extends AbstractRepositoryFile<URL> {
     public RemoteFileImpl(final String name, final URL url) {
-        super(name, url);
+        super(name, url, new RemoteFileReaderImpl());
     }
-
-    @Override
-    public String getContent() {
-        return null;
-    }
-
 
 }
