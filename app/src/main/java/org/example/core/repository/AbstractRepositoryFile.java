@@ -1,14 +1,17 @@
 package org.example.core.repository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> {
     private final String name;
     private final P path;
+    private final AbstractFileReader<P> reader;
 
-    public AbstractRepositoryFile(final String name, final P path) {
+    public AbstractRepositoryFile(final String name, final P path, final AbstractFileReader<P> reader) {
         this.name = Objects.requireNonNull(name);
         this.path = Objects.requireNonNull(path);
+        this.reader = Objects.requireNonNull(reader);
     }
 
     @Override
@@ -21,7 +24,9 @@ public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> 
         return this.path;
     }
 
-    public abstract String getContent();
+    public String getContent() {
+        return this.reader.getContent(this.path);
+    }
 
     @Override
     public String toString() {
