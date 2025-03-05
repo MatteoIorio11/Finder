@@ -10,7 +10,7 @@ import java.util.Optional;
 public class LocalFileReaderImpl extends AbstractFileReader<Path> {
 
     @Override
-    public String getContent(Path path, Optional<String> token) {
+    public String getContent(Path path) {
         try {
             return Files.readString(path);
         }catch (IOException ignored) {}

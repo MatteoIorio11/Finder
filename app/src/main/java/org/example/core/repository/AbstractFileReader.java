@@ -5,5 +5,5 @@ import kotlin.NotImplementedError;
 import java.util.Optional;
 
 public abstract class AbstractFileReader<P> {
-    public abstract String getContent(final P path, final Optional<String> token);
+    public abstract String getContent(final P path);
 }
