@@ -3,7 +3,7 @@ package org.example.core.repository.remote;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.example.core.scraper.remote.HtmlScraper;
+import org.example.core.repository.AbstractFileReader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,16 +11,19 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Optional;
 
-public class ReadFileContent {
+public class RemoteFileReader extends AbstractFileReader<URL> {
     private final static OkHttpClient client = new OkHttpClient();
-    private ReadFileContent(){}
+    private RemoteFileReader(){}
 
-    public static String getContent(final URL path) {
-        final String token = System.getenv("GITHUB_TOKEN");
+    public String getContent(final URL path, final Optional<String> token) {
+        if(token.isEmpty()) {
+            return "";
+        }
         final Request request = new Request.Builder()
                 .url(path)
-                .header("Authorization", "token " + token)
+                .header("Authorization", "token " + token.get())
                 .header("Accept", "application/vnd.github.v3+json")
                 .build();
         try {
