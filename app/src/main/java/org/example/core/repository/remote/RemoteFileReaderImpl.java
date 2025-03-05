@@ -13,9 +13,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
 
-public class RemoteFileReader extends AbstractFileReader<URL> {
+public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
     private final static OkHttpClient client = new OkHttpClient();
-    private RemoteFileReader(){}
+    public RemoteFileReaderImpl(){}
 
     public String getContent(final URL path, final Optional<String> token) {
         if(token.isEmpty()) {
