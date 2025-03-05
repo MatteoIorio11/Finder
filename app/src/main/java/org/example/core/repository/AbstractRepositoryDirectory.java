@@ -1,12 +1,11 @@
 package org.example.core.repository;
 
-import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractRepositoryDirectory<P, Y extends RepositoryFile<P>> implements RepositoryElement<P> {
+public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositoryFile<P>> implements RepositoryElement<P> {
     private final List<AbstractRepositoryDirectory<P, Y>> directories;
     private final List<Y> files;
     private final String name;

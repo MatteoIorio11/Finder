@@ -1,29 +1,28 @@
 package org.example.core.repository.remote;
 
 import org.example.core.repository.AbstractRepositoryDirectory;
+import org.example.core.repository.AbstractRepositoryFile;
 import org.example.core.repository.RepositoryCollection;
 
 import java.net.URL;
 import java.util.List;
 
-public record RemoteCollection(List<RemoteFile> files, List<AbstractRepositoryDirectory<URL, RemoteFile>> directories) implements RepositoryCollection<URL, AbstractRepositoryDirectory<URL, RemoteFile>, RemoteFile> {
+public record RemoteCollection(List<AbstractRepositoryFile<URL>> files, List<AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>> directories) implements RepositoryCollection<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> {
     @Override
-    public void setFiles(List<RemoteFile> files) {
+    public void setFiles(List<AbstractRepositoryFile<URL>> files) {
         this.files.addAll(files);
     }
 
     @Override
-    public void setDirectories(List<AbstractRepositoryDirectory<URL, RemoteFile>> directories) {
+    public void setDirectories(List<AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>> directories) {
         this.directories.addAll(directories);
     }
-
     @Override
-    public List<RemoteFile> getFiles() {
+    public List<AbstractRepositoryFile<URL>> getFiles() {
         return this.files;
     }
-
     @Override
-    public List<AbstractRepositoryDirectory<URL, RemoteFile>> getDirectories() {
+    public List<AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>> getDirectories() {
         return this.directories;
     }
 }

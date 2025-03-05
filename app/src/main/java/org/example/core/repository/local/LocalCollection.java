@@ -1,28 +1,30 @@
 package org.example.core.repository.local;
 
+import org.example.core.repository.AbstractRepositoryDirectory;
+import org.example.core.repository.AbstractRepositoryFile;
 import org.example.core.repository.RepositoryCollection;
 
 import java.nio.file.Path;
 import java.util.List;
 
-public record LocalCollection(List<LocalFile> files, List<LocalDirectory> directories) implements RepositoryCollection<Path, LocalDirectory, LocalFile> {
+public record LocalCollection(List<AbstractRepositoryFile<Path>> files, List<AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>> directories) implements RepositoryCollection<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> {
     @Override
-    public void setFiles(List<LocalFile> files) {
+    public void setFiles(List<AbstractRepositoryFile<Path>> files) {
         this.files.addAll(files);
     }
 
     @Override
-    public void setDirectories(List<LocalDirectory> directories) {
+    public void setDirectories(List<AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>> directories) {
         this.directories.addAll(directories);
     }
 
     @Override
-    public List<LocalFile> getFiles() {
+    public List<AbstractRepositoryFile<Path>> getFiles() {
         return this.files;
     }
 
     @Override
-    public List<LocalDirectory> getDirectories() {
+    public List<AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>> getDirectories() {
         return this.directories;
     }
 }

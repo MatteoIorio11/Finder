@@ -1,7 +1,7 @@
 package org.example.core.scraper.remote;
 
-import org.example.core.repository.RepositoryCollection;
-import org.example.core.repository.RepositoryFile;
+import org.example.core.repository.AbstractRepositoryDirectory;
+import org.example.core.repository.AbstractRepositoryFile;
 import org.example.core.repository.remote.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -9,6 +9,7 @@ import org.jsoup.parser.Parser;
 
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +20,8 @@ public class HtmlScraper {
     static public Optional<RemoteCollection> scrape(final String htmlPage) {
         try {
             final Document document = Jsoup.parse(htmlPage, Parser.htmlParser());
-            final List<RemoteFile> files = new LinkedList<>();
-            final List<RemoteDirectory> directories = new LinkedList<>();
+            final List<AbstractRepositoryFile<URL>> files = new LinkedList<>();
+            final List<AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>> directories = new LinkedList<>();
             document.stream().filter(element -> element.id().contains("folder-row-"))
                     .map(element -> element.selectFirst("a"))
                     .filter(element -> !(element.text().equals("..") || element.text().equals(".")))

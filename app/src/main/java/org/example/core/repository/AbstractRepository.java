@@ -5,18 +5,29 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbstractRepository<P, X extends AbstractRepositoryDirectory<P, Y>, Y extends RepositoryFile<P>>{
+public abstract class AbstractRepository<P, X extends AbstractRepositoryDirectory<P, Y>, Y extends AbstractRepositoryFile<P>> implements RepositoryElement<P>{
     private final List<X> directories;
     private final List<Y> files;
     private final String name;
-    private final URL remoteUrl;
+    private final P path;
 
-    protected AbstractRepository(final String name, final URL remoteUrl) {
+    protected AbstractRepository(final String name, final P path) {
         this.name = name;
-        this.remoteUrl = remoteUrl;
+        this.path = path;
         this.directories = new LinkedList<>();
         this.files = new LinkedList<>();
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public P getPath() {
+        return this.path;
+    }
+
     public void addDirectory(X directory) {
         this.directories.add(directory);
     }
