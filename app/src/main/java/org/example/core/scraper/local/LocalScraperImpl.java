@@ -13,6 +13,10 @@ import java.util.stream.Stream;
 
 public class LocalScraperImpl extends AbstractScraper<Path, LocalDirectory, LocalFile, LocalCollection> {
 
+    public LocalScraperImpl() {
+        super(false);
+    }
+
     @Override
     public AbstractRepository<Path, LocalDirectory, LocalFile> getRepository(final Path repositoryPath, final Optional<String> inputToken) {
         final var repository = new LocalRepositoryImpl();
@@ -28,7 +32,7 @@ public class LocalScraperImpl extends AbstractScraper<Path, LocalDirectory, Loca
             if (Objects.nonNull(allFiles)) {
                 final List<LocalDirectory> directories = new LinkedList<>();
                 final List<LocalFile> files = new LinkedList<>();
-                Stream.of(allFiles).forEach(file -> {
+                Stream.of(allFiles).filter(file -> !(file.isDirectory() && file.getName().equals(".git"))).forEach(file -> {
                     if (file.isDirectory()) {
                         directories.add(new LocalDirectoryImpl(file.getName(), file.toPath()));
                     } else {
