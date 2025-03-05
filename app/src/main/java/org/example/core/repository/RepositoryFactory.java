@@ -1,7 +1,6 @@
 package org.example.core.repository;
 
 import org.example.core.repository.local.LocalRepository;
-import org.example.core.repository.remote.RemoteRepository;
 import org.example.core.scraper.remote.RemoteScraperImpl;
 
 import java.net.URL;

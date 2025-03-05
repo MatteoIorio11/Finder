@@ -1,21 +1,20 @@
 package org.example.core.scraper;
 
-import org.example.core.repository.Repository;
+import org.example.core.repository.AbstractRepository;
 import org.example.core.repository.RepositoryCollection;
 import org.example.core.repository.RepositoryDirectory;
 import org.example.core.repository.RepositoryFile;
-import org.example.core.scraper.remote.HtmlScraper;
+import org.jetbrains.annotations.NotNull;
 
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-public abstract class AbstractScraper<P, X extends RepositoryDirectory<P, Y>, Y extends RepositoryFile<P>, T extends Repository<P, X, Y>, Z extends RepositoryCollection<P, X, Y>> {
-    abstract public T getRepository(final P repositoryPath, final Optional<String> inputToken);
+public abstract class AbstractScraper<P, X extends RepositoryDirectory<P, Y>, Y extends RepositoryFile<P>, Z extends RepositoryCollection<P, X, Y>> {
+    abstract public AbstractRepository<P, X, Y> getRepository(final P repositoryPath, final Optional<String> inputToken);
 
-    protected void buildRepository(final P path, final T repository, final Optional<String> inputToken) {
+    protected void buildRepository(final P path, final AbstractRepository<P, X, Y> repository, final Optional<String> inputToken) {
         final Set<String> seen = new HashSet<>();
         this.readFromPath(path, inputToken).ifPresent(collection -> {
             collection.getFiles().forEach(repository::addFile);
@@ -25,7 +24,7 @@ public abstract class AbstractScraper<P, X extends RepositoryDirectory<P, Y>, Y 
             });
         });
     }
-    protected void buildDirectory(final  RepositoryDirectory<P, Y> directory, final Optional<String> token, final Set<String> seen) {
+    protected void buildDirectory(@NotNull final  RepositoryDirectory<P, Y> directory, @NotNull final Optional<String> token, @NotNull final Set<String> seen) {
         if (seen.contains(directory.getPath().toString()) || Objects.isNull(directory.getPath())) {
             return;
         }

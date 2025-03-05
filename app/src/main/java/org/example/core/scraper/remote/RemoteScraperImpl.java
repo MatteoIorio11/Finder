@@ -3,7 +3,7 @@ package org.example.core.scraper.remote;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.example.core.repository.RepositoryCollection;
+import org.example.core.repository.AbstractRepository;
 import org.example.core.repository.remote.*;
 import org.example.core.scraper.AbstractScraper;
 
@@ -11,15 +11,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class RemoteScraperImpl extends AbstractScraper<URL, RemoteDirectory, RemoteFile, RemoteRepository, RemoteCollection> {
+public class RemoteScraperImpl extends AbstractScraper<URL, RemoteDirectory, RemoteFile, RemoteCollection> {
     private final OkHttpClient client = new OkHttpClient();
 
     @Override
-    public RemoteRepository getRepository(final URL repositoryPath, final Optional<String> inputToken) {
+    public AbstractRepository<URL, RemoteDirectory, RemoteFile> getRepository(final URL repositoryPath, final Optional<String> inputToken) {
         if (inputToken.isEmpty()) {
             throw new IllegalArgumentException("Token is required to access the repository");
         }
-        final RemoteRepository repository = new RemoteRepositoryImpl();
+        final var repository = new RemoteRepositoryImpl();
         this.buildRepository(repositoryPath, repository, inputToken);
         return repository;
     }
