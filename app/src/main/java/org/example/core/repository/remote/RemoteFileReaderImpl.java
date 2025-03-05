@@ -17,7 +17,8 @@ public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
     private final static OkHttpClient client = new OkHttpClient();
     public RemoteFileReaderImpl(){}
 
-    public String getContent(final URL path, final Optional<String> token) {
+    public String getContent(final URL path) {
+        final Optional<String> token = Optional.ofNullable(System.getenv("GITHUB_TOKEN"));
         if(token.isEmpty()) {
             return "";
         }
