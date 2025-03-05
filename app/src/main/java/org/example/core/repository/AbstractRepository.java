@@ -1,9 +1,11 @@
 package org.example.core.repository;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public abstract class AbstractRepository<P, X extends AbstractRepositoryDirectory<P, Y>, Y extends AbstractRepositoryFile<P>> implements RepositoryElement<P>{
     private final List<X> directories;
@@ -39,5 +41,15 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
     }
     public List<Y> getFiles(){
         return Collections.unmodifiableList(files);
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractRepository{" +
+                "directories=" + this.directories +
+                ", files=" + this.files +
+                ", name='" + this.name + '\'' +
+                ", path=" + this.path +
+                '}';
     }
 }
