@@ -20,14 +20,7 @@ public class RemoteScraperImpl extends AbstractScraper<URL, RemoteDirectory, Rem
             throw new IllegalArgumentException("Token is required to access the repository");
         }
         final RemoteRepository repository = new RemoteRepositoryImpl();
-        final Set<String> seen = new HashSet<>();
-        this.readFromPath(repositoryPath, inputToken).ifPresent(collection -> {
-            collection.files().forEach(repository::addFile);
-            collection.directories().forEach(directory -> {
-                buildDirectory(directory, inputToken, seen);
-                repository.addDirectory(directory);
-            });
-        });
+        this.buildRepository(repositoryPath, repository, inputToken);
         return repository;
     }
 
