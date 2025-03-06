@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * A remote scraper implementation
+ */
 public class RemoteScraperImpl extends AbstractScraper<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>, RemoteCollection> {
     private final OkHttpClient client = new OkHttpClient();
 

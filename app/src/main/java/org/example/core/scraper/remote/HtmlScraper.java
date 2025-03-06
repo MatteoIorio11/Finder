@@ -17,9 +17,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A scraper for HTML pages
+ */
 public class HtmlScraper {
     private final static String GITHUB = "https://github.com";
 
+    /**
+     * Scrape the HTML page
+     * @param htmlPage the HTML page
+     * @return the collection of files and directories
+     */
     static public Optional<RemoteCollection> scrape(final String htmlPage) {
         try {
             final Document document = Jsoup.parse(htmlPage, Parser.htmlParser());
