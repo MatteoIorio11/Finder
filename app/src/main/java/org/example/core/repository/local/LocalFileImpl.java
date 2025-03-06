@@ -7,6 +7,6 @@ import java.util.Objects;
 
 public class LocalFileImpl extends AbstractRepositoryFile<Path> implements LocalElement {
     public LocalFileImpl(final String name, final Path path) {
-        super(name, path, new LocalFileReaderImpl());
+        super(name, path);
     }
 }
