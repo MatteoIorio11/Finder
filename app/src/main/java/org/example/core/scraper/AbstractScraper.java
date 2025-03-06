@@ -1,11 +1,12 @@
 package org.example.core.scraper;
 
-import org.checkerframework.checker.units.qual.A;
 import org.example.core.repository.AbstractRepository;
 import org.example.core.repository.RepositoryCollection;
 import org.example.core.repository.AbstractRepositoryDirectory;
 import org.example.core.repository.AbstractRepositoryFile;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,12 +21,14 @@ import java.util.Set;
  * @param <Z> the type of the collection
  */
 public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P, Y>, Y extends AbstractRepositoryFile<P>, Z extends RepositoryCollection<P, X, Y>> {
+    protected final static Logger logger = LoggerFactory.getLogger(AbstractScraper.class);
     private final boolean needSleep;
     /**
      * Constructor for AbstractScraper
      * @param needSleep whether the scraper needs to sleep
      */
     protected AbstractScraper(final boolean needSleep) {
+        logger.info("Created scraper with sleep: " + needSleep);
         this.needSleep = needSleep;
     }
     /**
@@ -44,6 +47,7 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
      * @param inputToken the input token
      */
     protected void buildRepository(final P path, final AbstractRepository<P, X, Y> repository, final Optional<String> inputToken) {
+        logger.info("Building repository: " + repository.getName());
         final Set<String> seen = new HashSet<>();
         this.readFromPath(repository.getName(), path, inputToken).ifPresent(collection -> {
             collection.getFiles().forEach(repository::addFile);
@@ -52,6 +56,7 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
                 repository.addDirectory(directory);
             });
         });
+        logger.info("Finished building repository: " + repository.getName());
     }
 
     /**
@@ -81,6 +86,7 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
      */
     protected void sleep() {
         try{
+            logger.info("Sleeping for 2 seconds");
             Thread.sleep(2000);
         } catch (InterruptedException ignored) {}
     }
