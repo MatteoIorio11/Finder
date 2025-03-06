@@ -3,9 +3,6 @@ package org.example.core.repository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> {
     private final String name;
