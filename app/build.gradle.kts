@@ -21,6 +21,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("org.jsoup:jsoup:1.18.3")
     implementation("io.github.cdimascio:dotenv-java:3.2.0")
+    implementation("org.slf4j:slf4j-api:2.0.17")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
     implementation(libs.guava)
 }
 
