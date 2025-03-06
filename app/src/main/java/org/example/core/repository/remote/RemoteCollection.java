@@ -9,15 +9,6 @@ import java.util.List;
 
 public record RemoteCollection(List<AbstractRepositoryFile<URL>> files, List<AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>> directories) implements RepositoryCollection<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> {
     @Override
-    public void setFiles(List<AbstractRepositoryFile<URL>> files) {
-        this.files.addAll(files);
-    }
-
-    @Override
-    public void setDirectories(List<AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>> directories) {
-        this.directories.addAll(directories);
-    }
-    @Override
     public List<AbstractRepositoryFile<URL>> getFiles() {
         return this.files;
     }
