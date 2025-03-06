@@ -1,17 +1,19 @@
 package org.example.core.repository;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> {
     private final String name;
     private final P path;
-    private final AbstractFileReader<P> reader;
 
-    public AbstractRepositoryFile(final String name, final P path, final AbstractFileReader<P> reader) {
+    public AbstractRepositoryFile(final String name, final P path) {
         this.name = Objects.requireNonNull(name);
         this.path = Objects.requireNonNull(path);
-        this.reader = Objects.requireNonNull(reader);
     }
 
     @Override
@@ -24,8 +26,8 @@ public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> 
         return this.path;
     }
 
-    public String getContent() {
-        return this.reader.getContent(this.path);
+    public String getContent(@NotNull final AbstractFileReader<P> reader) {
+        return reader.getContent(this.getPath());
     }
 
     @Override
