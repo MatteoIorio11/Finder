@@ -1,6 +1,8 @@
 package org.example.core.repository;
 
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -10,6 +12,7 @@ import java.util.*;
  * @param <Y> the type of the file
  */
 public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositoryFile<P>> implements RepositoryElement<P> {
+    protected final static Logger logger = LoggerFactory.getLogger(AbstractRepositoryDirectory.class);
     private final Map<String, AbstractRepositoryDirectory<P, Y>> directories;
     private final Map<String, Y> files;
     private final String name;
@@ -25,16 +28,17 @@ public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositor
         this.files = new HashMap<>();
         this.name = Objects.requireNonNull(name);
         this.remoteUrl = Objects.requireNonNull(remoteUrl);
+        logger.info("Created directory: " + this.getName());
     }
 
     @Override
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public P getPath() {
-        return remoteUrl;
+        return this.remoteUrl;
     }
 
     /**
@@ -56,6 +60,7 @@ public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositor
      * @param file the file to add
      */
     public void addFile(@NotNull final Y file) {
+        logger.info("Adding file: " + file.getName());
         this.files.put(file.getName(), file);
     }
     /**
@@ -63,6 +68,7 @@ public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositor
      * @param directory the directory to add
      */
     public void addDirectory(@NotNull final AbstractRepositoryDirectory<P, Y> directory) {
+        logger.info("Adding directory: " + directory.getName());
         this.directories.put(directory.getName(), directory);
     }
 
@@ -72,6 +78,7 @@ public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositor
      * @return true if the directory has the file, false otherwise
      */
     public boolean hasFile(@NotNull final String name) {
+        logger.info("Checking if directory has file: " + name);
         return this.files.containsKey(name);
     }
     /**
@@ -80,6 +87,7 @@ public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositor
      * @return true if the directory has the directory, false otherwise
      */
     public boolean hasDirectory(@NotNull final String name) {
+        logger.info("Checking if directory has directory: " + name);
         return this.directories.containsKey(name);
     }
 

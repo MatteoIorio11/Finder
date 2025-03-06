@@ -1,6 +1,8 @@
 package org.example.core.repository;
 
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -11,6 +13,7 @@ import java.util.*;
  * @param <Y> the type of the file
  */
 public abstract class AbstractRepository<P, X extends AbstractRepositoryDirectory<P, Y>, Y extends AbstractRepositoryFile<P>> implements RepositoryElement<P>{
+    protected final static Logger logger = LoggerFactory.getLogger(AbstractRepository.class);
     private final Map<String, X> directories;
     private final Map<String, Y> files;
     private final String name;
@@ -25,6 +28,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
         this.path = path;
         this.directories = new HashMap<>();
         this.files = new HashMap<>();
+        logger.info("Created repository: {}", this);
     }
 
     @Override
@@ -42,6 +46,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * @param directory the directory to add
      */
     public void addDirectory(@NotNull final X directory) {
+        logger.info("Adding directory: " + directory.getName());
         this.directories.put(directory.getName(), directory);
     }
 
@@ -50,6 +55,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * @param file the file to add
      */
     public void addFile(@NotNull final Y file){
+        logger.info("Adding file: " + file.getName());
         this.files.put(file.getName(), file);
     }
     /**
@@ -73,6 +79,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * @return true if the repository has a directory with the given name, false otherwise
      */
     public boolean hasDirectory(@NotNull final String name){
+        logger.info("Checking if repository has directory: " + name);
         return this.directories.containsKey(name);
     }
 
@@ -100,6 +107,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * @return true if the repository has a file with the given name, false otherwise
      */
     public boolean hasFile(final @NotNull String name){
+        logger.info("Checking if repository has file: " + name);
         return this.files.containsKey(name);
     }
 

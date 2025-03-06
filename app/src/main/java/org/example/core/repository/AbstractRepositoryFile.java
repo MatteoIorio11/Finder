@@ -1,6 +1,8 @@
 package org.example.core.repository;
 
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ import java.util.Objects;
  * @param <P> the type of the path
  */
 public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> {
+    protected final static Logger logger = LoggerFactory.getLogger(AbstractRepositoryFile.class);
     private final String name;
     private final P path;
 
@@ -20,6 +23,7 @@ public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> 
     public AbstractRepositoryFile(final String name, final P path) {
         this.name = Objects.requireNonNull(name);
         this.path = Objects.requireNonNull(path);
+        logger.info("Created file: {}", this.name);
     }
 
     @Override
@@ -38,6 +42,7 @@ public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> 
      * @return the content of the file
      */
     public String getContent(@NotNull final AbstractFileReader<P> reader) {
+        logger.info("Getting content of file: " + this.getName());
         return reader.getContent(this.getPath());
     }
 
