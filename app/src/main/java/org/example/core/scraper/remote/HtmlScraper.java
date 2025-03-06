@@ -31,7 +31,7 @@ public class HtmlScraper {
                     .filter(element -> element.hasAttr("aria-label"))
                     .forEach(aTag -> {
                         final String newPath = GITHUB + aTag.attribute("href").getValue();
-                        final String uniqueName = buildName(newPath);
+                        final String uniqueName = buildName(aTag.attribute("href").getValue());
                         try {
                             if (aTag.attr("aria-label").contains("File")) {
                                 files.add(new RemoteFileImpl(uniqueName, URI.create(newPath).toURL()));
