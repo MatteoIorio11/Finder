@@ -29,7 +29,7 @@ public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> 
 
     @Override
     public String toString() {
-        return "RemoteFileImpl{" +
+        return "File{" +
                 "name='" + this.getName() + '\'' +
                 ", url='" + this.getPath() + '\'' +
                 '}';
