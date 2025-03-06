@@ -42,6 +42,11 @@ public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositor
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return obj instanceof AbstractRepositoryDirectory && this.name.equals(((AbstractRepositoryDirectory<?, ?>) obj).name);
+    }
+
+    @Override
     public String toString() {
         return "RemoteDirectoryImpl{" +
                 "name='" + name + '\'' +
