@@ -4,10 +4,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * An abstract class for a file in a repository
+ * @param <P> the type of the path
+ */
 public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> {
     private final String name;
     private final P path;
 
+    /**
+     * Constructor for AbstractRepositoryFile
+     * @param name the name of the file
+     * @param path the path of the file
+     */
     public AbstractRepositoryFile(final String name, final P path) {
         this.name = Objects.requireNonNull(name);
         this.path = Objects.requireNonNull(path);
@@ -23,6 +32,11 @@ public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> 
         return this.path;
     }
 
+    /**
+     * Get the content of the file lazily
+     * @param reader the reader to use
+     * @return the content of the file
+     */
     public String getContent(@NotNull final AbstractFileReader<P> reader) {
         return reader.getContent(this.getPath());
     }
