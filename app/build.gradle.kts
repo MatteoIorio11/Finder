@@ -20,7 +20,7 @@ dependencies {
     testImplementation(libs.junit)
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("org.jsoup:jsoup:1.18.3")
-    // This dependency is used by the application.
+    implementation("io.github.cdimascio:dotenv-java:3.2.0")
     implementation(libs.guava)
 }
 
