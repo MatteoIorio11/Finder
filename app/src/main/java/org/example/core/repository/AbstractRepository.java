@@ -2,10 +2,7 @@ package org.example.core.repository;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public abstract class AbstractRepository<P, X extends AbstractRepositoryDirectory<P, Y>, Y extends AbstractRepositoryFile<P>> implements RepositoryElement<P>{
     private final List<X> directories;
@@ -42,6 +39,15 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
     public List<Y> getFiles(){
         return Collections.unmodifiableList(files);
     }
+
+    public List<String> differenceWithRepository(final AbstractRepository<?, ?, ?> repository) {
+        final List<String> differences = new LinkedList<>(this.getDifferentFiles(this.getFiles(), repository.getFiles()));
+    }
+
+    private List<String> getDifferentFiles(final List<? extends AbstractRepositoryFile<?>> file1, final List<? extends AbstractRepositoryFile<?>> file2) {
+        return file1.stream().filter(file -> !file2.contains(file)).map(AbstractRepositoryFile::getName).toList();
+    }
+
 
     @Override
     public String toString() {
