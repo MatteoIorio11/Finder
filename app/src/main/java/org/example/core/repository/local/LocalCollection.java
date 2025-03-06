@@ -9,16 +9,6 @@ import java.util.List;
 
 public record LocalCollection(List<AbstractRepositoryFile<Path>> files, List<AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>> directories) implements RepositoryCollection<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> {
     @Override
-    public void setFiles(List<AbstractRepositoryFile<Path>> files) {
-        this.files.addAll(files);
-    }
-
-    @Override
-    public void setDirectories(List<AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>> directories) {
-        this.directories.addAll(directories);
-    }
-
-    @Override
     public List<AbstractRepositoryFile<Path>> getFiles() {
         return this.files;
     }
