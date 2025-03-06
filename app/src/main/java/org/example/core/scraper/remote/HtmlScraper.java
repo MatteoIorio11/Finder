@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HtmlScraper {
     private final static String GITHUB = "https://github.com";
@@ -30,7 +31,7 @@ public class HtmlScraper {
                     .filter(element -> element.hasAttr("aria-label"))
                     .forEach(aTag -> {
                         final String newPath = GITHUB + aTag.attribute("href").getValue();
-                        final String uniqueName = Arrays.stream(aTag.attribute("href").getValue().split("/")).skip(2).collect(Collectors.joining("/"));
+                        final String uniqueName = buildName(newPath);
                         try {
                             if (aTag.attr("aria-label").contains("File")) {
                                 files.add(new RemoteFileImpl(uniqueName, URI.create(newPath).toURL()));
@@ -43,5 +44,14 @@ public class HtmlScraper {
         }catch (Exception ignored) {
             return Optional.empty();
         }
+    }
+
+    private static String buildName(final String path) {
+        final String partialName = Arrays.stream(path.split("/"))
+                .skip(2)
+                .filter(dir -> !(dir.equals("blob") || dir.equals("tree")))
+                .collect(Collectors.joining("/"));
+        final String[] components = partialName.split("/");
+        return Stream.concat(Stream.of(components[0]), Arrays.stream(components).skip(2)).collect(Collectors.joining("/"));
     }
 }
