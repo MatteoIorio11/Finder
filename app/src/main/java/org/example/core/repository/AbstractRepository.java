@@ -1,20 +1,25 @@
 package org.example.core.repository;
 
-import org.example.core.repository.local.LocalFileImpl;
-import org.example.core.repository.local.LocalFileReaderImpl;
-import org.example.core.repository.remote.RemoteFileReaderImpl;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.net.URL;
-import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * An abstract repository
+ * @param <P> the type of the path
+ * @param <X> the type of the directory
+ * @param <Y> the type of the file
+ */
 public abstract class AbstractRepository<P, X extends AbstractRepositoryDirectory<P, Y>, Y extends AbstractRepositoryFile<P>> implements RepositoryElement<P>{
     private final Map<String, X> directories;
     private final Map<String, Y> files;
     private final String name;
     private final P path;
 
+    /** Constructor for AbstractRepository
+     * @param name the name of the repository
+     * @param path the path of the repository
+     */
     protected AbstractRepository(final String name, final P path) {
         this.name = name;
         this.path = path;
@@ -32,32 +37,69 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
         return this.path;
     }
 
-    public void addDirectory(X directory) {
+    /**
+     * Add a directory to the repository
+     * @param directory the directory to add
+     */
+    public void addDirectory(@NotNull final X directory) {
         this.directories.put(directory.getName(), directory);
     }
-    public void addFile(Y file){
+
+    /**
+     * Add a file to the repository
+     * @param file the file to add
+     */
+    public void addFile(@NotNull final Y file){
         this.files.put(file.getName(), file);
     }
+    /**
+     * Get the directories in the repository
+     * @return the directories in the repository
+     */
     public List<X> getDirectories(){
         return directories.values().stream().toList();
     }
+    /**
+     * Get the files in the repository
+     * @return the files in the repository
+     */
     public List<Y> getFiles(){
         return files.values().stream().toList();
     }
 
-    public boolean hasDirectory(String name){
+    /**
+     * Check if the repository has a directory with the given name
+     * @param name the name of the directory
+     * @return true if the repository has a directory with the given name, false otherwise
+     */
+    public boolean hasDirectory(@NotNull final String name){
         return this.directories.containsKey(name);
     }
 
-    public Optional<X> getDirectory(String name){
+    /**
+     * Get the directory with the given name
+     * @param name the name of the directory
+     * @return the directory with the given name
+     */
+    public Optional<X> getDirectory(@NotNull final String name){
         return Optional.ofNullable(this.directories.get(name));
     }
 
-    public Optional<Y> getFile(String name){
+    /**
+     * Get the file with the given name
+     * @param name the name of the file
+     * @return the file with the given name
+     */
+    public Optional<Y> getFile(@NotNull final String name){
         return Optional.ofNullable(this.files.get(name));
     }
 
-    public boolean hasFile(String name){
+    /**
+     * Check if the repository has a file with the given name
+     * @param name the name of the file
+     * @return true if the repository has a file with the given name, false otherwise
+     */
+    public boolean hasFile(final @NotNull String name){
         return this.files.containsKey(name);
     }
 
