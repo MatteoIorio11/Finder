@@ -1,20 +1,25 @@
 package org.example.core.repository;
 
+import org.example.core.repository.local.LocalFileImpl;
+import org.example.core.repository.local.LocalFileReaderImpl;
+import org.example.core.repository.remote.RemoteFileReaderImpl;
+
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.*;
 
 public abstract class AbstractRepository<P, X extends AbstractRepositoryDirectory<P, Y>, Y extends AbstractRepositoryFile<P>> implements RepositoryElement<P>{
-    private final List<X> directories;
-    private final List<Y> files;
+    private final Map<String, X> directories;
+    private final Map<String, Y> files;
     private final String name;
     private final P path;
 
     protected AbstractRepository(final String name, final P path) {
         this.name = name;
         this.path = path;
-        this.directories = new LinkedList<>();
-        this.files = new LinkedList<>();
+        this.directories = new HashMap<>();
+        this.files = new HashMap<>();
     }
 
     @Override
@@ -28,26 +33,33 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
     }
 
     public void addDirectory(X directory) {
-        this.directories.add(directory);
+        this.directories.put(directory.getName(), directory);
     }
     public void addFile(Y file){
-        this.files.add(file);
+        this.files.put(file.getName(), file);
     }
     public List<X> getDirectories(){
-        return Collections.unmodifiableList(directories);
+        return directories.values().stream().toList();
     }
     public List<Y> getFiles(){
-        return Collections.unmodifiableList(files);
+        return files.values().stream().toList();
     }
 
-    public List<String> differenceWithRepository(final AbstractRepository<?, ?, ?> repository) {
-        final List<String> differences = new LinkedList<>(this.getDifferentFiles(this.getFiles(), repository.getFiles()));
+    public boolean hasDirectory(String name){
+        return this.directories.containsKey(name);
     }
 
-    private List<String> getDifferentFiles(final List<? extends AbstractRepositoryFile<?>> file1, final List<? extends AbstractRepositoryFile<?>> file2) {
-        return file1.stream().filter(file -> !file2.contains(file)).map(AbstractRepositoryFile::getName).toList();
+    public Optional<X> getDirectory(String name){
+        return Optional.ofNullable(this.directories.get(name));
     }
 
+    public Optional<Y> getFile(String name){
+        return Optional.ofNullable(this.files.get(name));
+    }
+
+    public boolean hasFile(String name){
+        return this.files.containsKey(name);
+    }
 
     @Override
     public String toString() {

@@ -1,19 +1,16 @@
 package org.example.core.repository;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositoryFile<P>> implements RepositoryElement<P> {
-    private final List<AbstractRepositoryDirectory<P, Y>> directories;
-    private final List<Y> files;
+    private final Map<String, AbstractRepositoryDirectory<P, Y>> directories;
+    private final Map<String, Y> files;
     private final String name;
     private final P remoteUrl;
 
     public AbstractRepositoryDirectory(final String name, final P remoteUrl) {
-        this.directories = new LinkedList<>();
-        this.files = new LinkedList<>();
+        this.directories = new HashMap<>();
+        this.files = new HashMap<>();
         this.name = Objects.requireNonNull(name);
         this.remoteUrl = Objects.requireNonNull(remoteUrl);
     }
@@ -29,16 +26,31 @@ public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositor
     }
 
     public List<Y> getFiles() {
-        return Collections.unmodifiableList(this.files);
+        return this.files.values().stream().toList();
     }
     public List<AbstractRepositoryDirectory<P, Y>> getInnerDirectories(){
-        return Collections.unmodifiableList(this.directories);
+        return this.directories.values().stream().toList();
     }
     public void addFile(Y file) {
-        this.files.add(file);
+        this.files.put(file.getName(), file);
     }
     public void addDirectory(AbstractRepositoryDirectory<P, Y> directory) {
-        this.directories.add(directory);
+        this.directories.put(directory.getName(), directory);
+    }
+
+    public boolean hasFile(final String name) {
+        return this.files.containsKey(name);
+    }
+    public boolean hasDirectory(final String name) {
+        return this.directories.containsKey(name);
+    }
+
+    public Optional<Y> getFile(final String name) {
+        return Optional.ofNullable(this.files.get(name));
+    }
+
+    public Optional<AbstractRepositoryDirectory<P, Y>> getDirectory(final String name) {
+        return Optional.ofNullable(this.directories.get(name));
     }
 
     @Override
@@ -48,7 +60,7 @@ public abstract class AbstractRepositoryDirectory<P, Y extends AbstractRepositor
 
     @Override
     public String toString() {
-        return "RemoteDirectoryImpl{" +
+        return "Directory{" +
                 "name='" + name + '\'' +
                 ", remoteUrl='" + remoteUrl + '\'' +
                 '}';
