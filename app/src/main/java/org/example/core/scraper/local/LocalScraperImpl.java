@@ -11,6 +11,9 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
+/**
+ * A local scraper implementation
+ */
 public class LocalScraperImpl extends AbstractScraper<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>, LocalCollection> {
 
     public LocalScraperImpl() {
