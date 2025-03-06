@@ -16,7 +16,7 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
     protected AbstractScraper(final boolean needSleep) {
         this.needSleep = needSleep;
     }
-    abstract public AbstractRepository<P, X, Y> getRepository(final P repositoryPath, final Optional<String> inputToken);
+    abstract public AbstractRepository<P, X, Y> getRepository(final String repositoryName, final P repositoryPath, final Optional<String> inputToken);
 
     protected void buildRepository(final P path, final AbstractRepository<P, X, Y> repository, final Optional<String> inputToken) {
         final Set<String> seen = new HashSet<>();

@@ -18,8 +18,8 @@ public class LocalScraperImpl extends AbstractScraper<Path, AbstractRepositoryDi
     }
 
     @Override
-    public AbstractRepository<Path,  AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>,  AbstractRepositoryFile<Path>> getRepository(final Path repositoryPath, final Optional<String> inputToken) {
-        final var repository = new LocalRepositoryImpl("", null);
+    public AbstractRepository<Path,  AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>,  AbstractRepositoryFile<Path>> getRepository(final String repositoryName, final Path repositoryPath, final Optional<String> inputToken) {
+        final var repository = new LocalRepositoryImpl(repositoryName, repositoryPath);
         this.buildRepository(repositoryPath, repository, inputToken);
         return repository;
     }
