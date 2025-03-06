@@ -3,12 +3,25 @@
  */
 package org.example;
 
+import io.github.cdimascio.dotenv.Dotenv;
+import org.example.core.diff.CheckDifference;
+
+import java.io.IOException;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        final Dotenv dotenv = Dotenv.configure().directory("src/main/resources").filename(".env").load();
+        dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
+        try {
+            final var o = CheckDifference.checkDifference("MatteoIorio11", "PPS-23-ScalaSim", System.getProperty("GITHUB_TOKEN"), "/Users/matteoiorio/Desktop/PPS-23-ScalaSim", "main", "dev");
+            System.out.println("Differences:");
+            o.forEach(entry -> {
+                System.out.println("Local: " + entry.getKey().getPath());
+                System.out.println("Remote: " + entry.getValue().getPath());
+            });
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
