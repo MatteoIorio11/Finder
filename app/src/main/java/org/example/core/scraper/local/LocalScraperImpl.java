@@ -33,11 +33,11 @@ public class LocalScraperImpl extends AbstractScraper<Path, AbstractRepositoryDi
                 final List<AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>> directories = new LinkedList<>();
                 final List<AbstractRepositoryFile<Path>> files = new LinkedList<>();
                 Stream.of(allFiles).filter(file -> !(file.isDirectory() && file.getName().equals(".git"))).forEach(file -> {
+                    final String uniqueName = repositoryName + file.getPath().split(repositoryName)[1];
                     if (file.isDirectory()) {
-                        directories.add(new LocalDirectoryImpl(file.getName(), file.toPath()));
+                        directories.add(new LocalDirectoryImpl(uniqueName, file.toPath()));
                     } else {
-                        System.out.println(file.getPath());
-                        files.add(new LocalFileImpl(file.getName(), file.toPath()));
+                        files.add(new LocalFileImpl(uniqueName, file.toPath()));
                     }
                 });
                 return Optional.of(new LocalCollection(files, directories));
