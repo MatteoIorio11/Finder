@@ -15,8 +15,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Check the difference between two branches
+ */
 public class CheckDifference {
     private final static String GITHUB_URL = "https://github.com";
+    /**
+     * Check the difference between two branches
+     * @param user the user
+     * @param repo the repository
+     * @param accessToken the access token
+     * @param localPath the local path
+     * @param branchA the first branch
+     * @param branchB the second branch
+     * @return the list of differences
+     * @throws MalformedURLException if the URL is malformed
+     */
     public static List<Map.Entry<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>>  checkDifference(final String user, final String repo, final String accessToken, final String localPath, final String branchA, final String branchB) throws MalformedURLException {
         final URL url = URI.create(GITHUB_URL + "/" + user + "/" + repo + "/tree/" + branchA).toURL();
         BranchSwitcher.switchBranch(localPath, branchB);
@@ -24,9 +38,7 @@ public class CheckDifference {
         final AbstractRepository<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> localRepository = RepositoryFactory.localRepository(repo, Path.of(localPath));
         final List<Map.Entry<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>>  output = new LinkedList<>(checkForDifferences(commonFilesFromRepository(localRepository, remoteRepository)));
         checkCommonDirectoriesFromRepository(localRepository, remoteRepository)
-                .forEach(entry -> {
-                    output.addAll(recursiveCheck(checkCommonDirectories(entry.getKey(), entry.getValue())));
-                });
+                .forEach(entry -> output.addAll(recursiveCheck(checkCommonDirectories(entry.getKey(), entry.getValue()))));
         return output;
     }
 
@@ -40,8 +52,6 @@ public class CheckDifference {
                 });
         return differences;
     }
-
-
 
     private static List<Map.Entry<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>> commonFilesFromRepository(final AbstractRepository<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> localRepository, final AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository) {
         return localRepository.getFiles().stream()

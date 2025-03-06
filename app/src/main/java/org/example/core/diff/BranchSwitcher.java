@@ -5,7 +5,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * A utility class to switch branches in a Git repository.
+ */
 public class BranchSwitcher {
+    /**
+     * Switches the branch of a Git repository.
+     *
+     * @param repositoryPath the path to the Git repository
+     * @param branchName     the name of the branch to switch to
+     */
     public static void switchBranch(final String repositoryPath, final String branchName) {
         try {
             // Step 1: Get the current branch
