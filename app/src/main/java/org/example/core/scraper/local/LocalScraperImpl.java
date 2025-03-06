@@ -25,7 +25,7 @@ public class LocalScraperImpl extends AbstractScraper<Path, AbstractRepositoryDi
     }
 
     @Override
-    protected Optional<LocalCollection> readFromPath(final Path path, final Optional<String> token) {
+    protected Optional<LocalCollection> readFromPath(final String repositoryName, final Path path, final Optional<String> token) {
         final File rootDirectory = new File(path.toString());
         if (rootDirectory.exists() && rootDirectory.listFiles() != null) {
             final File[] allFiles = rootDirectory.listFiles();
@@ -36,6 +36,7 @@ public class LocalScraperImpl extends AbstractScraper<Path, AbstractRepositoryDi
                     if (file.isDirectory()) {
                         directories.add(new LocalDirectoryImpl(file.getName(), file.toPath()));
                     } else {
+                        System.out.println(file.getPath());
                         files.add(new LocalFileImpl(file.getName(), file.toPath()));
                     }
                 });

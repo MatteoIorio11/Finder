@@ -31,7 +31,7 @@ public class RemoteScraperImpl extends AbstractScraper<URL, AbstractRepositoryDi
     }
 
     @Override
-    protected Optional<RemoteCollection> readFromPath(URL path, Optional<String> token) {
+    protected Optional<RemoteCollection> readFromPath(final String repositoryName, final URL path, final Optional<String> token) {
         if(token.isEmpty()) {
             return Optional.empty();
         }

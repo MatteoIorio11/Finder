@@ -20,24 +20,24 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
 
     protected void buildRepository(final P path, final AbstractRepository<P, X, Y> repository, final Optional<String> inputToken) {
         final Set<String> seen = new HashSet<>();
-        this.readFromPath(path, inputToken).ifPresent(collection -> {
+        this.readFromPath(repository.getName(), path, inputToken).ifPresent(collection -> {
             collection.getFiles().forEach(repository::addFile);
             collection.getDirectories().forEach(directory -> {
-                buildDirectory(directory, inputToken, seen);
+                buildDirectory(repository.getName(), directory, inputToken, seen);
                 repository.addDirectory(directory);
             });
         });
     }
-    protected void buildDirectory(@NotNull final AbstractRepositoryDirectory<P, Y> directory, @NotNull final Optional<String> token, @NotNull final Set<String> seen) {
+    protected void buildDirectory(@NotNull final String repositoryName, @NotNull final AbstractRepositoryDirectory<P, Y> directory, @NotNull final Optional<String> token, @NotNull final Set<String> seen) {
         if (seen.contains(directory.getPath().toString()) || Objects.isNull(directory.getPath())) {
             return;
         }
         seen.add(directory.getPath().toString());
         if(this.needSleep) {this.sleep();}
-        this.readFromPath(directory.getPath(), token).ifPresent(collection -> {
+        this.readFromPath(repositoryName, directory.getPath(), token).ifPresent(collection -> {
             collection.getFiles().forEach(directory::addFile);
             collection.getDirectories().forEach(innerDirectory -> {
-                this.buildDirectory(innerDirectory, token, seen);
+                this.buildDirectory(repositoryName, innerDirectory, token, seen);
                 directory.addDirectory(innerDirectory);
             });
         });
@@ -49,5 +49,5 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
         } catch (InterruptedException ignored) {}
     }
 
-    protected abstract Optional<Z> readFromPath(final P path, final Optional<String> token);
+    protected abstract Optional<Z> readFromPath(final String repositoryName, final P path, final Optional<String> token);
 }
