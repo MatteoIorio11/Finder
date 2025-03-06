@@ -22,6 +22,7 @@ public class LocalScraperImpl extends AbstractScraper<Path, AbstractRepositoryDi
 
     @Override
     public AbstractRepository<Path,  AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>,  AbstractRepositoryFile<Path>> getRepository(final String repositoryName, final Path repositoryPath, final Optional<String> inputToken) {
+        logger.info("Creating repository: " + repositoryName);
         final var repository = new LocalRepositoryImpl(repositoryName, repositoryPath);
         this.buildRepository(repositoryPath, repository, inputToken);
         return repository;
@@ -29,6 +30,7 @@ public class LocalScraperImpl extends AbstractScraper<Path, AbstractRepositoryDi
 
     @Override
     protected Optional<LocalCollection> readFromPath(final String repositoryName, final Path path, final Optional<String> token) {
+        logger.info("Reading from path: " + path);
         final File rootDirectory = new File(path.toString());
         if (rootDirectory.exists() && rootDirectory.listFiles() != null) {
             final File[] allFiles = rootDirectory.listFiles();

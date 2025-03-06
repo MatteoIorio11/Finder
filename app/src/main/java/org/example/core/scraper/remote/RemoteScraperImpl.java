@@ -25,6 +25,7 @@ public class RemoteScraperImpl extends AbstractScraper<URL, AbstractRepositoryDi
 
     @Override
     public AbstractRepository<URL,  AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> getRepository(final String repositoryName, final URL repositoryPath, final Optional<String> inputToken) {
+        logger.info("Creating repository: " + repositoryName);
         if (inputToken.isEmpty()) {
             throw new IllegalArgumentException("Token is required to access the repository");
         }
@@ -35,6 +36,7 @@ public class RemoteScraperImpl extends AbstractScraper<URL, AbstractRepositoryDi
 
     @Override
     protected Optional<RemoteCollection> readFromPath(final String repositoryName, final URL path, final Optional<String> token) {
+        logger.info("Reading from path: " + path);
         if(token.isEmpty()) {
             return Optional.empty();
         }

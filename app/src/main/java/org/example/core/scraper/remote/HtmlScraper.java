@@ -6,6 +6,8 @@ import org.example.core.repository.remote.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URL;
@@ -22,6 +24,7 @@ import java.util.stream.Stream;
  */
 public class HtmlScraper {
     private final static String GITHUB = "https://github.com";
+    private final static Logger logger = LoggerFactory.getLogger(HtmlScraper.class);
 
     /**
      * Scrape the HTML page
@@ -30,6 +33,7 @@ public class HtmlScraper {
      */
     static public Optional<RemoteCollection> scrape(final String htmlPage) {
         try {
+            logger.info("Scraping HTML page");
             final Document document = Jsoup.parse(htmlPage, Parser.htmlParser());
             final List<AbstractRepositoryFile<URL>> files = new LinkedList<>();
             final List<AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>> directories = new LinkedList<>();
@@ -46,10 +50,13 @@ public class HtmlScraper {
                             } else {
                                 directories.add(new RemoteDirectoryImpl(uniqueName, URI.create(newPath).toURL()));
                             }
-                        }catch (Exception ignored) {}
+                        }catch (Exception ignored) {
+                            logger.error("Failed to create file or directory");
+                        }
                     });
             return Optional.of(new RemoteCollection(files, directories));
         }catch (Exception ignored) {
+            logger.error("Failed to scrape HTML page");
             return Optional.empty();
         }
     }
