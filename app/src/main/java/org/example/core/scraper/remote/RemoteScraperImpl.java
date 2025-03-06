@@ -25,7 +25,7 @@ public class RemoteScraperImpl extends AbstractScraper<URL, AbstractRepositoryDi
         if (inputToken.isEmpty()) {
             throw new IllegalArgumentException("Token is required to access the repository");
         }
-        final AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> repository = new RemoteRepositoryImpl("", null);
+        final AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> repository = new RemoteRepositoryImpl(repositoryPath.toString(), repositoryPath);
         this.buildRepository(repositoryPath, repository, inputToken);
         return repository;
     }
