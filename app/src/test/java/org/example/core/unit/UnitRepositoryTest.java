@@ -18,8 +18,12 @@ import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UnitRepositoryTest {
+public class UnitRepositoryTest extends AbstractRepositoryElementTest<URL> {
     private static AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository;
+
+    public UnitRepositoryTest() {
+        super(remoteRepository);
+    }
     @BeforeAll
     public static void init() throws MalformedURLException {
         remoteRepository = new RemoteRepositoryImpl("RepositoryTest", URI.create("https://github.com/MatteoIorio11/PPS-23-ScalaSim").toURL());
