@@ -13,16 +13,32 @@ import java.net.URL;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class AbstractRepositoryElementTest {
+public abstract class AbstractRepositoryElementTest<T> {
+    private final RepositoryElement<T> element;
+
+    public AbstractRepositoryElementTest(final RepositoryElement<T> element) {
+        this.element = element;
+    }
+
+    @Description("The named of the element and the path should not be null")
+    @Test
+    @Tag("unit")
+    public void testElementParametersAreNotNull() {
+        assertNotNull(this.element.getName());
+        assertNotNull(this.element.getPath());
+    }
+
     @Description("Creating a new Repository element it should be possible to retrieve the name")
     @Test
     @Tag("unit")
     public void testGetName() throws MalformedURLException {
-        final RepositoryElement<URL> remoteFile = new RemoteFileImpl("test", URI.create("https://github.com/MatteoIorio11/PPS-23-ScalaSim").toURL());
-        final RepositoryElement<Path> localFile = new LocalFileImpl("test", Path.of("src/test/resources"));
-        assertEquals("test", remoteFile.getName());
-        assertEquals("test", localFile.getName());
+        final String expected = "test";
+        final RepositoryElement<URL> remoteFile = new RemoteFileImpl(expected, URI.create("https://github.com/MatteoIorio11/PPS-23-ScalaSim").toURL());
+        final RepositoryElement<Path> localFile = new LocalFileImpl(expected, Path.of("src/test/resources"));
+        assertEquals(expected, remoteFile.getName());
+        assertEquals(expected, localFile.getName());
     }
 
     @Description("Creating a new Repository element it should be possible to retrieve the path")
