@@ -51,4 +51,18 @@ public class UnitRepositoryTest extends AbstractSecretConfigurator {
     public void testQueryNonExistingFile() {
         assertFalse(remoteRepository.hasFile("nonExistingFile"));
     }
+
+    @Description("Adding a null directory to a repository should throw an exception")
+    @Test
+    @Tag("unit")
+    public void testAddNullDirectory() {
+        assertThrows(NullPointerException.class, () -> remoteRepository.addDirectory(null));
+    }
+
+    @Description("Adding a null file to a repository should throw an exception")
+    @Test
+    @Tag("unit")
+    public void testAddNullFile() {
+        assertThrows(NullPointerException.class, () -> remoteRepository.addFile(null));
+    }
 }
