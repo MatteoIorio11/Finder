@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DirectoryUnitTest extends AbstractRepositoryElementUnitTest<Path> {
     private static AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>> directory;
@@ -49,4 +48,19 @@ public class DirectoryUnitTest extends AbstractRepositoryElementUnitTest<Path> {
         assertEquals(innerDirectory, directory.getDirectory("InnerDirectoryTest").get());
     }
 
+    @Description("Checking for a directory that does not exist should return false")
+    @Test
+    @Tag("unit")
+    public void testNonExistingDirectory() {
+        assertFalse(directory.hasDirectory("NonExistingDirectory"));
+        assertTrue(directory.getDirectory("NonExistingDirectory").isEmpty());
+    }
+
+    @Description("Checking for a file that does not exist should return false")
+    @Test
+    @Tag("unit")
+    public void testNonExistingFile() {
+        assertFalse(directory.hasFile("NonExistingFile"));
+        assertTrue(directory.getFile("NonExistingFile").isEmpty());
+    }
 }
