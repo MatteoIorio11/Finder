@@ -6,6 +6,7 @@ import org.example.core.scraper.remote.RemoteScraperImpl;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Optional;
@@ -43,6 +44,9 @@ public class RepositoryFactory {
      * @return the repository
      */
     public static AbstractRepository<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> localRepository(final String repoName, final Path repositoryPath) {
+        if(Objects.isNull(repositoryPath) || Files.exists(repositoryPath)) {
+            throw new IllegalArgumentException("The repository path cannot be null or the path does not exist");
+        }
         return new LocalScraperImpl().getRepository(repoName, repositoryPath, Optional.empty());
     }
 }
