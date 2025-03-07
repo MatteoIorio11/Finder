@@ -6,6 +6,7 @@ import org.example.core.repository.AbstractRepository;
 import org.example.core.repository.AbstractRepositoryDirectory;
 import org.example.core.repository.AbstractRepositoryFile;
 import org.example.core.repository.remote.RemoteDirectoryImpl;
+import org.example.core.repository.remote.RemoteFileImpl;
 import org.example.core.repository.remote.RemoteRepositoryImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -74,5 +75,15 @@ public class UnitRepositoryTest {
         remoteRepository.addDirectory(directory);
         assertTrue(remoteRepository.hasDirectory("directory"));
         assertNotNull(remoteRepository.getDirectory("directory"));
+    }
+
+    @Description("Adding a file inside a repository, It should be possible to retrieve it")
+    @Test
+    @Tag("unit")
+    public void testAddFile() throws MalformedURLException {
+        final var file = new RemoteFileImpl("file", URI.create("https://github.com/MatteoIorio11/PPS-23-ScalaSim").toURL());
+        remoteRepository.addFile(file);
+        assertTrue(remoteRepository.hasFile("file"));
+        assertNotNull(remoteRepository.getFile("file"));
     }
 }
