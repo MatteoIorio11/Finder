@@ -3,7 +3,9 @@ package org.example.core.repository;
 import org.example.core.scraper.local.LocalScraperImpl;
 import org.example.core.scraper.remote.RemoteScraperImpl;
 
+import java.io.IOException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,7 +23,16 @@ public class RepositoryFactory {
      * @return the repository
      */
     public static AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository(final String repoName, final URL repositoryUrl, final String token) {
-        return new RemoteScraperImpl().getRepository(repoName, Objects.requireNonNull(repositoryUrl), Optional.of(Objects.requireNonNull(token)));
+        if(Objects.isNull(repositoryUrl) || Objects.isNull(token)) {
+            throw new IllegalArgumentException("The repository token/url cannot be null");
+        }
+        try {
+            final URLConnection myURLConnection = repositoryUrl.openConnection();
+            myURLConnection.connect();
+            return new RemoteScraperImpl().getRepository(repoName, Objects.requireNonNull(repositoryUrl), Optional.of(Objects.requireNonNull(token)));
+        } catch (IOException e) {
+            throw new IllegalArgumentException("The repository URL is invalid");
+        }
     }
 
     /**
