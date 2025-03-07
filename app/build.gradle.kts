@@ -24,6 +24,8 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("ch.qos.logback:logback-classic:1.4.14")
     implementation(libs.guava)
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -31,6 +33,10 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 application {
