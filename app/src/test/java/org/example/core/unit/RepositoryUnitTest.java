@@ -18,10 +18,10 @@ import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UnitRepositoryTest extends AbstractRepositoryElementTest<URL> {
+public class RepositoryUnitTest extends AbstractRepositoryElementUnitTest<URL> {
     private static AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository;
 
-    public UnitRepositoryTest() {
+    public RepositoryUnitTest() {
         super(remoteRepository);
     }
     @BeforeAll

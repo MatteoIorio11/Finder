@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-public class SecretConfiguratorTest {
+public class SecretConfiguratorUnitTest {
     @AfterAll
     public static void setProperties() {
         SecretConfigurator.readSecrets("src/test/resources", ".env");
