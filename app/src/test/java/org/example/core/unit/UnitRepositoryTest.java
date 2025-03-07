@@ -5,6 +5,7 @@ import jdk.jfr.Description;
 import org.example.core.repository.AbstractRepository;
 import org.example.core.repository.AbstractRepositoryDirectory;
 import org.example.core.repository.AbstractRepositoryFile;
+import org.example.core.repository.remote.RemoteDirectoryImpl;
 import org.example.core.repository.remote.RemoteRepositoryImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -14,10 +15,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class UnitRepositoryTest extends AbstractSecretConfigurator {
+public class UnitRepositoryTest {
     private static AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository;
     @BeforeAll
     public static void init() throws MalformedURLException {
@@ -64,5 +64,15 @@ public class UnitRepositoryTest extends AbstractSecretConfigurator {
     @Tag("unit")
     public void testAddNullFile() {
         assertThrows(NullPointerException.class, () -> remoteRepository.addFile(null));
+    }
+
+    @Description("Adding a directory inside a repository, It should be possible to retrieve it")
+    @Test
+    @Tag("unit")
+    public void testAddDirectory() throws MalformedURLException {
+        final var directory = new RemoteDirectoryImpl("directory", URI.create("https://github.com/MatteoIorio11/PPS-23-ScalaSim").toURL());
+        remoteRepository.addDirectory(directory);
+        assertTrue(remoteRepository.hasDirectory("directory"));
+        assertNotNull(remoteRepository.getDirectory("directory"));
     }
 }
