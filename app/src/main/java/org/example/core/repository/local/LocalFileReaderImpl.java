@@ -13,7 +13,8 @@ public class LocalFileReaderImpl extends AbstractFileReader<Path> {
     public String getContent(Path path) {
         try {
             return Files.readString(path);
-        }catch (IOException ignored) {}
-        return "";
+        }catch (IOException ignored) {
+            throw new RuntimeException("File not found");
+        }
     }
 }
