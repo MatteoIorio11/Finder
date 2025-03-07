@@ -78,7 +78,9 @@ public class RepositoryUnitTest extends AbstractRepositoryElementUnitTest<URL> {
         final var directory = new RemoteDirectoryImpl("directory", URI.create("https://github.com/MatteoIorio11/PPS-23-ScalaSim").toURL());
         remoteRepository.addDirectory(directory);
         assertTrue(remoteRepository.hasDirectory("directory"));
-        assertNotNull(remoteRepository.getDirectory("directory"));
+        assertTrue(remoteRepository.getDirectory("directory").isPresent());
+        assertEquals(directory, remoteRepository.getDirectory("directory").get());
+        assertFalse(remoteRepository.getDirectories().isEmpty());
     }
 
     @Description("Adding a file inside a repository, It should be possible to retrieve it")
@@ -88,6 +90,8 @@ public class RepositoryUnitTest extends AbstractRepositoryElementUnitTest<URL> {
         final var file = new RemoteFileImpl("file", URI.create("https://github.com/MatteoIorio11/PPS-23-ScalaSim").toURL());
         remoteRepository.addFile(file);
         assertTrue(remoteRepository.hasFile("file"));
-        assertNotNull(remoteRepository.getFile("file"));
+        assertTrue(remoteRepository.getFile("file").isPresent());
+        assertEquals(file, remoteRepository.getFile("file").get());
+        assertFalse(remoteRepository.getFiles().isEmpty());
     }
 }
