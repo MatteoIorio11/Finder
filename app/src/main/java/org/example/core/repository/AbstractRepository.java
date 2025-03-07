@@ -24,8 +24,8 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * @param path the path of the repository
      */
     protected AbstractRepository(final String name, final P path) {
-        this.name = name;
-        this.path = path;
+        this.name = Objects.requireNonNull(name);
+        this.path = Objects.requireNonNull(path);
         this.directories = new HashMap<>();
         this.files = new HashMap<>();
         logger.info("Created repository: {}", this);
