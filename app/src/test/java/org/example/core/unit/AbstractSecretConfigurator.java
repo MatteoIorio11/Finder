@@ -28,6 +28,6 @@ public abstract class AbstractSecretConfigurator {
     public void testCheckIfSecretsAreLoaded() {
         SecretConfigurator.readSecrets("src/test/resources", ".env");
         assertFalse(System.getProperties().isEmpty());
-        assertNotNull(System.getProperty("GITHUB_TOKEN"));
+        assertNotNull(System.getProperty("TEST"));
     }
 }
