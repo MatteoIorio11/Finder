@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-public abstract class AbstractSecretConfigurator {
+public class SecretConfiguratorTest {
     @AfterAll
     public static void setProperties() {
         SecretConfigurator.readSecrets("src/test/resources", ".env");
