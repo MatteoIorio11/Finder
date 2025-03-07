@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UnitRepositoryTest extends AbstractSecretConfigurator {
@@ -35,5 +36,19 @@ public class UnitRepositoryTest extends AbstractSecretConfigurator {
     @Tag("unit")
     public void testCreateRepositoryWithNullPath() {
         assertThrows(NullPointerException.class, () -> new RemoteRepositoryImpl("RepositoryTest", null));
+    }
+
+    @Description("Querying a repository with a non existing directory should return False")
+    @Test
+    @Tag("unit")
+    public void testQueryNonExistingDirectory() {
+        assertFalse(remoteRepository.hasDirectory("nonExistingDirectory"));
+    }
+
+    @Description("Querying a repository with a non existing file should return False")
+    @Test
+    @Tag("unit")
+    public void testQueryNonExistingFile() {
+        assertFalse(remoteRepository.hasFile("nonExistingFile"));
     }
 }
