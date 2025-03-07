@@ -8,10 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An abstract scraper
@@ -48,7 +45,7 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
      */
     protected void buildRepository(final P path, final AbstractRepository<P, X, Y> repository, final Optional<String> inputToken) {
         logger.info("Building repository: " + repository.getName());
-        final Set<String> seen = new HashSet<>();
+            final Set<String> seen = new HashSet<>();
         this.readFromPath(repository.getName(), path, inputToken).ifPresent(collection -> {
             collection.getFiles().forEach(repository::addFile);
             collection.getDirectories().forEach(directory -> {
@@ -61,24 +58,29 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
 
     /**
      * Build a directory recursively using the readFromPath method
-     * @param repositoryName the name of the repository
+     * @param directoryName the name of the repository
      * @param directory the directory to build
      * @param token the token
-     * @param seen the set of seen paths
      */
-    protected void buildDirectory(@NotNull final String repositoryName, @NotNull final AbstractRepositoryDirectory<P, Y> directory, @NotNull final Optional<String> token, @NotNull final Set<String> seen) {
+    protected void buildDirectory(@NotNull final String directoryName, @NotNull final AbstractRepositoryDirectory<P, Y> directory, @NotNull final Optional<String> token, @NotNull final Set<String> seen) {
         if (seen.contains(directory.getPath().toString()) || Objects.isNull(directory.getPath())) {
             return;
         }
-        seen.add(directory.getPath().toString());
-        if(this.needSleep) {this.sleep();}
-        this.readFromPath(repositoryName, directory.getPath(), token).ifPresent(collection -> {
-            collection.getFiles().forEach(directory::addFile);
-            collection.getDirectories().forEach(innerDirectory -> {
-                this.buildDirectory(repositoryName, innerDirectory, token, seen);
-                directory.addDirectory(innerDirectory);
+        final List<AbstractRepositoryDirectory<P, Y>> directories = new Stack<>();
+        directories.add(directory);
+        while(!directories.isEmpty()) {
+            if(this.needSleep) {this.sleep();}
+            final var currentDirectory = directories.removeFirst();
+            this.readFromPath(directoryName, currentDirectory.getPath(), token).ifPresent(collection -> {
+                collection.getFiles().forEach(currentDirectory::addFile);
+                collection.getDirectories().forEach(innerDirectory -> {
+                    if (!seen.contains(innerDirectory.getPath().toString())) {
+                        directories.add(innerDirectory);
+                        currentDirectory.addDirectory(innerDirectory);
+                    }
+                });
             });
-        });
+        }
     }
 
     /**
