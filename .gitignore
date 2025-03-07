@@ -1,4 +1,4 @@
 .gradle
 .idea
 **/build
-**/.env
+app/src/main/resources/.env

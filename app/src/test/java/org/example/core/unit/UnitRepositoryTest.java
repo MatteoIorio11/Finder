@@ -30,5 +30,10 @@ public class UnitRepositoryTest extends AbstractSecretConfigurator {
         assertThrows(IllegalArgumentException.class, () -> new RemoteRepositoryImpl(null, URI.create("www.example.com").toURL()));
     }
 
-    
+    @Description("Creating a repository with a null path should throw an exception")
+    @Test
+    @Tag("unit")
+    public void testCreateRepositoryWithNullPath() {
+        assertThrows(NullPointerException.class, () -> new RemoteRepositoryImpl("RepositoryTest", null));
+    }
 }
