@@ -29,7 +29,7 @@ public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
     }
 
     public String getContent(final URL path) {
-        final Optional<String> token = Optional.ofNullable(System.getenv("GITHUB_TOKEN"));
+        final Optional<String> token = Optional.ofNullable(System.getProperty("GITHUB_TOKEN"));
         if(token.isEmpty()) {
             throw new IllegalArgumentException("The GITHUB_TOKEN environment variable is not set");
         }
