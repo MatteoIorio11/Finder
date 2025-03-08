@@ -66,11 +66,11 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
         if (seen.contains(directory.getPath().toString()) || Objects.isNull(directory.getPath())) {
             return;
         }
-        final List<AbstractRepositoryDirectory<P, Y>> directories = new Stack<>();
+        final Stack<AbstractRepositoryDirectory<P, Y>> directories = new Stack<>();
         directories.add(directory);
         while(!directories.isEmpty()) {
             if(this.needSleep) {this.sleep();}
-            final var currentDirectory = directories.removeFirst();
+            final var currentDirectory = directories.pop();
             this.readFromPath(directoryName, currentDirectory.getPath(), token).ifPresent(collection -> {
                 collection.getFiles().forEach(currentDirectory::addFile);
                 collection.getDirectories().forEach(innerDirectory -> {
