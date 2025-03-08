@@ -17,10 +17,21 @@ public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
     private final static OkHttpClient client = new OkHttpClient();
     public RemoteFileReaderImpl(){}
 
+    public void checkURL(final URL url) {
+        if(Objects.isNull(url)) {
+            throw new IllegalArgumentException("The URL cannot be null");
+        }
+        try {
+            url.openConnection().connect();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String getContent(final URL path) {
         final Optional<String> token = Optional.ofNullable(System.getenv("GITHUB_TOKEN"));
         if(token.isEmpty()) {
-            return "";
+            throw new IllegalArgumentException("The GITHUB_TOKEN environment variable is not set");
         }
         final Request request = new Request.Builder()
                 .url(path)
@@ -37,7 +48,9 @@ public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
                             .forEach(System.out::println);
                 }
             }
-        } catch (IOException ignored) {}
+        } catch (IOException exception) {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
         return "";
     }
 }
