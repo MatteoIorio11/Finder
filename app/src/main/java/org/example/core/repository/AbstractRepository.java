@@ -1,6 +1,6 @@
 package org.example.core.repository;
 
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +45,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * Add a directory to the repository
      * @param directory the directory to add
      */
-    public void addDirectory(@NotNull final X directory) {
+    public void addDirectory(@NonNull final X directory) {
         logger.info("Adding directory: " + directory.getName());
         this.directories.put(directory.getName(), directory);
     }
@@ -54,7 +54,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * Add a file to the repository
      * @param file the file to add
      */
-    public void addFile(@NotNull final Y file){
+    public void addFile(@NonNull final Y file){
         logger.info("Adding file: " + file.getName());
         this.files.put(file.getName(), file);
     }
@@ -78,7 +78,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * @param name the name of the directory
      * @return true if the repository has a directory with the given name, false otherwise
      */
-    public boolean hasDirectory(@NotNull final String name){
+    public boolean hasDirectory(@NonNull final String name){
         logger.info("Checking if repository has directory: " + name);
         return this.directories.containsKey(name);
     }
@@ -88,7 +88,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * @param name the name of the directory
      * @return the directory with the given name
      */
-    public Optional<X> getDirectory(@NotNull final String name){
+    public Optional<X> getDirectory(@NonNull final String name){
         return Optional.ofNullable(this.directories.get(name));
     }
 
@@ -97,7 +97,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * @param name the name of the file
      * @return the file with the given name
      */
-    public Optional<Y> getFile(@NotNull final String name){
+    public Optional<Y> getFile(@NonNull final String name){
         return Optional.ofNullable(this.files.get(name));
     }
 
@@ -106,7 +106,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      * @param name the name of the file
      * @return true if the repository has a file with the given name, false otherwise
      */
-    public boolean hasFile(final @NotNull String name){
+    public boolean hasFile(final @NonNull String name){
         logger.info("Checking if repository has file: " + name);
         return this.files.containsKey(name);
     }

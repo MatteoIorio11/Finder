@@ -1,8 +1,8 @@
 package org.example.core.repository.remote;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import org.example.core.repository.AbstractFileReader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,7 +13,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
     private final static OkHttpClient client = new OkHttpClient();
@@ -41,14 +40,13 @@ public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
                 .header("Accept", "application/vnd.github.v3+json")
                 .build();
         try {
-            try (final Response response = client.newCall(request).execute()) {
-                if (response.isSuccessful() && Objects.nonNull(response.body())) {
-                    final Document document = Jsoup.parse(response.body().string());
-                    return document.getAllElements().stream()
-                            .filter(element -> element.id().contains("LC"))
-                            .map(Element::wholeText)
-                            .toList();
-                }
+            final Response response = client.newCall(request).execute();
+            if (response.isSuccessful() && Objects.nonNull(response.body())) {
+                final Document document = Jsoup.parse(response.body().string());
+                return document.getAllElements().stream()
+                        .filter(element -> element.id().contains("LC"))
+                        .map(Element::wholeText)
+                        .toList();
             }
         } catch (IOException exception) {
             throw new IllegalArgumentException(exception.getMessage());

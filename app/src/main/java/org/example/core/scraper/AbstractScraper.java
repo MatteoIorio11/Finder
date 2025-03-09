@@ -1,10 +1,10 @@
 package org.example.core.scraper;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.example.core.repository.AbstractRepository;
 import org.example.core.repository.RepositoryCollection;
 import org.example.core.repository.AbstractRepositoryDirectory;
 import org.example.core.repository.AbstractRepositoryFile;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +62,7 @@ public abstract class AbstractScraper<P, X extends AbstractRepositoryDirectory<P
      * @param directory the directory to build
      * @param token the token
      */
-    protected void buildDirectory(@NotNull final String directoryName, @NotNull final AbstractRepositoryDirectory<P, Y> directory, @NotNull final Optional<String> token, @NotNull final Set<String> seen) {
+    protected void buildDirectory(@NonNull final String directoryName, @NonNull final AbstractRepositoryDirectory<P, Y> directory, @NonNull final Optional<String> token, @NonNull final Set<String> seen) {
         if (seen.contains(directory.getPath().toString()) || Objects.isNull(directory.getPath())) {
             return;
         }

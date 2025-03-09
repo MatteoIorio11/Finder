@@ -1,8 +1,6 @@
 package org.example.core.scraper.remote;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.squareup.okhttp.*;
 import org.example.core.repository.AbstractRepository;
 import org.example.core.repository.AbstractRepositoryDirectory;
 import org.example.core.repository.AbstractRepositoryFile;
@@ -46,10 +44,9 @@ public class RemoteScraperImpl extends AbstractScraper<URL, AbstractRepositoryDi
                 .header("Accept", "application/vnd.github.v3+json")
                 .build();
         try {
-            try (final Response response = client.newCall(request).execute()) {
-                if (response.isSuccessful() && Objects.nonNull(response.body())) {
-                    return HtmlScraper.scrape(response.body().string());
-                }
+            final Response response = client.newCall(request).execute();
+            if (response.isSuccessful() && Objects.nonNull(response.body())) {
+                return HtmlScraper.scrape(response.body().string());
             }
         } catch (IOException ignored) {}
         return Optional.empty();

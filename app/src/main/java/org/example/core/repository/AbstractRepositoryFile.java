@@ -1,6 +1,6 @@
 package org.example.core.repository;
 
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> 
      * @param reader the reader to use
      * @return the content of the file
      */
-    public List<String> getContent(@NotNull final AbstractFileReader<P> reader) {
+    public List<String> getContent(@NonNull final AbstractFileReader<P> reader) {
         logger.info("Getting content of file: " + this.getName());
         return reader.getContent(this.getPath());
     }
