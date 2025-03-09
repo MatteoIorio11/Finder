@@ -8,7 +8,7 @@ import java.net.MalformedURLException;
 
 public class GUI {
     public static void main(String[] args) {
-        SecretConfigurator.readSecrets("app/src/main/resources/", ".env");
+        SecretConfigurator.readSecrets(ClassLoader.getSystemResource(".env").toString().split(".env")[0], ".env");
         SwingUtilities.invokeLater(GUI::createAndShowGUI);
     }
 
