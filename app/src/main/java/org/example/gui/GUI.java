@@ -28,9 +28,9 @@ public class GUI {
         final JTextField tokenField = new JTextField();
         final JLabel pathLabel = new JLabel("Local Repo Path:");
         final JTextField pathField = new JTextField();
-        final JLabel branchALabel = new JLabel("Branch A:");
+        final JLabel branchALabel = new JLabel("Branch A (remote):");
         final JTextField branchAField = new JTextField();
-        final JLabel branchBLabel = new JLabel("Branch B:");
+        final JLabel branchBLabel = new JLabel("Branch B (local):");
         final JTextField branchBField = new JTextField();
 
         panel.add(ownerLabel);
