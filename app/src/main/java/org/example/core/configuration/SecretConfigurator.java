@@ -7,4 +7,9 @@ public class SecretConfigurator {
         final Dotenv dotenv = Dotenv.configure().directory(secretPath).filename(fileName).load();
         dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
     }
+
+    public static void readTestSecrets() {
+        readSecrets("app/src/test/resources", ".env");
+    }
+
 }
