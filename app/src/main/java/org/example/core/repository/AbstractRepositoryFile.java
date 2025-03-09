@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -41,7 +42,7 @@ public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> 
      * @param reader the reader to use
      * @return the content of the file
      */
-    public String getContent(@NotNull final AbstractFileReader<P> reader) {
+    public List<String> getContent(@NotNull final AbstractFileReader<P> reader) {
         logger.info("Getting content of file: " + this.getName());
         return reader.getContent(this.getPath());
     }
