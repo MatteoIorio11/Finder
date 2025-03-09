@@ -18,15 +18,15 @@ repositories {
 dependencies {
     // Use JUnit test framework.
     testImplementation(libs.junit)
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
-    implementation("org.jsoup:jsoup:1.18.3")
-    implementation("io.github.cdimascio:dotenv-java:3.2.0")
-    implementation("org.slf4j:slf4j-api:2.0.17")
-    implementation("ch.qos.logback:logback-classic:1.4.14")
+    implementation(libs.okhttp)
+    implementation(libs.jsoup)
+    implementation(libs.dotenv)
+    implementation(libs.slf4j.api)
     implementation(libs.guava)
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
-    implementation("org.apache.commons:commons-text:1.13.0")
+    implementation(libs.logback.classic)
+    testImplementation(libs.jupiter.api)
+    testRuntimeOnly(libs.jupiter.engine)
+    implementation(libs.commons.text)
 
 }
 
