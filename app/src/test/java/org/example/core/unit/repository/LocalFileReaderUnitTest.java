@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +18,7 @@ public class LocalFileReaderUnitTest {
     @Test
     @Tag("unit")
     public void testContentOfExistingFileShouldExist() {
-        final String content = reader.getContent(Path.of("src/test/resources/.env"));
+        final List<String> content = reader.getContent(Path.of("src/test/resources/.env"));
         assertNotNull(content);
         assertFalse(content.isEmpty());
     }

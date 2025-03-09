@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Tag;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +20,7 @@ public class RemoteFileReaderUniTest {
     @Test
     @Tag("unit")
     public void testContentOfExistingFileShouldExist() throws MalformedURLException {
-        final String content = reader.getContent(URI.create("https://github.com/MatteoIorio11/MatteoIorio11/blob/main/README.md").toURL());
+        final List<String> content = reader.getContent(URI.create("https://github.com/MatteoIorio11/FinderTest/blob/main/file1").toURL());
         assertNotNull(content);
         assertFalse(content.isEmpty());
     }

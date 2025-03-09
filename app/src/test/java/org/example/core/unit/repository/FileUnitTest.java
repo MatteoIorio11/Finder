@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +28,7 @@ public class FileUnitTest extends AbstractRepositoryElementUnitTest<Path> {
     @Test
     @Tag("unit")
     public void testContentOfExistingFileShouldExist() {
-        final String content = file.getContent(new LocalFileReaderImpl());
+        final List<String> content = file.getContent(new LocalFileReaderImpl());
         assertNotNull(content);
         assertFalse(content.isEmpty());
     }
