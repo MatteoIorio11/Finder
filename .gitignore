@@ -2,3 +2,4 @@
 .idea
 **/build
 app/src/main/resources/.env
+**/FinderTest
