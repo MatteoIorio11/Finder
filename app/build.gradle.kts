@@ -26,6 +26,8 @@ dependencies {
     implementation(libs.guava)
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    implementation("org.apache.commons:commons-text:1.13.0")
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
