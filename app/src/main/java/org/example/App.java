@@ -4,6 +4,8 @@
 package org.example;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.apache.commons.lang3.SystemUtils;
+import org.example.core.configuration.SecretConfigurator;
 import org.example.core.diff.CheckDifference;
 
 import java.io.IOException;
@@ -11,14 +13,20 @@ import java.io.IOException;
 public class App {
 
     public static void main(String[] args) {
-        final Dotenv dotenv = Dotenv.configure().directory("src/main/resources").filename(".env").load();
-        dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
+        SecretConfigurator.readSecrets(".env");
         try {
-            final var o = CheckDifference.checkDifference("MatteoIorio11", "PPS-23-ScalaSim", System.getProperty("GITHUB_TOKEN"), "/Users/matteoiorio/Desktop/PPS-23-ScalaSim", "main", "dev");
+            final var o = CheckDifference
+                    .checkDifference("MatteoIorio11",
+                            "FinderTest",
+                            System.getProperty("GITHUB_TOKEN"),
+                            SystemUtils.getUserHome() + "/FinderTest",
+                            "main",
+                            "dev"
+                    );
             System.out.println("Differences:");
             o.forEach(entry -> {
-                System.out.println("Local: " + entry.getKey().getPath());
-                System.out.println("Remote: " + entry.getValue().getPath());
+                System.out.println("Local: " + entry.getKey().getName() + " - " + entry.getKey().getPath());
+                System.out.println("Remote: " + entry.getValue().getName() + " - " + entry.getValue().getPath());
             });
         }catch (IOException e) {
             e.printStackTrace();
