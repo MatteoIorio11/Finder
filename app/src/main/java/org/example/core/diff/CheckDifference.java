@@ -1,5 +1,6 @@
 package org.example.core.diff;
 
+import org.apache.commons.text.diff.StringsComparator;
 import org.example.core.repository.AbstractRepository;
 import org.example.core.repository.AbstractRepositoryDirectory;
 import org.example.core.repository.AbstractRepositoryFile;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Check the difference between two branches
@@ -42,7 +44,10 @@ public class CheckDifference {
         final AbstractRepository<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> localRepository = RepositoryFactory.localRepository(repo, Path.of(localPath));
         final List<Map.Entry<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>>  output = new LinkedList<>(checkForDifferences(commonFilesFromRepository(localRepository, remoteRepository)));
         checkCommonDirectoriesFromRepository(localRepository, remoteRepository)
-                .forEach(entry -> output.addAll(recursiveCheck(checkCommonDirectories(entry.getKey(), entry.getValue()))));
+                .forEach(entry -> {
+                    output.addAll(checkForDifferences(commonFilesFromDirectory(entry.getKey(), entry.getValue())));
+                    output.addAll(recursiveCheck(checkCommonDirectories(entry.getKey(), entry.getValue())));
+                });
         return output;
     }
 
@@ -102,7 +107,12 @@ public class CheckDifference {
         final var localReader = new LocalFileReaderImpl();
         final var remoteReader = new RemoteFileReaderImpl();
         return commonFiles.stream()
-                .filter(commonFile -> !commonFile.getKey().getContent(localReader).equals(commonFile.getValue().getContent(remoteReader)))
+                .filter(commonFile -> {
+                    final var content1 = String.join("\n", commonFile.getKey().getContent(localReader));
+                    final var content2 = String.join("\n", commonFile.getValue().getContent(remoteReader));
+                    final StringsComparator s = new StringsComparator(content1, content2);
+                    return s.getScript().getLCSLength() != content1.length();
+                })
                 .toList();
     }
 }
