@@ -9,7 +9,7 @@ public class SecretConfigurator {
     }
 
     public static void readTestSecrets() {
-        readSecrets("app/src/test/resources", ".env");
+        readSecrets("src/test/resources", ".env");
     }
 
 }
