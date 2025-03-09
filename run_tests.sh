@@ -7,4 +7,4 @@ mv FinderTest ${HOME}
 echo "## Running tests ##"
 ./gradlew test --parallel
 
-rm -rf ${HOME}/FinderTest
+#rm -rf ${HOME}/FinderTest
