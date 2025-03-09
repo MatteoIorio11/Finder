@@ -1,15 +1,13 @@
-package org.example.core.unit;
+package org.example.core.unit.repository;
 
 import jdk.jfr.Description;
 import org.example.core.repository.AbstractRepositoryFile;
-import org.example.core.repository.RepositoryElement;
 import org.example.core.repository.local.LocalFileImpl;
 import org.example.core.repository.local.LocalFileReaderImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;

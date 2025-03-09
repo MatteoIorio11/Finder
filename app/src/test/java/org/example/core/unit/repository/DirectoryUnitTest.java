@@ -1,9 +1,8 @@
-package org.example.core.unit;
+package org.example.core.unit.repository;
 
 import jdk.jfr.Description;
 import org.example.core.repository.AbstractRepositoryDirectory;
 import org.example.core.repository.AbstractRepositoryFile;
-import org.example.core.repository.RepositoryElement;
 import org.example.core.repository.local.LocalDirectoryImpl;
 import org.example.core.repository.local.LocalFileImpl;
 import org.junit.jupiter.api.BeforeAll;

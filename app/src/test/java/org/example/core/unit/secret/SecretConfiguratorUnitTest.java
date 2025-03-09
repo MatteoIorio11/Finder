@@ -1,4 +1,4 @@
-package org.example.core.unit;
+package org.example.core.unit.secret;
 
 import io.github.cdimascio.dotenv.DotenvException;
 import jdk.jfr.Description;
