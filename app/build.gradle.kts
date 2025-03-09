@@ -41,6 +41,11 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.register<JavaExec>("runWithGUI") {
+    mainClass.set("org.example.gui.GUI")
+    classpath = sourceSets["main"].runtimeClasspath
+}
+
 application {
     // Define the main class for the application.
     mainClass = "org.example.App"
