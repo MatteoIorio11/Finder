@@ -10,8 +10,10 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
     private final static OkHttpClient client = new OkHttpClient();
@@ -28,7 +30,7 @@ public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
         }
     }
 
-    public String getContent(final URL path) {
+    public List<String> getContent(final URL path) {
         final Optional<String> token = Optional.ofNullable(System.getProperty("GITHUB_TOKEN"));
         if(token.isEmpty()) {
             throw new IllegalArgumentException("The GITHUB_TOKEN environment variable is not set");
@@ -42,15 +44,15 @@ public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
             try (final Response response = client.newCall(request).execute()) {
                 if (response.isSuccessful() && Objects.nonNull(response.body())) {
                     final Document document = Jsoup.parse(response.body().string());
-                    document.getAllElements().stream()
+                    return document.getAllElements().stream()
                             .filter(element -> element.id().contains("LC"))
-                            .map(Element::text)
-                            .forEach(System.out::println);
+                            .map(Element::wholeText)
+                            .toList();
                 }
             }
         } catch (IOException exception) {
             throw new IllegalArgumentException(exception.getMessage());
         }
-        return "";
+        return List.of();
     }
 }

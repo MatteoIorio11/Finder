@@ -3,6 +3,8 @@ package org.example.core.repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * An abstract file reader.
  *
@@ -16,5 +18,5 @@ public abstract class AbstractFileReader<P> {
      * @param path the path of the file
      * @return the content of the file
      */
-    public abstract String getContent(final P path);
+    public abstract List<String> getContent(final P path);
 }
