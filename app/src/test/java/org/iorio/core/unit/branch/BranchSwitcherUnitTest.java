@@ -64,6 +64,17 @@ public class BranchSwitcherUnitTest {
                 () -> BranchSwitcher.switchBranch(path.get().getPath(), "branch")).getMessage());
     }
 
+    @Description("If the path is valid but It is not a git repository, an IllegalArgumentException should be thrown")
+    @Test
+    @Tag("unit")
+    public void testSwitchBranchWithNonGitRepository() {
+        final String path = SystemUtils.getJavaIoTmpDir().getPath();
+        assertThrows(IllegalArgumentException.class,
+                () -> BranchSwitcher.switchBranch(path, "branch"));
+        assertEquals("Not a git repository", assertThrows(IllegalArgumentException.class,
+                () -> BranchSwitcher.switchBranch(path, "branch")).getMessage());
+    }
+
     @Description("If the path is valid, then It should be possible to switch branches")
     @Test
     @Tag("unit")
