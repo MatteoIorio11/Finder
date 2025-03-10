@@ -46,6 +46,11 @@ tasks.register<JavaExec>("runWithGUI") {
     classpath = sourceSets["main"].runtimeClasspath
 }
 
+tasks.jar {
+    archiveBaseName.set("github-difference-finder")
+    archiveVersion.set("1.0")
+}
+
 application {
     // Define the main class for the application.
     mainClass = "org.example.App"
