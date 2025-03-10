@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+    id("com.github.johnrengelman.shadow") version "8.1.1" // Use the latest version
 }
 
 repositories {
@@ -42,7 +43,7 @@ tasks.test {
 }
 
 tasks.register<JavaExec>("runWithGUI") {
-    mainClass.set("org.example.gui.GUI")
+    mainClass.set("org.iorio.gui.GUI")
     classpath = sourceSets["main"].runtimeClasspath
 }
 
@@ -51,7 +52,14 @@ tasks.jar {
     archiveVersion.set("1.0")
 }
 
+tasks {
+    shadowJar {
+        archiveBaseName.set("github-difference-finder")
+        archiveVersion.set("1.0")
+    }
+}
+
 application {
     // Define the main class for the application.
-    mainClass = "org.example.App"
+    mainClass = "org.iorio.App"
 }
