@@ -1,4 +1,4 @@
-package org.iorio.core.unit;
+package org.iorio.core.integration.checker;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.iorio.core.configuration.SecretConfigurator;
