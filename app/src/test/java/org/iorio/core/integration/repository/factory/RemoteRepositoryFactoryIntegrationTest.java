@@ -33,9 +33,25 @@ public class RemoteRepositoryFactoryIntegrationTest {
                 "FinderTest/file2",
                 "FinderTest/.gitignore"
         );
+        final List<String> remoteDirectories = List.of(
+                "FinderTest/dir1"
+        );
+        final List<String> remoteFilesInDir1 = List.of(
+                "FinderTest/dir1/file3"
+        );
+        final var directory = remoteRepo.getDirectory("FinderTest/dir1");
         assertNotNull(remoteRepo);
+        // Check files and directories
         assertEquals(remoteFiles.size(), remoteRepo.getFiles().size());
+        assertEquals(remoteDirectories.size(), remoteRepo.getDirectories().size());
+        // Check the inner directory
+        assertTrue(directory.isPresent());
+        // Check all the files inside the directory
+        assertEquals(remoteFilesInDir1.size(), directory.get().getFiles().size());
+        // Check if all the files and directories are present
         assertTrue(remoteFiles.stream().allMatch(remoteRepo::hasFile));
+        assertTrue(remoteDirectories.stream().allMatch(remoteRepo::hasDirectory));
+        assertTrue(remoteFilesInDir1.stream().allMatch(directory.get()::hasFile));
     }
 
 }
