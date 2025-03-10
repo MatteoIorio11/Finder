@@ -6,6 +6,7 @@ import org.iorio.core.diff.CheckDifference;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class CheckDifferenceIntegrationTest {
                 .checkDifference("MatteoIorio11",
                         "FinderTest",
                         System.getProperty("GITHUB_TOKEN"),
-                        SystemUtils.getUserHome() + "/" + "FinderTest",
+                        SystemUtils.getUserHome() + File.separator + "FinderTest",
                         "main",
                         "dev"
                         );
