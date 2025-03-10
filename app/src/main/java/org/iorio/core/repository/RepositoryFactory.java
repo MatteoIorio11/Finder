@@ -24,13 +24,18 @@ public class RepositoryFactory {
      * @return the repository
      */
     public static AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository(final String repoName, final URL repositoryUrl, final String token) {
-        if(Objects.isNull(repositoryUrl) || Objects.isNull(token)) {
-            throw new IllegalArgumentException("The repository token/url cannot be null");
+        if(Objects.isNull(repositoryUrl) || Objects.isNull(token) || Objects.isNull(repoName)) {
+            final String message =
+                    "The repository " + (Objects.isNull(repositoryUrl) ? "URL" : Objects.isNull(token) ? "token" : "name") + " cannot be null";
+            throw new IllegalArgumentException(message);
         }
         try {
             final URLConnection myURLConnection = repositoryUrl.openConnection();
             myURLConnection.connect();
-            return new RemoteScraperImpl().getRepository(repoName, Objects.requireNonNull(repositoryUrl), Optional.of(Objects.requireNonNull(token)));
+            return new RemoteScraperImpl().getRepository(
+                    Objects.requireNonNull(repoName),
+                    Objects.requireNonNull(repositoryUrl),
+                    Optional.of(Objects.requireNonNull(token)));
         } catch (IOException e) {
             throw new IllegalArgumentException("The repository URL is invalid");
         }
