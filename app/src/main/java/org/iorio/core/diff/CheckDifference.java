@@ -27,9 +27,9 @@ public class CheckDifference {
     /**
      * Check the difference between two branches
      * @param user the user
-     * @param repo the repository
+     * @param repo the remote repository name
      * @param accessToken the access token
-     * @param localPath the local path
+     * @param localPath the local path where the repository is stored
      * @param branchA the first branch
      * @param branchB the second branch
      * @return the list of differences
