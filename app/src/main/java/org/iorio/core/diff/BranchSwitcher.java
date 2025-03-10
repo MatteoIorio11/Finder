@@ -31,6 +31,11 @@ public class BranchSwitcher {
             if (!Files.exists(path) || !Files.isDirectory(path)) {
                 throw new IllegalArgumentException("Repository path does not exist");
             }
+            // Check if File is a git repository
+            if (!Files.exists(Path.of(repositoryPath, ".git"))) {
+                throw new IllegalArgumentException("Not a git repository");
+            }
+
             logger.info("Switching branch to: " + branchName);
             // Step 1: Get the current branch
 
