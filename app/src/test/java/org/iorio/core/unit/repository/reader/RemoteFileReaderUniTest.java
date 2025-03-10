@@ -1,4 +1,4 @@
-package org.iorio.core.unit.repository;
+package org.iorio.core.unit.repository.reader;
 
 import jdk.jfr.Description;
 import org.iorio.core.repository.AbstractFileReader;
