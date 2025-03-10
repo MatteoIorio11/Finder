@@ -3,3 +3,4 @@
 **/build
 app/src/main/resources/.env
 **/FinderTest
+**/.env
