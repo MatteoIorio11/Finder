@@ -6,7 +6,10 @@ import org.iorio.core.diff.BranchSwitcher;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -60,4 +63,36 @@ public class BranchSwitcherUnitTest {
                 assertThrows(IllegalArgumentException.class,
                 () -> BranchSwitcher.switchBranch(path.get().getPath(), "branch")).getMessage());
     }
+
+    @Description("If the path is valid, then It should be possible to switch branches")
+    @Test
+    @Tag("unit")
+    public void testSwitchBranch() throws IOException, InterruptedException {
+        final String expectedBranch = "dev";
+        final String repoPath = SystemUtils.getUserHome() + File.separator + "FinderTest";
+        final String command = "git rev-parse --abbrev-ref HEAD";
+        BranchSwitcher.switchBranch(repoPath, expectedBranch);
+        final String currentBranch = executeCommand(new File(repoPath), command).trim();
+        assertEquals(expectedBranch, currentBranch);
+    }
+
+    private String executeCommand(File workingDir, String command) throws InterruptedException, IOException {
+        final ProcessBuilder processBuilder = new ProcessBuilder();
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            processBuilder.command("cmd.exe", "/c", command);
+        } else {
+            processBuilder.command("bash", "-c", command);
+        }
+        processBuilder.directory(workingDir);
+        final Process process = processBuilder.start();
+        process.waitFor();
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        final StringBuilder output = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            output.append(line).append("\n");
+        }
+        return output.toString();
+    }
+
 }
