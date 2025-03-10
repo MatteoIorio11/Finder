@@ -1,10 +1,11 @@
-package org.iorio.core.unit.repository;
+package org.iorio.core.unit.repository.directory;
 
 import jdk.jfr.Description;
 import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.iorio.core.repository.local.LocalDirectoryImpl;
 import org.iorio.core.repository.local.LocalFileImpl;
+import org.iorio.core.unit.repository.AbstractRepositoryElementUnitTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
