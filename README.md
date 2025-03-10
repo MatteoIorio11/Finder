@@ -1,10 +1,48 @@
-Assume there is a GitHub.com repository and it's local clone.
-The branch branchA is present in both: remote and local repositories. Local branchA is not necessarily synchronized with the remote branchA.
-The local branch branchB is created from branchA locally.
-Develop a library that can find all files with the same path that were changed in both branchA (remotely) and branchB (locally) independently since the merge base commit (latest common commit). Please assume that there is only one merge base between the branches, the same remotely and locally. Avoid fetching branchA in the library.
-You may ignore files that were changed, then rolled back.
-Values owner, repo, accessToken, localRepoPath, branchA, branchB are provided as parameters.
-It is assumed that for requests to the remote repository, the applicant will use GitHub REST or GraphQL API through any general-purpose HTTP client library and run git commands on the local repository via the command line execution.
-Libraries specific to GitHub and Git itself should not be used.
-Applicants are expected to have production level code, with tests and error handling. Results are accepted in the form of links to repositories on one or another VCS hosting service.
-We value interaction with candidates, so please do not hesitate to ask for clarification in respect to the task as needed.
+Link to repository: https://github.com/MatteoIorio11/Finder
+# Use the library
+## How to use the library
+If you want to use the library, you just need to add the jar file (https://github.com/MatteoIorio11/Finder/releases/tag/1.0) as your dependency. In order to do that, you just need to add the jar file as you dependency
+like this (gradle):
+```kotlin
+dependencies {
+    implementation(files("github-difference-finder-1.0-all.jar"))
+}
+```
+
+after that in order to use the library, you just need to call the function `checkDifference` like this:
+
+```java
+import org.iorio.core.diff.CheckDifference;
+
+final List<Map.Entry<AbstractRepositoryFile<Path>,AbstractRepositoryFile<URL>>>differences = CheckDifference.checkDifference(
+        "MatteoIorio11", // owner name
+        "FinderTest", // repository name
+        "GITHUB_TOKEN", // your github token
+        "/Users/matteoiorio/FinderTest", // local path where is stored the repository
+        "main", // branchA
+        "dev" // branchB);
+```
+The function `checkDifference` will return a list of differences between the two branches, each difference is represented by a pair of files, the first file is the local file and the second file is the remote file.
+
+# Run the application
+## Preconditions
+Before running any code of this project, you need to do the following steps:
+1. Create a '.env' file and copy It inside the 'app' directory, then add the following entry:
+   ```
+   GITHUB_TOKEN=YOUR TOKEN
+   ```
+## How to run the tests
+If you want to run all the tests of the project, you can use the following command:
+   ```
+   ./run_tests.sh
+   ```
+This script will automatically clone a repository 'FinderTest', this repository will be then moved inside your home directory automatically.
+After this, the script will run the tests of the project.
+
+## How to run the application
+There are two main ways for running the following code:
+1. Running without the GUI use: `./gradlew run`, this will run the application without the GUI, In order to run this code you have to run the `./run_tests.sh` because It will use the FinderTest repository. If you
+   want to use another repository, you can change the repository path inside the `App.java` file.
+2. Running with the GUI use: `./gradlew runWithGUI`, this will run the application with the GUI. This modality is strongly suggested because It will be easier for you to set all the different parameters of the application.
+
+
