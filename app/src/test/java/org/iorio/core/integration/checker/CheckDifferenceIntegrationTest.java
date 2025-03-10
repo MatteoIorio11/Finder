@@ -11,8 +11,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckDifferenceIntegrationTest {
 
@@ -34,8 +33,9 @@ public class CheckDifferenceIntegrationTest {
                         "main",
                         "dev"
                         );
+        assertEquals(1, diff.size());
+        assertNotNull(diff.get(0).getKey());
         final var fileNames1 =  diff.stream().map(entry -> entry.getKey().getName() + "-" + entry.getValue().getName()).collect(Collectors.joining());
-        System.err.println();
         assertTrue(expected.contains(fileNames1));
     }
 }
