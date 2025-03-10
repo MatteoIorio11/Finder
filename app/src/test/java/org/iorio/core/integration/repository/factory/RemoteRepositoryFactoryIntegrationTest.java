@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,30 +27,19 @@ public class RemoteRepositoryFactoryIntegrationTest {
                 URI.create("https://github.com/MatteoIorio11/FinderTest").toURL(),
                 System.getProperty("GITHUB_TOKEN")
         );
-        final List<String> remoteFiles = List.of(
-                "FinderTest/file1",
-                "FinderTest/file2",
-                "FinderTest/.gitignore"
-        );
-        final List<String> remoteDirectories = List.of(
-                "FinderTest/dir1"
-        );
-        final List<String> remoteFilesInDir1 = List.of(
-                "FinderTest/dir1/file3"
-        );
         final var directory = remoteRepo.getDirectory("FinderTest/dir1");
         assertNotNull(remoteRepo);
         // Check files and directories
-        assertEquals(remoteFiles.size(), remoteRepo.getFiles().size());
-        assertEquals(remoteDirectories.size(), remoteRepo.getDirectories().size());
+        assertEquals(RepositoryElements.files.size(), remoteRepo.getFiles().size());
+        assertEquals(RepositoryElements.directories.size(), remoteRepo.getDirectories().size());
         // Check the inner directory
         assertTrue(directory.isPresent());
         // Check all the files inside the directory
-        assertEquals(remoteFilesInDir1.size(), directory.get().getFiles().size());
+        assertEquals(RepositoryElements.filesInDirectory.size(), directory.get().getFiles().size());
         // Check if all the files and directories are present
-        assertTrue(remoteFiles.stream().allMatch(remoteRepo::hasFile));
-        assertTrue(remoteDirectories.stream().allMatch(remoteRepo::hasDirectory));
-        assertTrue(remoteFilesInDir1.stream().allMatch(directory.get()::hasFile));
+        assertTrue(RepositoryElements.files.stream().allMatch(remoteRepo::hasFile));
+        assertTrue(RepositoryElements.directories.stream().allMatch(remoteRepo::hasDirectory));
+        assertTrue(RepositoryElements.filesInDirectory.stream().allMatch(directory.get()::hasFile));
     }
 
 }
