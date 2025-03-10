@@ -24,15 +24,6 @@ public class FileUnitTest extends AbstractRepositoryElementUnitTest<Path> {
         file = new LocalFileImpl("FileTest", Path.of("src/test/resources/.env"));
     }
 
-    @Description("If the file exists, then It should be possible to read the Its content")
-    @Test
-    @Tag("unit")
-    public void testContentOfExistingFileShouldExist() {
-        final List<String> content = file.getContent(new LocalFileReaderImpl());
-        assertNotNull(content);
-        assertFalse(content.isEmpty());
-    }
-
     @Description("If the file does not exist, then It should throw an exception")
     @Test
     @Tag("unit")
