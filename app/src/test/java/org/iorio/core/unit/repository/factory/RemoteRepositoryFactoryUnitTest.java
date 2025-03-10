@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.net.URI;
 import java.net.URL;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RemoteRepositoryFactoryUnitTest {
@@ -15,7 +16,10 @@ public class RemoteRepositoryFactoryUnitTest {
     @Test
     @Tag("unit")
     public void testRemoteRepositoryWithNullUrl() {
-        assertThrows(IllegalArgumentException.class, () -> RepositoryFactory.remoteRepository("repoName", null, "token"));
+        assertThrows(IllegalArgumentException.class,
+                () -> RepositoryFactory.remoteRepository("repoName", null, "token"));
+        assertEquals("The repository URL cannot be null",
+                assertThrows(IllegalArgumentException.class, () -> RepositoryFactory.remoteRepository("repoName", null, "token")).getMessage());
     }
 
     @Description("If the repository token is null, an IllegalArgumentException should be thrown")
@@ -24,6 +28,18 @@ public class RemoteRepositoryFactoryUnitTest {
     public void testRemoteRepositoryWithNullToken() {
         assertThrows(IllegalArgumentException.class,
                 () -> RepositoryFactory.remoteRepository("repoName", URI.create("https://internship.jetbrains.com/admissions").toURL(), null));
+        assertEquals("The repository token cannot be null",
+                assertThrows(IllegalArgumentException.class, () -> RepositoryFactory.remoteRepository("repoName", URI.create("https://internship.jetbrains.com/admissions").toURL(), null)).getMessage());
+    }
+
+    @Description("If the repository name is null, an IllegalArgumentException should be thrown")
+    @Test
+    @Tag("unit")
+    public void testRemoteRepositoryWithNullName() {
+        assertThrows(IllegalArgumentException.class,
+                () -> RepositoryFactory.remoteRepository(null, URI.create("https://internship.jetbrains.com/admissions").toURL(), "token"));
+        assertEquals("The repository name cannot be null",
+                assertThrows(IllegalArgumentException.class, () -> RepositoryFactory.remoteRepository(null, URI.create("https://internship.jetbrains.com/admissions").toURL(), "token")).getMessage());
     }
 
     @Description("If the repository URL does not exists, an IllegalArgumentException should be thrown")
