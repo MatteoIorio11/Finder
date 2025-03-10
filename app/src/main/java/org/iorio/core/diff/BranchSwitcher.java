@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * A utility class to switch branches in a Git repository.
@@ -21,8 +24,16 @@ public class BranchSwitcher {
      */
     public static void switchBranch(final String repositoryPath, final String branchName) {
         try {
+            if (Objects.isNull(repositoryPath) || Objects.isNull(branchName)) {
+                throw new IllegalArgumentException("Repository path and branch name must not be null");
+            }
+            final Path path = Path.of(repositoryPath);
+            if (!Files.exists(path) || !Files.isDirectory(path)) {
+                throw new IllegalArgumentException("Repository path does not exist");
+            }
             logger.info("Switching branch to: " + branchName);
             // Step 1: Get the current branch
+
             final String currentBranch = executeCommand(new File(repositoryPath), "git rev-parse --abbrev-ref HEAD").trim();
             logger.info("Current branch: " + currentBranch);
             // Step 2: Switch branch if necessary
