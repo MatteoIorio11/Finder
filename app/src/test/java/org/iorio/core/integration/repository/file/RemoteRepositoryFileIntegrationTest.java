@@ -1,4 +1,4 @@
-package org.iorio.core.integration.repository;
+package org.iorio.core.integration.repository.file;
 
 import org.iorio.core.configuration.SecretConfigurator;
 import org.iorio.core.repository.AbstractRepositoryFile;

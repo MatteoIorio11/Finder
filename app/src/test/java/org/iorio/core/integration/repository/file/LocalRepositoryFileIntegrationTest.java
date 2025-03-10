@@ -1,4 +1,4 @@
-package org.iorio.core.integration.repository;
+package org.iorio.core.integration.repository.file;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.iorio.core.repository.AbstractRepositoryFile;
