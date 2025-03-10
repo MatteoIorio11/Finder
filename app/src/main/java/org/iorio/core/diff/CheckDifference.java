@@ -37,6 +37,7 @@ public class CheckDifference {
      */
     public static List<Map.Entry<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>>  checkDifference(final String user, final String repo, final String accessToken, final String localPath, final String branchA, final String branchB) throws MalformedURLException {
         logger.info("Checking difference between branches");
+        System.setProperty("GITHUB_TOKEN", accessToken);
         final URL url = URI.create(GITHUB_URL + "/" + user + "/" + repo + "/tree/" + branchA).toURL();
         BranchSwitcher.switchBranch(localPath, branchB);
         final AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository = RepositoryFactory.remoteRepository(repo, url, accessToken);
