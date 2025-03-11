@@ -25,7 +25,7 @@ public class CheckDifference {
     private final static String GITHUB_URL = "https://github.com";
     private final static Logger logger = LoggerFactory.getLogger(CheckDifference.class);
     /**
-     * Check the difference between two branches
+     * Check the difference between two branches, this method will return a list of pair of files that present differences.
      * @param user the user
      * @param repo the remote repository name
      * @param accessToken the access token
