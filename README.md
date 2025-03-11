@@ -1,7 +1,7 @@
 Link to repository: https://github.com/MatteoIorio11/Finder
 # Use the library
 ## How to use the library
-If you want to use the library, you just need to add the jar file (https://github.com/MatteoIorio11/Finder/releases/tag/1.0) as your dependency. In order to do that, you just need to add the jar file as you dependency
+If you want to use the library, you just need to add the jar file (https://github.com/MatteoIorio11/Finder/releases/tag/1.0) as your dependency. In order to do that, you just need to add the dependency
 like this (gradle):
 ```kotlin
 dependencies {
@@ -29,14 +29,14 @@ The function `checkDifference` will return a list of differences between the two
 Before running any code of this project, you need to do the following steps:
 1. Create a '.env' file and copy It inside the 'app' directory, then add the following entry:
    ```
-   GITHUB_TOKEN=YOUR TOKEN
+   GITHUB_TOKEN=xxxxxx
    ```
 ## How to run the tests
 If you want to run all the tests of the project, you can use the following command:
    ```
-   ./run_tests.sh
+   ./gradlew test
    ```
-This script will automatically clone a repository 'FinderTest', this repository will be then moved inside your home directory automatically.
+This gradle task will automatically clone the 'FinderTest' repository, then It will be then moved inside your home directory automatically.
 After this, the script will run the tests of the project.
 
 ## How to run the application
