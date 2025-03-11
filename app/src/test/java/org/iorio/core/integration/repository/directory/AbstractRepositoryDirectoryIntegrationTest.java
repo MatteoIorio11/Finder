@@ -23,6 +23,8 @@ public abstract class AbstractRepositoryDirectoryIntegrationTest<P, Y extends Ab
     @Tag("integration")
     public void testReadContent() {
         final var content = this.directory.getFile("FinderTest/dir1/file3");
+        assertNotNull(content);
+        assertFalse(content.isEmpty());
         assertTrue(content.get().getContent(this.reader).contains("Test"));
     }
 }
