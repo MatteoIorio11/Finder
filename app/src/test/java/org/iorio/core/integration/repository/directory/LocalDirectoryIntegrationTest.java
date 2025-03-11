@@ -8,7 +8,6 @@ import org.iorio.core.repository.local.LocalFileImpl;
 import org.iorio.core.repository.local.LocalFileReaderImpl;
 import org.junit.jupiter.api.BeforeAll;
 
-import java.io.File;
 import java.nio.file.Path;
 
 public class LocalDirectoryIntegrationTest extends AbstractRepositoryDirectoryIntegrationTest<Path, AbstractRepositoryFile<Path>> {
@@ -24,11 +23,11 @@ public class LocalDirectoryIntegrationTest extends AbstractRepositoryDirectoryIn
     public static void setUp() {
         localDirectory = new LocalDirectoryImpl(
                 "FinderTest/dir1",
-                Path.of(SystemUtils.getUserHome() + File.separator + "FinderTest" + File.separator + "dir1")
+                Path.of(SystemUtils.getUserHome().toString(), "FinderTest" , "dir1")
         );
         localDirectory.addFile(new LocalFileImpl(
                 "FinderTest/dir1/file3",
-                Path.of(SystemUtils.getUserHome() + File.separator + "FinderTest" + File.separator + "dir1" + File.separator + "file3")
+                Path.of(SystemUtils.getUserHome().toString(), "FinderTest", "dir1", "file3")
         ));
     }
 }
