@@ -47,7 +47,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      */
     public void addDirectory(@NonNull final X directory) {
         logger.info("Adding directory: " + directory.getName());
-        this.directories.put(directory.getName(), directory);
+        this.directories.putIfAbsent(directory.getName(), directory);
     }
 
     /**
@@ -56,7 +56,7 @@ public abstract class AbstractRepository<P, X extends AbstractRepositoryDirector
      */
     public void addFile(@NonNull final Y file){
         logger.info("Adding file: " + file.getName());
-        this.files.put(file.getName(), file);
+        this.files.putIfAbsent(file.getName(), file);
     }
     /**
      * Get the directories in the repository
