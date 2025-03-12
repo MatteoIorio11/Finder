@@ -71,6 +71,22 @@ public class RepositoryUnitTest extends AbstractRepositoryElementUnitTest<URL> {
         assertThrows(NullPointerException.class, () -> remoteRepository.addFile(null));
     }
 
+    @Description("Trying to get a file that does not exists, should return an empty optional")
+    @Test
+    @Tag("unit")
+    public void testGetNonExistingFile() {
+        assertFalse(remoteRepository.hasFile("nonExistingFile"));
+        assertFalse(remoteRepository.getFile("nonExistingFile").isPresent());
+    }
+
+    @Description("Trying to get a directory that does not exists, should return an empty optional")
+    @Test
+    @Tag("unit")
+    public void testGetNonExistingDirectory() {
+        assertFalse(remoteRepository.hasDirectory("nonExistingDirectory"));
+        assertFalse(remoteRepository.getDirectory("nonExistingDirectory").isPresent());
+    }
+
     @Description("Adding a directory inside a repository, It should be possible to retrieve it")
     @Test
     @Tag("unit")
