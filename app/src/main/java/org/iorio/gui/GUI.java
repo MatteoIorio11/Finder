@@ -5,7 +5,12 @@ import org.iorio.core.diff.CheckDifference;
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
+import java.util.concurrent.CompletableFuture;
 
+/**
+ * This GUI class was generated using ChatGPT.
+ * Little modifications were made to the original code.
+ */
 public class GUI {
     public static void main(String[] args) {
         SecretConfigurator.readSecrets(".env");
@@ -61,8 +66,10 @@ public class GUI {
             final String branchB = branchBField.getText();
 
             // Call your function to find conflicting files (placeholder for now)
-            final String result = findConflictingFiles(owner, repo, token, localRepoPath, branchA, branchB);
-            resultArea.setText(result);
+            CompletableFuture.runAsync(() -> {
+                final String result = findConflictingFiles(owner, repo, token, localRepoPath, branchA, branchB);
+                resultArea.setText(result);
+            });
         });
 
         frame.setLayout(new BorderLayout());
@@ -77,13 +84,13 @@ public class GUI {
         try {
             final var x = CheckDifference.checkDifference(owner, repo, token, localRepoPath, branchA, branchB);
             final StringBuilder output = new StringBuilder();
-            for (final var entry : x) {
+            x.forEach(entry -> {
                 output.append("""
                         Differences:
                         \t Local: %s
                         \t Remote: %s
                         """.formatted(entry.getKey().getPath(), entry.getValue().getPath()));
-            }
+            });
             return output.toString();
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
