@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * Check the difference between two branches
@@ -46,19 +47,23 @@ public class CheckDifference {
         checkCommonDirectoriesFromRepository(localRepository, remoteRepository)
                 .forEach(entry -> {
                     output.addAll(checkForDifferences(commonFilesFromDirectory(entry.getKey(), entry.getValue())));
-                    output.addAll(recursiveCheck(checkCommonDirectories(entry.getKey(), entry.getValue())));
+                    output.addAll(checkAllDifferences(checkCommonDirectories(entry.getKey(), entry.getValue())));
                 });
         return output;
     }
 
-    private static List<Map.Entry<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>> recursiveCheck(final List<Map.Entry<AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>>> commonDirectories){
+    private static List<Map.Entry<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>> checkAllDifferences(final List<Map.Entry<AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>>> commonDirectories){
         final List<Map.Entry<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>> differences = new LinkedList<>();
-        commonDirectories
-                .forEach(entry -> {
-                    final List<Map.Entry<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>> commonFiles = commonFilesFromDirectory(entry.getKey(), entry.getValue());
-                    differences.addAll(checkForDifferences(commonFiles));
-                    differences.addAll(recursiveCheck(checkCommonDirectories(entry.getKey(), entry.getValue())));
-                });
+        final Stack<Map.Entry<AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>>> stack = new Stack<>();
+
+        stack.addAll(commonDirectories);
+        // Avoid StackOverflowError in case of very deep directory structure
+        while (!stack.isEmpty()) {
+            final var commonPair = stack.pop();
+            final var directories = checkCommonDirectories(commonPair.getKey(), commonPair.getValue());
+            differences.addAll(checkForDifferences(commonFilesFromDirectory(commonPair.getKey(), commonPair.getValue())));
+            stack.addAll(directories);
+        }
         return differences;
     }
 
