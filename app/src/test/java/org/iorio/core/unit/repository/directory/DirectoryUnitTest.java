@@ -63,4 +63,20 @@ public class DirectoryUnitTest extends AbstractRepositoryElementUnitTest<Path> {
         assertFalse(directory.hasFile("NonExistingFile"));
         assertTrue(directory.getFile("NonExistingFile").isEmpty());
     }
+
+    @Description("Trying to get a file that does not exists, should return an empty optional")
+    @Test
+    @Tag("unit")
+    public void testGetNonExistingFile() {
+        assertFalse(directory.hasFile("nonExistingFile"));
+        assertFalse(directory.getFile("nonExistingFile").isPresent());
+    }
+
+    @Description("Trying to get an inner directory that does not exists, should return an empty optional")
+    @Test
+    @Tag("unit")
+    public void testGetNonExistingInnerDirectory() {
+        assertFalse(directory.hasDirectory("nonExistingInnerDirectory"));
+        assertFalse(directory.getDirectory("nonExistingInnerDirectory").isPresent());
+    }
 }
