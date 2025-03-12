@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.text.Normalizer;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -113,11 +114,20 @@ public class CheckDifference {
         final var remoteReader = new RemoteFileReaderImpl();
         return commonFiles.stream()
                 .filter(commonFile -> {
-                    final var content1 = String.join("\n", commonFile.getKey().getContent(localReader));
-                    final var content2 = String.join("\n", commonFile.getValue().getContent(remoteReader));
+                    final var content1 = normalize(String.join("\n", commonFile.getKey().getContent(localReader)));
+                    final var content2 = normalize(String.join("\n", commonFile.getValue().getContent(remoteReader)));
                     final StringsComparator s = new StringsComparator(content1, content2);
                     return s.getScript().getLCSLength() != content1.length();
                 })
                 .toList();
     }
+
+    private static String normalize(final String content) {
+        return Normalizer.normalize(content, Normalizer.Form.NFKC) // Normalize Unicode composition
+                .replaceAll("\\p{Cf}", "") // Remove invisible control characters
+                .replaceAll("\\p{Zs}+", " ") // Normalize all whitespace (e.g., non-breaking spaces)
+                .replaceAll("[\\r\\n]+", "\n") // Standardize newlines to "\n"
+                .trim(); // Remove leading/trailing spaces
+    }
+
 }
