@@ -59,15 +59,17 @@ tasks.register("cloneTestRepository") {
             listOf("sh", "-c", "git clone git@github.com:MatteoIorio11/FinderTest.git && mv FinderTest \"$homeDir\"")
         }
 
-        val process = ProcessBuilder(command)
+        ProcessBuilder(command)
             .redirectOutput(ProcessBuilder.Redirect.INHERIT)
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start()
-
-        val exitCode = process.waitFor()
-        if (exitCode != 0) {
-            throw RuntimeException("Shell command failed with exit code $exitCode")
-        }
+            .waitFor()
+            .apply {
+                if (this != 0) {
+                    throw RuntimeException("Shell command failed with exit code $this")
+                }
+                println("Repository cloned successfully.")
+            }
     }
 }
 
