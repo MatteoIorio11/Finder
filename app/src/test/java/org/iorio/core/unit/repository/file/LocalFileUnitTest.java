@@ -36,7 +36,7 @@ public class LocalFileUnitTest extends AbstractRepositoryElementUnitTest<Path> {
     @Tag("unit")
     public void testContentOfNonExistingFileShouldThrowException() {
         final var nonExistingFile = new LocalFileImpl("NonExistingFile", Path.of("src/INVALID"));
-        assertThrows(RuntimeException.class, () -> nonExistingFile.getContent(new LocalFileReaderImpl()));
+        assertThrows(RuntimeException.class, () -> nonExistingFile.getContent(reader));
     }
 
     @Description("If the file exists, then It should return the content")
