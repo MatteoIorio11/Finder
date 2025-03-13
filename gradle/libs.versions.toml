@@ -11,6 +11,7 @@ dotenv = "3.2.0"
 slf4j = "2.0.17"
 logback = "1.4.14"
 commons-text = "1.13.0"
+mockito = "5.16.0"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
@@ -23,4 +24,5 @@ dotenv = { module = "io.github.cdimascio:dotenv-java", version.ref = "dotenv" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 
