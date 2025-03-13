@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.guava)
     implementation(libs.logback.classic)
     testImplementation(libs.jupiter.api)
+    testImplementation("org.mockito:mockito-core:5.16.0")
     testRuntimeOnly(libs.jupiter.engine)
     implementation(libs.commons.text)
 
