@@ -28,6 +28,7 @@ public class LocalFileUnitTest extends AbstractRepositoryElementUnitTest<Path> {
     public static void init() {
         reader = Mockito.mock(LocalFileReaderImpl.class);
         file = new LocalFileImpl("FileTest", Path.of("src/test/resources/.env"));
+        when(reader.getContent(Path.of("src/INVALID"))).thenThrow(new RuntimeException());
         when(reader.getContent(file.getPath())).thenReturn(List.of("TEST"));
     }
 
