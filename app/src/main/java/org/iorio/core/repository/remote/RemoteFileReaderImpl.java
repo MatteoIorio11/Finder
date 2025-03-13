@@ -3,6 +3,7 @@ package org.iorio.core.repository.remote;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.iorio.core.repository.AbstractFileReader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,7 +30,7 @@ public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
         }
     }
 
-    public List<String> getContent(final URL path) {
+    public List<String> getContent(@NonNull final URL path) {
         final Optional<String> token = Optional.ofNullable(System.getProperty("GITHUB_TOKEN"));
         if(token.isEmpty()) {
             throw new IllegalArgumentException("The GITHUB_TOKEN environment variable is not set");

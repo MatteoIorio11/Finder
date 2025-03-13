@@ -1,5 +1,6 @@
 package org.iorio.core.repository;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,5 +19,5 @@ public abstract class AbstractFileReader<P> {
      * @param path the path of the file
      * @return the content of the file
      */
-    public abstract List<String> getContent(final P path);
+    public abstract List<String> getContent(@NonNull final P path);
 }
