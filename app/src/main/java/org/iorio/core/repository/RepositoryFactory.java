@@ -48,7 +48,9 @@ public class RepositoryFactory {
      * @param repositoryPath the path of the repository
      * @return the repository
      */
-    public static AbstractRepository<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> localRepository(final String repoName, final Path repositoryPath) {
+    public static AbstractRepository<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> localRepository(
+            final String repoName,
+            final Path repositoryPath) {
         if(Objects.isNull(repositoryPath) || Objects.isNull(repoName)) {
             final String message =
                     "The repository " + (Objects.isNull(repositoryPath) ? "path" : "name")+ " can not be null";
