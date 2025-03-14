@@ -7,7 +7,7 @@ import org.iorio.core.repository.RepositoryCollection;
 import org.iorio.core.repository.remote.RemoteCollection;
 import org.iorio.core.repository.remote.RemoteDirectoryImpl;
 import org.iorio.core.repository.remote.RemoteFileImpl;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 
