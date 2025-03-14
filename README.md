@@ -1,4 +1,7 @@
 Link to repository: https://github.com/MatteoIorio11/Finder
+# Requirements
+The following library has been developed using Java 17.
+
 # Use the library
 ## How to use the library
 If you want to use the library, you just need to add the jar file (https://github.com/MatteoIorio11/Finder/releases/tag/1.1) as your dependency. In order to do that, you just need to add the dependency
