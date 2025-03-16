@@ -1,7 +1,7 @@
 package org.iorio.core.repository;
 
 import org.iorio.core.scraper.local.LocalScraperImpl;
-import org.iorio.core.scraper.remote.RemoteScraperImpl;
+import org.iorio.core.scraper.remote.html.RemoteScraperImpl;
 
 import java.io.IOException;
 import java.net.URL;
