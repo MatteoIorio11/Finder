@@ -1,7 +1,7 @@
 package org.iorio.core.integration.repository.directory;
 
 import jdk.jfr.Description;
-import org.iorio.core.repository.AbstractFileReader;
+import org.iorio.core.repository.FileReader;
 import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.junit.jupiter.api.Tag;
@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractRepositoryDirectoryIntegrationTest<P, Y extends AbstractRepositoryFile<P>> {
     private final AbstractRepositoryDirectory<P, Y> directory;
-    private final AbstractFileReader<P> reader;
+    private final FileReader<P> reader;
     protected AbstractRepositoryDirectoryIntegrationTest(final AbstractRepositoryDirectory<P, Y> directory,
-                                                         final AbstractFileReader<P> reader) {
+                                                         final FileReader<P> reader) {
         this.directory = directory;
         this.reader = reader;
     }

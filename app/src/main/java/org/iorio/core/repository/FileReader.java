@@ -11,13 +11,13 @@ import java.util.List;
  *
  * @param <P> the type of the path
  */
-public abstract class AbstractFileReader<P> {
-    protected final static Logger logger = LoggerFactory.getLogger(AbstractFileReader.class);
+public interface FileReader<P> {
+    Logger logger = LoggerFactory.getLogger(FileReader.class);
     /**
      * Get the content of the file at the given path.
      *
      * @param path the path of the file
      * @return the content of the file
      */
-    public abstract List<String> getContent(@NonNull final P path);
+    List<String> getContent(@NonNull final P path);
 }

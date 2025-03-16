@@ -1,7 +1,6 @@
 package org.iorio.core.unit.repository.file;
 
 import jdk.jfr.Description;
-import org.iorio.core.repository.AbstractFileReader;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.iorio.core.repository.local.LocalFileImpl;
 import org.iorio.core.repository.local.LocalFileReaderImpl;

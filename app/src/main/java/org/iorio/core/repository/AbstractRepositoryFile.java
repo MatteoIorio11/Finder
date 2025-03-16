@@ -42,7 +42,7 @@ public abstract class AbstractRepositoryFile<P> implements RepositoryElement<P> 
      * @param reader the reader to use
      * @return the content of the file
      */
-    public List<String> getContent(@NonNull final AbstractFileReader<P> reader) {
+    public List<String> getContent(@NonNull final FileReader<P> reader) {
         logger.info("Getting content of file: " + this.getName());
         return reader.getContent(this.getPath());
     }

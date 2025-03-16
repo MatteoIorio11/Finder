@@ -4,7 +4,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.iorio.core.repository.AbstractFileReader;
+import org.iorio.core.repository.FileReader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class RemoteFileReaderImpl extends AbstractFileReader<URL> {
+public class RemoteFileReaderImpl implements FileReader<URL> {
     private final static OkHttpClient client = new OkHttpClient();
     public RemoteFileReaderImpl(){}
 

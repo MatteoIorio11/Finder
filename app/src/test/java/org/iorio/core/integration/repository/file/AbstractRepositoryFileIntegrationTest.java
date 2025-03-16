@@ -1,7 +1,7 @@
 package org.iorio.core.integration.repository.file;
 
 import jdk.jfr.Description;
-import org.iorio.core.repository.AbstractFileReader;
+import org.iorio.core.repository.FileReader;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractRepositoryFileIntegrationTest<P, Y extends AbstractRepositoryFile<P>> {
     protected final AbstractRepositoryFile<P> repositoryFile;
-    protected final AbstractFileReader<P> fileReader;
-    protected AbstractRepositoryFileIntegrationTest(final AbstractRepositoryFile<P> repositoryFile, final AbstractFileReader<P> fileReader) {
+    protected final FileReader<P> fileReader;
+    protected AbstractRepositoryFileIntegrationTest(final AbstractRepositoryFile<P> repositoryFile, final FileReader<P> fileReader) {
         this.repositoryFile = repositoryFile;
         this.fileReader = fileReader;
     }

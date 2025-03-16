@@ -1,7 +1,7 @@
 package org.iorio.core.unit.repository.reader;
 
 import jdk.jfr.Description;
-import org.iorio.core.repository.AbstractFileReader;
+import org.iorio.core.repository.FileReader;
 import org.iorio.core.repository.remote.RemoteFileReaderImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RemoteFileReaderUniTest {
-    private final AbstractFileReader<URL> reader = new RemoteFileReaderImpl();
+    private final FileReader<URL> reader = new RemoteFileReaderImpl();
 
     @Description("If the URL is valid, then It should be possible to read the Its content")
     @Test
