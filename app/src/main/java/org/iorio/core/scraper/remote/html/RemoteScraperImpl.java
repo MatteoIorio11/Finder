@@ -1,4 +1,4 @@
-package org.iorio.core.scraper.remote;
+package org.iorio.core.scraper.remote.html;
 
 import com.squareup.okhttp.*;
 import org.iorio.core.repository.AbstractRepository;

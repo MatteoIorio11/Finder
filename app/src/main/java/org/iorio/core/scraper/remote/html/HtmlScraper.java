@@ -1,4 +1,4 @@
-package org.iorio.core.scraper.remote;
+package org.iorio.core.scraper.remote.html;
 
 import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
