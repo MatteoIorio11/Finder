@@ -2,7 +2,7 @@ package org.iorio.core.unit.repository.reader;
 
 import jdk.jfr.Description;
 import org.iorio.core.repository.FileReader;
-import org.iorio.core.repository.remote.RemoteFileReaderImpl;
+import org.iorio.core.repository.remote.html.RemoteFileReaderImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 

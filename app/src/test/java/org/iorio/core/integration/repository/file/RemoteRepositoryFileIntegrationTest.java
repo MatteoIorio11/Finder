@@ -2,8 +2,8 @@ package org.iorio.core.integration.repository.file;
 
 import org.iorio.core.configuration.SecretConfigurator;
 import org.iorio.core.repository.AbstractRepositoryFile;
-import org.iorio.core.repository.remote.RemoteFileImpl;
-import org.iorio.core.repository.remote.RemoteFileReaderImpl;
+import org.iorio.core.repository.remote.html.RemoteFileImpl;
+import org.iorio.core.repository.remote.html.RemoteFileReaderImpl;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.net.MalformedURLException;

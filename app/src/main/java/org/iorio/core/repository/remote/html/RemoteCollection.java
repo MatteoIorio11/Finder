@@ -1,4 +1,4 @@
-package org.iorio.core.repository.remote;
+package org.iorio.core.repository.remote.html;
 
 import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;

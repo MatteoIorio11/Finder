@@ -4,7 +4,8 @@ import com.squareup.okhttp.*;
 import org.iorio.core.repository.AbstractRepository;
 import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
-import org.iorio.core.repository.remote.*;
+import org.iorio.core.repository.remote.html.RemoteCollection;
+import org.iorio.core.repository.remote.html.RemoteRepositoryImpl;
 import org.iorio.core.scraper.AbstractScraper;
 
 import java.io.IOException;

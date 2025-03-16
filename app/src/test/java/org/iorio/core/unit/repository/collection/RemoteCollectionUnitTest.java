@@ -3,9 +3,9 @@ package org.iorio.core.unit.repository.collection;
 import jdk.jfr.Description;
 import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
-import org.iorio.core.repository.remote.RemoteCollection;
-import org.iorio.core.repository.remote.RemoteDirectoryImpl;
-import org.iorio.core.repository.remote.RemoteFileImpl;
+import org.iorio.core.repository.remote.html.RemoteCollection;
+import org.iorio.core.repository.remote.html.RemoteDirectoryImpl;
+import org.iorio.core.repository.remote.html.RemoteFileImpl;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 

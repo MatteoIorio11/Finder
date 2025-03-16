@@ -2,8 +2,8 @@ package org.iorio.core.unit.repository.file;
 
 import jdk.jfr.Description;
 import org.iorio.core.repository.AbstractRepositoryFile;
-import org.iorio.core.repository.remote.RemoteFileImpl;
-import org.iorio.core.repository.remote.RemoteFileReaderImpl;
+import org.iorio.core.repository.remote.html.RemoteFileImpl;
+import org.iorio.core.repository.remote.html.RemoteFileReaderImpl;
 import org.iorio.core.unit.repository.AbstractRepositoryElementUnitTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;

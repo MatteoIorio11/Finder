@@ -2,7 +2,9 @@ package org.iorio.core.scraper.remote;
 
 import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
-import org.iorio.core.repository.remote.*;
+import org.iorio.core.repository.remote.html.RemoteCollection;
+import org.iorio.core.repository.remote.html.RemoteDirectoryImpl;
+import org.iorio.core.repository.remote.html.RemoteFileImpl;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;

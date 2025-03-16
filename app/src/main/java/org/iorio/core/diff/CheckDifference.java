@@ -6,7 +6,7 @@ import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.iorio.core.repository.RepositoryFactory;
 import org.iorio.core.repository.local.LocalFileReaderImpl;
-import org.iorio.core.repository.remote.RemoteFileReaderImpl;
+import org.iorio.core.repository.remote.html.RemoteFileReaderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

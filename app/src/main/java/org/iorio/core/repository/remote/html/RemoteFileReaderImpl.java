@@ -1,4 +1,4 @@
-package org.iorio.core.repository.remote;
+package org.iorio.core.repository.remote.html;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;

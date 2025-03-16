@@ -3,7 +3,7 @@ package org.iorio.core.unit.repository;
 import jdk.jfr.Description;
 import org.iorio.core.repository.RepositoryElement;
 import org.iorio.core.repository.local.LocalFileImpl;
-import org.iorio.core.repository.remote.RemoteFileImpl;
+import org.iorio.core.repository.remote.html.RemoteFileImpl;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
