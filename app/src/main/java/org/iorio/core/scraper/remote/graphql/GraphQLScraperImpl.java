@@ -92,11 +92,11 @@ public class GraphQLScraperImpl extends AbstractScraper<String, AbstractReposito
                             final var name = entryJson.getString("name");
                             final var type = entryJson.getString("type");
                             final String entryPath = path.isEmpty() ? name : path + "/" + name;
+                            final var objectName = repositoryName + "/" + entryPath;
                             if (Objects.equals(type, "blob")) {
-                                System.err.println("Adding file: " + entryPath);
-                                files.add(new RemoteFileQLImpl(name, entryPath));
+                                files.add(new RemoteFileQLImpl(objectName, entryPath));
                             }else{
-                                directories.add(new RemoteDirectoryQLImpl(name, entryPath));
+                                directories.add(new RemoteDirectoryQLImpl(objectName, entryPath));
                             }
                         });
                 return Optional.of(new RemoteCollectionQL(files, directories));
