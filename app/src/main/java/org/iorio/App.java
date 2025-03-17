@@ -5,16 +5,16 @@ package org.iorio;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.iorio.core.configuration.SecretConfigurator;
-import org.iorio.core.diff.CheckDifference;
+import org.iorio.core.diff.CheckDifferenceImpl;
 
 import java.io.IOException;
 
 public class App {
 
     public static void main(String[] args) {
-        SecretConfigurator.readSecrets(".env");
+        SecretConfigurator.readSecrets(".env", "app");
         try {
-            final var o = CheckDifference
+            final var o = new CheckDifferenceImpl()
                     .checkDifference("MatteoIorio11",
                             "FinderTest",
                             System.getProperty("GITHUB_TOKEN"),
@@ -27,7 +27,7 @@ public class App {
                 System.out.println("Local: " + entry.getKey().getName() + " - " + entry.getKey().getPath());
                 System.out.println("Remote: " + entry.getValue().getName() + " - " + entry.getValue().getPath());
             });
-        }catch (IOException e) {
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
