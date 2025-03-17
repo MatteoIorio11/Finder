@@ -1,11 +1,9 @@
-package org.iorio.core.unit.collection;
+package org.iorio.core.unit.repository.collection;
 
 import jdk.jfr.Description;
 import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.iorio.core.repository.RepositoryCollection;
-import org.iorio.core.repository.local.LocalDirectoryImpl;
-import org.iorio.core.repository.local.LocalFileImpl;
 import org.iorio.core.repository.remote.graphql.RemoteCollectionQL;
 import org.iorio.core.repository.remote.graphql.RemoteDirectoryQLImpl;
 import org.iorio.core.repository.remote.graphql.RemoteFileQLImpl;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,4 +1,4 @@
-package org.iorio.core.unit.collection;
+package org.iorio.core.unit.repository.collection;
 
 import jdk.jfr.Description;
 import org.iorio.core.repository.AbstractRepositoryDirectory;
