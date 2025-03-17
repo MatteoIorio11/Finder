@@ -12,7 +12,7 @@ import java.io.IOException;
 public class App {
 
     public static void main(String[] args) {
-        SecretConfigurator.readSecrets(".env", "app");
+        SecretConfigurator.readSecrets(".env", ".");
         try {
             final var o = new CheckDifferenceImpl()
                     .checkDifference("MatteoIorio11",

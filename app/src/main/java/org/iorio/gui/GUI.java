@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class GUI {
     public static void main(String[] args) {
-        SecretConfigurator.readSecrets(".env", "app");
+        SecretConfigurator.readSecrets(".env", ".");
         SwingUtilities.invokeLater(GUI::createAndShowGUI);
     }
 
