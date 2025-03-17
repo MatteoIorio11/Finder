@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class CheckDifferenceImpl extends CheckDifference<Path, URL> {
+public class CheckDifferenceImpl extends AbstractCheckDifference<Path, URL> {
     private final static String GITHUB_URL = "https://github.com";
 
     @Override

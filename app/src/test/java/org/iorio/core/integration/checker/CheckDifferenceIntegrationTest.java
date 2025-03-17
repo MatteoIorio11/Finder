@@ -2,7 +2,7 @@ package org.iorio.core.integration.checker;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.iorio.core.configuration.SecretConfigurator;
-import org.iorio.core.diff.CheckDifference;
+import org.iorio.core.diff.CheckDifferenceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ public class CheckDifferenceIntegrationTest {
         final var expected = List.of(
                 "FinderTest/dir1/file3" + "-" + "FinderTest/dir1/file3"
         );
-        final var diff = CheckDifference
+        final var diff = new CheckDifferenceImpl()
                 .checkDifference("MatteoIorio11",
                         "FinderTest",
                         System.getProperty("GITHUB_TOKEN"),

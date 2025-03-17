@@ -1,10 +1,9 @@
 package org.iorio.gui;
 import org.iorio.core.configuration.SecretConfigurator;
-import org.iorio.core.diff.CheckDifference;
+import org.iorio.core.diff.CheckDifferenceImpl;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.MalformedURLException;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -82,7 +81,7 @@ public class GUI {
 
     private static String findConflictingFiles(String owner, String repo, String token, String localRepoPath, String branchA, String branchB) {
         try {
-            final var x = CheckDifference.checkDifference(owner, repo, token, localRepoPath, branchA, branchB);
+            final var x = new CheckDifferenceImpl().checkDifference(owner, repo, token, localRepoPath, branchA, branchB);
             final StringBuilder output = new StringBuilder();
             x.forEach(entry -> {
                 output.append("""
@@ -92,7 +91,7 @@ public class GUI {
                         """.formatted(entry.getKey().getPath(), entry.getValue().getPath()));
             });
             return output.toString();
-        } catch (MalformedURLException e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
