@@ -20,6 +20,7 @@ public class RemoteFileReaderQLImpl implements FileReader<String> {
     private final String repositoryName;
     private final String branch;
     private final OkHttpClient client = new OkHttpClient();
+
     public RemoteFileReaderQLImpl(@NonNull String owner, @NonNull String repositoryName, @NonNull String branch) {
         this.owner = owner;
         this.repositoryName = repositoryName;
@@ -37,7 +38,8 @@ public class RemoteFileReaderQLImpl implements FileReader<String> {
                 }
               }
             }
-        """, this.owner, repositoryName, this.branch, path);
+        """, this.owner, this.repositoryName, this.branch, path);
+
         final RequestBody body = RequestBody.create(MediaType.parse("application/json"),
                 new JSONObject().put("query", query).toString());
         final Request request = new Request.Builder()
