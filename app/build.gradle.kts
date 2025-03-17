@@ -31,6 +31,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testRuntimeOnly(libs.jupiter.engine)
     implementation(libs.commons.text)
+    implementation("org.json:json:20250107")
 
 }
 
