@@ -13,6 +13,7 @@ logback = "1.4.14"
 commons-text = "1.13.0"
 mockito = "5.16.0"
 json = "20250107"
+shadow = "8.1.1"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
@@ -28,3 +29,5 @@ commons-text = { module = "org.apache.commons:commons-text", version.ref = "comm
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 json = { module = "org.json:json", version.ref = "json" }
 
+[plugins]
+shadow = "com.github.johnrengelman.shadow:8.1.1"
