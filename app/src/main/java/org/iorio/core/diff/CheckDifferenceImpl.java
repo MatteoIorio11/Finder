@@ -1,16 +1,9 @@
 package org.iorio.core.diff;
 
-import org.iorio.core.repository.AbstractRepository;
-import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.iorio.core.repository.RepositoryFactory;
 import org.iorio.core.repository.local.LocalFileReaderImpl;
 import org.iorio.core.repository.remote.graphql.RemoteFileReaderQLImpl;
-import org.iorio.core.repository.remote.html.RemoteFileReaderImpl;
-
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
