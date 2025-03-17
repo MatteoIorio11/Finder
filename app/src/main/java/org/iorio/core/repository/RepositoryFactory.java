@@ -1,6 +1,7 @@
 package org.iorio.core.repository;
 
 import org.iorio.core.scraper.local.LocalScraperImpl;
+import org.iorio.core.scraper.remote.graphql.GraphQLScraperImpl;
 import org.iorio.core.scraper.remote.html.RemoteScraperImpl;
 
 import java.io.IOException;
@@ -60,5 +61,20 @@ public class RepositoryFactory {
             throw new IllegalArgumentException("The repository path does not exist");
         }
         return new LocalScraperImpl().getRepository(Objects.requireNonNull(repoName), Objects.requireNonNull(repositoryPath), Optional.empty());
+    }
+
+    public static AbstractRepository<String, AbstractRepositoryDirectory<String, AbstractRepositoryFile<String>>, AbstractRepositoryFile<String>> remoteRepositoryQL(
+            final String repoName,
+            final String owner,
+            final String branch,
+            final String token) {
+        if(Objects.isNull(owner) || Objects.isNull(branch) || Objects.isNull(token) || Objects.isNull(repoName)) {
+            final String message =
+                    "The repository " + (Objects.isNull(owner) ? "owner" : Objects.isNull(branch) ? "branch" : Objects.isNull(token) ? "token" : "name") + " cannot be null";
+            throw new IllegalArgumentException(message);
+        }
+        return new GraphQLScraperImpl(true,
+                owner,
+                branch).getRepository(repoName, "", Optional.of(token));
     }
 }
