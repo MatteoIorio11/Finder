@@ -5,13 +5,9 @@ import org.iorio.core.repository.AbstractRepository;
 import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.iorio.core.repository.FileReader;
-import org.iorio.core.repository.local.LocalFileReaderImpl;
-import org.iorio.core.repository.remote.html.RemoteFileReaderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URL;
-import java.nio.file.Path;
 import java.text.Normalizer;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,8 +17,8 @@ import java.util.Stack;
 /**
  * Check the difference between two branches
  */
-public abstract class CheckDifference<X, Y> {
-    protected final static Logger logger = LoggerFactory.getLogger(CheckDifference.class);
+public abstract class AbstractCheckDifference<X, Y> {
+    protected final static Logger logger = LoggerFactory.getLogger(AbstractCheckDifference.class);
     /**
      * Check the difference between two branches, this method will return a list of pair of files that present differences.
      * @param user the user
