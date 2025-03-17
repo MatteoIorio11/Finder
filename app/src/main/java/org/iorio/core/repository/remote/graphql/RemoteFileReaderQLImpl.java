@@ -2,16 +2,12 @@ package org.iorio.core.repository.remote.graphql;
 
 import com.squareup.okhttp.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.iorio.core.repository.AbstractRepositoryDirectory;
-import org.iorio.core.repository.AbstractRepositoryFile;
 import org.iorio.core.repository.FileReader;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static org.iorio.core.scraper.remote.graphql.GraphQLScraperImpl.GRAPHQL_ENDPOINT;
 
