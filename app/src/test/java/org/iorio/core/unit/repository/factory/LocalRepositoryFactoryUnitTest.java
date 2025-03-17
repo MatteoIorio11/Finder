@@ -3,8 +3,6 @@ package org.iorio.core.unit.repository.factory;
 import jdk.jfr.Description;
 import org.iorio.core.repository.RepositoryFactory;
 import org.iorio.core.repository.local.LocalRepositoryImpl;
-import org.iorio.core.repository.remote.graphql.RemoteRepositoryQLImpl;
-import org.junit.Assert;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
