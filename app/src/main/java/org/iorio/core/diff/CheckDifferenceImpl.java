@@ -19,9 +19,6 @@ public class CheckDifferenceImpl extends AbstractCheckDifference<Path, String> {
         final var localRepository = RepositoryFactory.localRepository(repo, Path.of(localPath));
         final var localReader = new LocalFileReaderImpl();
         final var remoteReader = new RemoteFileReaderQLImpl(user, repo, branchA);
-        var x = lookForDifferences(localRepository, remoteRepository, localReader, remoteReader);
-        localRepository.getDirectories().forEach(dir -> System.err.println(dir.getFiles()));
-        remoteRepository.getDirectories().forEach(dir -> System.err.println(dir.getFiles()));
-        return x;
+        return lookForDifferences(localRepository, remoteRepository, localReader, remoteReader);
     }
 }
