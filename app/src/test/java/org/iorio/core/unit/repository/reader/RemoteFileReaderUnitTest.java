@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RemoteFileReaderUniTest {
+public class RemoteFileReaderUnitTest {
     private final FileReader<URL> reader = new RemoteFileReaderImpl();
 
     @Description("If the URL is valid, then It should be possible to read the Its content")
