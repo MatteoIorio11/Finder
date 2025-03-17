@@ -13,20 +13,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class SecretConfiguratorUnitTest {
     @AfterAll
     public static void setProperties() {
-        SecretConfigurator.readSecrets(".env");
+        SecretConfigurator.readTestSecrets();
     }
     @Description("If the file does not exist, the application should throw an exception")
     @Test
     @Tag("unit")
     public void testTryReadSecretsWithoutFile() {
-        assertThrows(DotenvException.class,() -> SecretConfigurator.readSecrets(".notafile"));
+        assertThrows(DotenvException.class,() -> SecretConfigurator.readSecrets(".notafile", "app"));
     }
 
     @Description("If the file exists, then It should be possible to read the secrets")
     @Test
     @Tag("unit")
     public void testCheckIfSecretsAreLoaded() {
-        SecretConfigurator.readSecrets( ".env");
+        SecretConfigurator.readTestSecrets();
         assertFalse(System.getProperties().isEmpty());
         assertNotNull(System.getProperty("GITHUB_TOKEN"));
     }
