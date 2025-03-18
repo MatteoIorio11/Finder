@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class RepositoryUtils {
     private RepositoryUtils() {}
@@ -40,12 +42,34 @@ public class RepositoryUtils {
     ) {
         final List<Pair<AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>>> commonDirectories =
                 new LinkedList<>();
-        
+
         for (final var directory : dir1.getInnerDirectories()) {
             if (dir2.getDirectory(directory.getName()).isPresent()) {
                 commonDirectories.add(new Pair<>(directory, dir2.getDirectory(directory.getName()).get()));
             }
         }
         return commonDirectories;
+    }
+
+    public static <A, B, X extends AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, Y extends AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>> List<Pair<AbstractRepositoryFile<A>, AbstractRepositoryFile<B>>> commonFilesFromDirectory(
+            final X dir1,
+            final Y dir2
+    ) {
+        return
+                filterAndMap(dir1.getFiles(),
+                        (file) -> {
+                    if (dir2.getFile(file.getName()).isPresent()) {
+                        return Optional.of(new Pair<>(file, dir2.getFile(file.getName()).get()));
+                    }
+                    return Optional.empty();
+                });
+    }
+
+    private static <X, Y> List<Pair<X, Y>> filterAndMap(final List<X> collection, final Function<X, Optional<Pair<X, Y>>> mapper) {
+        return collection.stream()
+                .map(mapper)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
     }
 }
