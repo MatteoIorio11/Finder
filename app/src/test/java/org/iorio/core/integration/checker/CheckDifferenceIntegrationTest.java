@@ -34,8 +34,8 @@ public class CheckDifferenceIntegrationTest {
                         "dev"
                         );
         assertEquals(1, diff.size());
-        assertNotNull(diff.get(0).getKey());
-        final var fileNames1 =  diff.stream().map(entry -> entry.getKey().getName() + "-" + entry.getValue().getName()).collect(Collectors.joining());
+        assertNotNull(diff.get(0).x());
+        final var fileNames1 =  diff.stream().map(entry -> entry.x().getName() + "-" + entry.y().getName()).collect(Collectors.joining());
         assertTrue(expected.contains(fileNames1));
     }
 }

@@ -24,8 +24,8 @@ public class App {
                     );
             System.out.println("Differences:");
             o.forEach(entry -> {
-                System.out.println("Local: " + entry.getKey().getName() + " - " + entry.getKey().getPath());
-                System.out.println("Remote: " + entry.getValue().getName() + " - " + entry.getValue().getPath());
+                System.out.println("Local: " + entry.x().getName() + " - " + entry.x().getPath());
+                System.out.println("Remote: " + entry.y().getName() + " - " + entry.y().getPath());
             });
         }catch (Exception e) {
             e.printStackTrace();

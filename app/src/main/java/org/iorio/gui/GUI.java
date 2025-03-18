@@ -88,7 +88,7 @@ public class GUI {
                         Differences:
                         \t Local: %s
                         \t Remote: %s
-                        """.formatted(entry.getKey().getPath(), entry.getValue().getPath()));
+                        """.formatted(entry.x().getPath(), entry.y().getPath()));
             });
             return output.toString();
         } catch (RuntimeException e) {
