@@ -2,7 +2,9 @@ package org.iorio.core.repository;
 
 import org.iorio.core.utils.Pair;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class RepositoryUtils {
@@ -19,7 +21,7 @@ public class RepositoryUtils {
                 .toList();
     }
 
-    public static <X extends AbstractRepository<?, ?, ?>, Y extends AbstractRepository<?, ?, ?>>  List<Pair<AbstractRepositoryDirectory<?, ? extends AbstractRepositoryFile<?>>, AbstractRepositoryDirectory<?, ? extends AbstractRepositoryFile<?>>>> checkCommonDirectoriesFromRepository(
+    public static <X extends AbstractRepository<?, ?, ?>, Y extends AbstractRepository<?, ?, ?>> List<Pair<AbstractRepositoryDirectory<?, ? extends AbstractRepositoryFile<?>>, AbstractRepositoryDirectory<?, ? extends AbstractRepositoryFile<?>>>> checkCommonDirectoriesFromRepository(
             final X repo1,
             final Y repo2) {
         return repo1.getDirectories().stream()
@@ -30,5 +32,20 @@ public class RepositoryUtils {
                 .map(entry ->
                         new Pair<AbstractRepositoryDirectory<?, ? extends AbstractRepositoryFile<?>>, AbstractRepositoryDirectory<?, ? extends AbstractRepositoryFile<?>>>(entry.x(), entry.y().get()))
                 .toList();
+    }
+
+    public static <A, B, X extends AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, Y extends AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>> List<Pair<AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>>> checkCommonDirectories(
+            final X dir1,
+            final Y dir2
+    ) {
+        final List<Pair<AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>>> commonDirectories =
+                new LinkedList<>();
+        
+        for (final var directory : dir1.getInnerDirectories()) {
+            if (dir2.getDirectory(directory.getName()).isPresent()) {
+                commonDirectories.add(new Pair<>(directory, dir2.getDirectory(directory.getName()).get()));
+            }
+        }
+        return commonDirectories;
     }
 }
