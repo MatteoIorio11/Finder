@@ -1,4 +1,9 @@
 package org.iorio.core.repository;
 
-public class RepositoryUtils {
+import org.iorio.core.utils.Pair;
+
+import java.util.List;
+
+public class RepositoryUtils<X extends AbstractRepository<?, ?, ?>, Y extends AbstractRepository<?, ?, ?>> {
+    private RepositoryUtils() {}
 }
