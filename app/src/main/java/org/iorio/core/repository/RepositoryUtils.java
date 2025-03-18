@@ -4,6 +4,7 @@ import org.iorio.core.utils.Pair;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 public class RepositoryUtils {
@@ -37,8 +38,7 @@ public class RepositoryUtils {
 
     public static <A, B, X extends AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, Y extends AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>> List<Pair<AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>>> checkCommonDirectories(
             final X dir1,
-            final Y dir2
-    ) {
+            final Y dir2) {
         return filterAndMap(dir1.getInnerDirectories(),
                 (file) -> {
                     if (dir2.getDirectory(file.getName()).isPresent()) {
@@ -50,8 +50,7 @@ public class RepositoryUtils {
 
     public static <A, B, X extends AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, Y extends AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>> List<Pair<AbstractRepositoryFile<A>, AbstractRepositoryFile<B>>> commonFilesFromDirectory(
             final X dir1,
-            final Y dir2
-    ) {
+            final Y dir2) {
         return
                 filterAndMap(dir1.getFiles(),
                         (file) -> {
@@ -60,6 +59,14 @@ public class RepositoryUtils {
                     }
                     return Optional.empty();
                 });
+    }
+
+    public static <A, B, X extends AbstractRepositoryFile<A>, Y extends AbstractRepositoryFile<B>> List<Pair<X, Y>> checkForDifferences(
+            final List<Pair<X, Y>> commonFiles,
+            final BiPredicate<X, Y> predicate) {
+        return commonFiles.stream()
+                .filter(pair -> predicate.test(pair.x(), pair.y()))
+                .toList();
     }
 
     private static <X, Y> List<Pair<X, Y>> filterAndMap(final List<X> collection, final Function<X, Optional<Pair<X, Y>>> mapper) {
