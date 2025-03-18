@@ -83,6 +83,6 @@ public class RepositoryFactory {
             case URL url -> remoteRepository("", url, "");
             case Path path -> localRepository("", path);
             default -> throw new IllegalArgumentException("Unsupported type: " + type);
-        }
+        };
     }
 }
