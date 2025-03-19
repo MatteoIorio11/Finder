@@ -1,10 +1,7 @@
 package org.iorio.core.unit.repository.utils;
 
 import jdk.jfr.Description;
-import org.iorio.core.repository.AbstractRepository;
-import org.iorio.core.repository.AbstractRepositoryDirectory;
-import org.iorio.core.repository.AbstractRepositoryFile;
-import org.iorio.core.repository.RepositoryUtils;
+import org.iorio.core.repository.*;
 import org.iorio.core.repository.local.LocalDirectoryImpl;
 import org.iorio.core.repository.local.LocalFileImpl;
 import org.iorio.core.repository.local.LocalRepositoryImpl;
@@ -27,17 +24,21 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class RepositoryUtilUnitTest {
     private static AbstractRepository<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> localRepository;
     private static AbstractRepositoryFile<Path> localFile;
+    private static AbstractRepositoryFile<Path> anotherFile;
     private static AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>> localDirectory;
     private static AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>> subDirectory;
     private static AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository;
     private static AbstractRepositoryFile<URL> remoteFile;
+    private static AbstractRepositoryFile<URL> anotherRemoteFile;
     private static AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>> remoteDirectory;
     private static AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>> remoteSubDirectory;
+
     @BeforeAll
     public static void init() throws MalformedURLException {
         localRepository = Mockito.mock(LocalRepositoryImpl.class);
@@ -48,6 +49,9 @@ public class RepositoryUtilUnitTest {
         remoteDirectory = Mockito.mock(RemoteDirectoryImpl.class);
         subDirectory = Mockito.mock(LocalDirectoryImpl.class);
         remoteSubDirectory = Mockito.mock(RemoteDirectoryImpl.class);
+        anotherFile = Mockito.mock(LocalFileImpl.class);
+        anotherRemoteFile = Mockito.mock(RemoteFileImpl.class);
+
 
         // Name definition (all)
         when(localRepository.getName()).thenReturn("test");
@@ -80,6 +84,11 @@ public class RepositoryUtilUnitTest {
         // getInnerDirectories definition (directory)
         when(localDirectory.getInnerDirectories()).thenReturn(List.of(subDirectory));
         when(remoteDirectory.getInnerDirectories()).thenReturn(List.of(remoteSubDirectory));
+        // getContent (file)
+        when(localFile.getContent(any())).thenReturn(List.of("test"));
+        when(anotherFile.getContent(any())).thenReturn(List.of("not-same"));
+        when(remoteFile.getContent(any())).thenReturn(List.of("test"));
+        when(anotherRemoteFile.getContent(any())).thenReturn(List.of("why-not?"));
     }
 
     @Description("Giving two repositories with common files, It should be possible to retrieve all the common files")
@@ -124,5 +133,19 @@ public class RepositoryUtilUnitTest {
         assertNotNull(output);
         assertFalse(output.isEmpty());
         assertEquals(expected, output);
+    }
+
+    @Description("Giving a list of common files, It should be possible to check if they have the same content")
+    @Test
+    @Tag("unit")
+    public void testCheckForDifferences() {
+        final var input = List.of(new Pair<>(localFile, remoteFile), new Pair<>(anotherFile, anotherRemoteFile));
+        final var commonFiles = List.of(new Pair<>(localFile, remoteFile));
+        final var output = RepositoryUtils.checkForDifferences(commonFiles,
+                (x, y) ->
+                        x.getContent(any()).equals(y.getContent(any())));
+        assertNotNull(output);
+        assertFalse(output.isEmpty());
+        assertEquals(commonFiles, output);
     }
 }
