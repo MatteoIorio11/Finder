@@ -1,6 +1,8 @@
 package org.iorio.core.unit.repository.utils;
 
 import jdk.jfr.Description;
+import org.iorio.core.repository.AbstractRepository;
+import org.iorio.core.repository.AbstractRepositoryDirectory;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.iorio.core.repository.RepositoryUtils;
 import org.iorio.core.repository.local.LocalDirectoryImpl;
@@ -28,18 +30,20 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 public class RepositoryUtilUnitTest {
-    private static LocalRepositoryImpl localRepository;
-    private static LocalFileImpl localFile;
-    private static LocalDirectoryImpl localDirectory;
-    private static RemoteRepositoryImpl remoteRepository;
-    private static RemoteFileImpl remoteFile;
-    private static RemoteDirectoryImpl remoteDirectory;
+    private static AbstractRepository<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> localRepository;
+    private static AbstractRepositoryFile<Path> localFile;
+    private static AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>> localDirectory;
+    private static AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository;
+    private static AbstractRepositoryFile<URL> remoteFile;
+    private static AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>> remoteDirectory;
     @BeforeAll
     public static void init() throws MalformedURLException {
         localRepository = Mockito.mock(LocalRepositoryImpl.class);
         remoteRepository = Mockito.mock(RemoteRepositoryImpl.class);
         localFile = Mockito.mock(LocalFileImpl.class);
         remoteFile = Mockito.mock(RemoteFileImpl.class);
+        localDirectory = Mockito.mock(LocalDirectoryImpl.class);
+        remoteDirectory = Mockito.mock(RemoteDirectoryImpl.class);
         // Name definition
         when(localRepository.getName()).thenReturn("test");
         when(remoteRepository.getName()).thenReturn("test");
