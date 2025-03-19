@@ -11,6 +11,16 @@ import java.util.function.Function;
 public class RepositoryUtils {
     private RepositoryUtils() {}
 
+    /**
+     * Check for common files between two repositories
+     * @param repo1 First repository
+     * @param repo2 Second repository
+     * @return List of pairs of common files
+     * @param <A> Type of path for the first repository
+     * @param <B> Type of path for the second repository
+     * @param <X> Type of the first repository
+     * @param <Y> Type of the second repository
+     */
     public static <A, B, X extends AbstractRepository<A, AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, AbstractRepositoryFile<A>>,
             Y extends AbstractRepository<B, AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>, AbstractRepositoryFile<B>>> List<Pair<AbstractRepositoryFile<A>, AbstractRepositoryFile<B>>> commonFilesFromRepository(
             @NonNull final X repo1,
@@ -21,6 +31,16 @@ public class RepositoryUtils {
                             .flatMap(f -> Optional.of(new Pair<>(file, f))));
     }
 
+    /**
+     * Check for common directories between two repositories
+     * @param repo1 First repository
+     * @param repo2 Second repository
+     * @return List of pairs of common directories
+     * @param <A> Type of path for the first repository
+     * @param <B> Type of path for the second repository
+     * @param <X> Type of the first repository
+     * @param <Y> Type of the second repository
+     */
     public static <A, B, X extends AbstractRepository<A, AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, AbstractRepositoryFile<A>>,
             Y extends AbstractRepository<B, AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>, AbstractRepositoryFile<B>>> List<Pair<AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>>> checkCommonDirectoriesFromRepository(
             @NonNull final X repo1,
@@ -31,6 +51,16 @@ public class RepositoryUtils {
                             .flatMap(dir -> Optional.of(new Pair<>(directory, dir))));
     }
 
+    /**
+     * Check for common directories between two directories
+     * @param dir1 First directory
+     * @param dir2 Second directory
+     * @return List of pairs of common directories
+     * @param <A> Type of path for the first directory
+     * @param <B> Type of path for the second directory
+     * @param <X> Type of the first directory
+     * @param <Y> Type of the second directory
+     */
     public static <A, B, X extends AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, Y extends AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>> List<Pair<AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>>> checkCommonDirectories(
             @NonNull final X dir1,
             @NonNull final Y dir2) {
@@ -40,6 +70,16 @@ public class RepositoryUtils {
                             .flatMap(dir -> Optional.of(new Pair<>(file, dir))));
     }
 
+    /**
+     * Check for common files between two directories
+     * @param dir1 First directory
+     * @param dir2 Second directory
+     * @return List of pairs of common files
+     * @param <A> Type of path for the first directory
+     * @param <B> Type of path for the second directory
+     * @param <X> Type of the first directory
+     * @param <Y> Type of the second directory
+     */
     public static <A, B, X extends AbstractRepositoryDirectory<A, AbstractRepositoryFile<A>>, Y extends AbstractRepositoryDirectory<B, AbstractRepositoryFile<B>>> List<Pair<AbstractRepositoryFile<A>, AbstractRepositoryFile<B>>> commonFilesFromDirectory(
             @NonNull final X dir1,
             @NonNull final Y dir2) {
@@ -49,11 +89,21 @@ public class RepositoryUtils {
                                         .flatMap(f -> Optional.of(new Pair<>(file, f))));
     }
 
+    /**
+     * Given a list of common files between the two repositories, It checks if they are different or not by using the input predicate.
+     * @param commonFiles List of common files
+     * @param areDifferent Strategy used to check if the files are different or not. If predicate is True then the files are different
+     * @return List of pairs of files that are different
+     * @param <A> Type of path for the first repository
+     * @param <B> Type of path for the second repository
+     * @param <X> Type of the first repository
+     * @param <Y> Type of the second repository
+     */
     public static <A, B, X extends AbstractRepositoryFile<A>, Y extends AbstractRepositoryFile<B>> List<Pair<X, Y>> checkForDifferences(
             @NonNull final List<Pair<X, Y>> commonFiles,
-            @NonNull final BiPredicate<X, Y> predicate) {
+            @NonNull final BiPredicate<X, Y> areDifferent) {
         return commonFiles.stream()
-                .filter(pair -> predicate.test(pair.x(), pair.y()))
+                .filter(pair -> areDifferent.test(pair.x(), pair.y()))
                 .toList();
     }
 
