@@ -56,18 +56,37 @@ public class RepositoryUtilUnitTest {
         when(remoteRepository.getFiles()).thenReturn(List.of(remoteFile));
         when(localRepository.getFile("test")).thenReturn(Optional.of(localFile));
         when(remoteRepository.getFile("test")).thenReturn(Optional.of(remoteFile));
+        // getFile from directory definition
         when(localDirectory.getFile("test")).thenReturn(Optional.of(localFile));
         when(remoteDirectory.getFile("test")).thenReturn(Optional.of(remoteFile));
+        // getDirectories definition
+        when(localRepository.getDirectories()).thenReturn(List.of(localDirectory));
+        when(remoteRepository.getDirectories()).thenReturn(List.of(remoteDirectory));
+        // getDirectory definition
+        when(localRepository.getDirectory("test")).thenReturn(Optional.of(localDirectory));
+        when(remoteRepository.getDirectory("test")).thenReturn(Optional.of(remoteDirectory));
     }
 
     @Description("Giving two repositories with common files, It should be possible to retrieve all the common files")
     @Test
     @Tag("unit")
     public void testCommonFilesFromRepository() {
-        final var expected = List.of(new Pair<AbstractRepositoryFile<Path>, AbstractRepositoryFile<URL>>(localFile, remoteFile));
+        final var expected = List.of(new Pair<>(localFile, remoteFile));
         final var output = RepositoryUtils.commonFilesFromRepository(localRepository, remoteRepository);
         assertNotNull(output);
         assertFalse(output.isEmpty());
         assertEquals(expected, output);
     }
+
+    @Description("Giving two repositories with common directories, It should be possible to retrieve all the common directories")
+    @Test
+    @Tag("unit")
+    public void testCheckCommonDirectoriesFromRepository() {
+        final var expected = List.of(new Pair<>(localDirectory, remoteDirectory));
+        final var output = RepositoryUtils.checkCommonDirectoriesFromRepository(localRepository, remoteRepository);
+        assertNotNull(output);
+        assertFalse(output.isEmpty());
+        assertEquals(expected, output);
+    }
+
 }
