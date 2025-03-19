@@ -78,6 +78,7 @@ public class RepositoryFactory {
                 branch).getRepository(repoName, "", Optional.of(token));
     }
 
+    //TODO: Add support for generic repository input types
     public static <X> AbstractRepository<?, ?, ?> byType(final X type) {
         return switch (type) {
             case URL url -> remoteRepository("", url, "");
