@@ -54,6 +54,9 @@ public class RepositoryUtilUnitTest {
         // getFiles definition
         when(localRepository.getFiles()).thenReturn(List.of(localFile));
         when(remoteRepository.getFiles()).thenReturn(List.of(remoteFile));
+        when(localDirectory.getFiles()).thenReturn(List.of(localFile));
+        when(remoteDirectory.getFiles()).thenReturn(List.of(remoteFile));
+        // getFile definition
         when(localRepository.getFile("test")).thenReturn(Optional.of(localFile));
         when(remoteRepository.getFile("test")).thenReturn(Optional.of(remoteFile));
         // getFile from directory definition
@@ -89,4 +92,14 @@ public class RepositoryUtilUnitTest {
         assertEquals(expected, output);
     }
 
+    @Description("Giving two directories with common files, It should be possible to retrieve all the common files")
+    @Test
+    @Tag("unit")
+    public void testCommonFilesFromDirectory() {
+        final var expected = List.of(new Pair<>(localFile, remoteFile));
+        final var output = RepositoryUtils.commonFilesFromDirectory(localDirectory, remoteDirectory);
+        assertNotNull(output);
+        assertFalse(output.isEmpty());
+        assertEquals(expected, output);
+    }
 }
