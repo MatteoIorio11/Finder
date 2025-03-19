@@ -3,8 +3,10 @@ package org.iorio.core.unit.repository.utils;
 import jdk.jfr.Description;
 import org.iorio.core.repository.AbstractRepositoryFile;
 import org.iorio.core.repository.RepositoryUtils;
+import org.iorio.core.repository.local.LocalDirectoryImpl;
 import org.iorio.core.repository.local.LocalFileImpl;
 import org.iorio.core.repository.local.LocalRepositoryImpl;
+import org.iorio.core.repository.remote.html.RemoteDirectoryImpl;
 import org.iorio.core.repository.remote.html.RemoteFileImpl;
 import org.iorio.core.repository.remote.html.RemoteRepositoryImpl;
 import org.iorio.core.utils.Pair;
@@ -28,22 +30,30 @@ import static org.mockito.Mockito.when;
 public class RepositoryUtilUnitTest {
     private static LocalRepositoryImpl localRepository;
     private static LocalFileImpl localFile;
+    private static LocalDirectoryImpl localDirectory;
     private static RemoteRepositoryImpl remoteRepository;
     private static RemoteFileImpl remoteFile;
+    private static RemoteDirectoryImpl remoteDirectory;
     @BeforeAll
     public static void init() throws MalformedURLException {
         localRepository = Mockito.mock(LocalRepositoryImpl.class);
         remoteRepository = Mockito.mock(RemoteRepositoryImpl.class);
         localFile = Mockito.mock(LocalFileImpl.class);
         remoteFile = Mockito.mock(RemoteFileImpl.class);
+        // Name definition
         when(localRepository.getName()).thenReturn("test");
         when(remoteRepository.getName()).thenReturn("test");
         when(localFile.getName()).thenReturn("test");
         when(remoteFile.getName()).thenReturn("test");
+        when(localDirectory.getName()).thenReturn("test");
+        when(remoteDirectory.getName()).thenReturn("test");
+        // getFiles definition
         when(localRepository.getFiles()).thenReturn(List.of(localFile));
         when(remoteRepository.getFiles()).thenReturn(List.of(remoteFile));
         when(localRepository.getFile("test")).thenReturn(Optional.of(localFile));
         when(remoteRepository.getFile("test")).thenReturn(Optional.of(remoteFile));
+        when(localDirectory.getFile("test")).thenReturn(Optional.of(localFile));
+        when(remoteDirectory.getFile("test")).thenReturn(Optional.of(remoteFile));
     }
 
     @Description("Giving two repositories with common files, It should be possible to retrieve all the common files")
