@@ -33,9 +33,11 @@ public class RepositoryUtilUnitTest {
     private static AbstractRepository<Path, AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>>, AbstractRepositoryFile<Path>> localRepository;
     private static AbstractRepositoryFile<Path> localFile;
     private static AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>> localDirectory;
+    private static AbstractRepositoryDirectory<Path, AbstractRepositoryFile<Path>> subDirectory;
     private static AbstractRepository<URL, AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>>, AbstractRepositoryFile<URL>> remoteRepository;
     private static AbstractRepositoryFile<URL> remoteFile;
     private static AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>> remoteDirectory;
+    private static AbstractRepositoryDirectory<URL, AbstractRepositoryFile<URL>> remoteSubDirectory;
     @BeforeAll
     public static void init() throws MalformedURLException {
         localRepository = Mockito.mock(LocalRepositoryImpl.class);
@@ -44,30 +46,40 @@ public class RepositoryUtilUnitTest {
         remoteFile = Mockito.mock(RemoteFileImpl.class);
         localDirectory = Mockito.mock(LocalDirectoryImpl.class);
         remoteDirectory = Mockito.mock(RemoteDirectoryImpl.class);
-        // Name definition
+        subDirectory = Mockito.mock(LocalDirectoryImpl.class);
+        remoteSubDirectory = Mockito.mock(RemoteDirectoryImpl.class);
+
+        // Name definition (all)
         when(localRepository.getName()).thenReturn("test");
         when(remoteRepository.getName()).thenReturn("test");
         when(localFile.getName()).thenReturn("test");
         when(remoteFile.getName()).thenReturn("test");
         when(localDirectory.getName()).thenReturn("test");
         when(remoteDirectory.getName()).thenReturn("test");
-        // getFiles definition
+        when(subDirectory.getName()).thenReturn("test");
+        when(remoteSubDirectory.getName()).thenReturn("test");
+        // getFiles definition (repository-directory)
         when(localRepository.getFiles()).thenReturn(List.of(localFile));
         when(remoteRepository.getFiles()).thenReturn(List.of(remoteFile));
         when(localDirectory.getFiles()).thenReturn(List.of(localFile));
         when(remoteDirectory.getFiles()).thenReturn(List.of(remoteFile));
-        // getFile definition
+        // getFile definition (repository)
         when(localRepository.getFile("test")).thenReturn(Optional.of(localFile));
         when(remoteRepository.getFile("test")).thenReturn(Optional.of(remoteFile));
-        // getFile from directory definition
+        // getFile from directory definition (directory)
         when(localDirectory.getFile("test")).thenReturn(Optional.of(localFile));
         when(remoteDirectory.getFile("test")).thenReturn(Optional.of(remoteFile));
-        // getDirectories definition
+        // getDirectories definition (repository)
         when(localRepository.getDirectories()).thenReturn(List.of(localDirectory));
         when(remoteRepository.getDirectories()).thenReturn(List.of(remoteDirectory));
-        // getDirectory definition
-        when(localRepository.getDirectory("test")).thenReturn(Optional.of(localDirectory));
-        when(remoteRepository.getDirectory("test")).thenReturn(Optional.of(remoteDirectory));
+        // getDirectory definition (repository-directory)
+        when(localRepository.getDirectory("test")).thenReturn(Optional.of(subDirectory));
+        when(remoteRepository.getDirectory("test")).thenReturn(Optional.of(remoteSubDirectory));
+        when(localDirectory.getDirectory("test")).thenReturn(Optional.of(subDirectory));
+        when(remoteDirectory.getDirectory("test")).thenReturn(Optional.of(remoteSubDirectory));
+        // getInnerDirectories definition (directory)
+        when(localDirectory.getInnerDirectories()).thenReturn(List.of(subDirectory));
+        when(remoteDirectory.getInnerDirectories()).thenReturn(List.of(remoteSubDirectory));
     }
 
     @Description("Giving two repositories with common files, It should be possible to retrieve all the common files")
@@ -98,6 +110,17 @@ public class RepositoryUtilUnitTest {
     public void testCommonFilesFromDirectory() {
         final var expected = List.of(new Pair<>(localFile, remoteFile));
         final var output = RepositoryUtils.commonFilesFromDirectory(localDirectory, remoteDirectory);
+        assertNotNull(output);
+        assertFalse(output.isEmpty());
+        assertEquals(expected, output);
+    }
+
+    @Description("Giving two directories with common directories, It should be possible to retrieve all the common directories")
+    @Test
+    @Tag("unit")
+    public void testCheckCommonDirectories() {
+        final var expected = List.of(new Pair<>(subDirectory, remoteSubDirectory));
+        final var output = RepositoryUtils.checkCommonDirectories(localDirectory, remoteDirectory);
         assertNotNull(output);
         assertFalse(output.isEmpty());
         assertEquals(expected, output);
