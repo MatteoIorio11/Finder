@@ -74,8 +74,8 @@ public class RepositoryUtilsUnitTest {
         when(localRepository.getDirectories()).thenReturn(List.of(localDirectory));
         when(remoteRepository.getDirectories()).thenReturn(List.of(remoteDirectory));
         // getDirectory definition (repository-directory)
-        when(localRepository.getDirectory("test")).thenReturn(Optional.of(subDirectory));
-        when(remoteRepository.getDirectory("test")).thenReturn(Optional.of(remoteSubDirectory));
+        when(localRepository.getDirectory("test")).thenReturn(Optional.of(localDirectory));
+        when(remoteRepository.getDirectory("test")).thenReturn(Optional.of(remoteDirectory));
         when(localDirectory.getDirectory("test")).thenReturn(Optional.of(subDirectory));
         when(remoteDirectory.getDirectory("test")).thenReturn(Optional.of(remoteSubDirectory));
         // getInnerDirectories definition (directory)
